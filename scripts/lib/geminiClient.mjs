@@ -1,4 +1,11 @@
-const DEFAULT_MODELS = ['gemini-3.5-flash-lite', 'gemini-3.8-flash', 'gemini-3.1-flash-lite'];
+const DEFAULT_MODELS = [
+  'gemini-3.1-flash-lite',
+  'gemini-3.5-flash-lite',
+  'gemini-flash-lite-latest',
+  'gemini-3.1-flash-lite-preview',
+];
+const REQUEST_TIMEOUT_MS = 25000;
+const MAX_ROUNDS = 5;
 let stickyWorkingModel = null;
 
 function sleep(ms) {
@@ -20,57 +27,76 @@ export async function generateStructuredJson({ apiKey, prompt, responseSchema })
   const unavailableModels = new Set();
   let lastError = null;
 
-  // 最多進行 3 輪備援與指數退避，應對尖峰期暫時性 503 / 429
-  for (let round = 0; round < 3; round += 1) {
+  // 最多進行 MAX_ROUNDS 輪備援與指數退避，應對尖峰期暫時性 503 / 429 / 逾時
+  for (let round = 0; round < MAX_ROUNDS; round += 1) {
     const models = getModelCandidates().filter((m) => !unavailableModels.has(m));
     if (models.length === 0) break;
 
     for (const model of models) {
       const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
 
-      const res = await fetch(endpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-goog-api-key': apiKey,
-        },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: {
-            temperature: 0.3,
-            responseMimeType: 'application/json',
-            responseSchema,
+      try {
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-goog-api-key': apiKey,
           },
-        }),
-      });
+          signal: controller.signal,
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: prompt }] }],
+            generationConfig: {
+              temperature: 0.3,
+              responseMimeType: 'application/json',
+              responseSchema,
+            },
+          }),
+        });
 
-      if (res.ok) {
-        const payload = await res.json();
-        const text = payload?.candidates?.[0]?.content?.parts?.[0]?.text;
-        if (!text) {
-          throw new Error(`Gemini (${model}) 回傳空內容`);
+        if (res.ok) {
+          const payload = await res.json();
+          const text = payload?.candidates?.[0]?.content?.parts?.[0]?.text;
+          if (!text) {
+            throw new Error(`Gemini (${model}) 回傳空內容`);
+          }
+          const parsed = JSON.parse(text);
+          stickyWorkingModel = model;
+          return { data: parsed, model };
         }
-        stickyWorkingModel = model;
-        return { data: JSON.parse(text), model };
-      }
 
-      const errBody = await res.text();
-      lastError = new Error(`Gemini API (${model}) HTTP ${res.status}: ${errBody.slice(0, 240)}`);
+        const errBody = await res.text();
+        lastError = new Error(`Gemini API (${model}) HTTP ${res.status}: ${errBody.slice(0, 240)}`);
 
-      if (res.status === 404) {
-        unavailableModels.add(model);
-        continue;
+        if (res.status === 404) {
+          unavailableModels.add(model);
+          continue;
+        }
+        if (res.status === 429 || res.status >= 500) {
+          console.warn(
+            `  [Gemini 備援] ${model} 回應 HTTP ${res.status}（第 ${round + 1} 輪），切換下一個模型...`
+          );
+          await sleep(1000 * (round + 1));
+          continue;
+        }
+        throw lastError;
+      } catch (err) {
+        if (err.name === 'AbortError' || err.name === 'SyntaxError' || err instanceof TypeError) {
+          const reason = err.name === 'AbortError' ? `超過 ${REQUEST_TIMEOUT_MS / 1000}s 逾時` : err.message;
+          lastError = new Error(`Gemini (${model}) 請求異常: ${reason}`);
+          console.warn(`  [Gemini 備援] ${model} 異常（${reason}），切換下一個模型...`);
+          await sleep(1000);
+          continue;
+        }
+        throw err;
+      } finally {
+        clearTimeout(timer);
       }
-      if (res.status === 429 || res.status >= 500) {
-        console.warn(`  [Gemini 備援] ${model} 回應 HTTP ${res.status}（第 ${round + 1} 輪），切換或等待重試...`);
-        await sleep(1500 * (round + 1));
-        continue;
-      }
-      throw lastError;
     }
 
-    if (round < 2) {
-      await sleep(3000 * (round + 1));
+    if (round < MAX_ROUNDS - 1) {
+      await sleep(2000 * (round + 1));
     }
   }
 
