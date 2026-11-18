@@ -1,0 +1,32 @@
+# 依賴套件與快取
+node_modules/
+.vite/
+.cache/
+.npm/
+
+# 建置輸出與壓縮檔案
+dist/
+build/
+*.min.js
+*.min.css
+*.map
+
+# Lockfiles
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+# 環境變數與機密設定
+.env
+.env.local
+.env.*.local
+.env.txt
+
+# 每日產出之靜態 JSON 資料（避免大型資料集佔用上下文）
+public/data/daily-content.json
+
+# 日誌與系統暫存檔
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
