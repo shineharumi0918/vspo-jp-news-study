@@ -6,6 +6,11 @@ import { MOCK_DAILY_DATA } from '../src/data/mockDailyData.js';
 import { parseRssFeed, decodeHtmlEntities, formatJstTimestamp } from './lib/rssParser.mjs';
 import { matchVspoMembers, parseIsoDuration, formatSecondsDuration } from './lib/vspoMatcher.mjs';
 import { analyzeNewsBatch, analyzeVspoClipsBatch } from './lib/geminiClient.mjs';
+import {
+  extractPreviousSeenIds,
+  pickCategoryNewsItems,
+  selectDiverseClipPool,
+} from './lib/deduplicator.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT_DIR = path.resolve(__dirname, '..');
@@ -109,40 +114,68 @@ async function fetchArticleExcerpt(url) {
   }
 }
 
-async function fetchDailyNewsItems() {
+async function loadPreviousSeenIds() {
+  try {
+    const raw = await fs.readFile(OUTPUT_PATH, 'utf8');
+    const parsed = JSON.parse(raw);
+    return extractPreviousSeenIds(parsed);
+  } catch {
+    return { newsLinks: new Set(), videoIds: new Set() };
+  }
+}
+
+async function fetchDailyNewsItems(previousNewsLinks = new Set()) {
   const collected = [];
   const seenTitles = new Set();
+  const seenLinks = new Set();
 
   for (const cfg of NEWS_FEED_CONFIGS) {
-    let categoryAdded = 0;
+    const categoryCandidates = [];
 
     for (const feed of cfg.feeds) {
-      if (categoryAdded >= cfg.targetCount) break;
       try {
         const xml = await fetchTextWithTimeout(feed.url);
-        const items = parseRssFeed(xml);
+        const items = parseRssFeed(xml).map((item) => ({ ...item, source: feed.source }));
+        categoryCandidates.push(...items);
 
-        for (const item of items) {
-          if (categoryAdded >= cfg.targetCount) break;
-          if (seenTitles.has(item.title)) continue;
-          seenTitles.add(item.title);
-
-          const bodyExcerpt = await fetchArticleExcerpt(item.link);
-          collected.push({
-            category: cfg.category,
-            categoryKey: cfg.categoryKey,
-            source: feed.source,
-            publishedAt: formatJstTimestamp(item.pubDate),
-            titleJa: item.title,
-            description: item.description,
-            bodyExcerpt,
-            sourceUrl: item.link,
-          });
-          categoryAdded += 1;
+        // 若目前抓到的未重複新文章已達標，就不必再打備援 RSS
+        const unseenSoFar = categoryCandidates.filter(
+          (item) =>
+            !previousNewsLinks.has(item.link) &&
+            !seenLinks.has(item.link) &&
+            !seenTitles.has(item.title)
+        );
+        if (unseenSoFar.length >= cfg.targetCount) {
+          break;
         }
       } catch (err) {
         console.warn(`[News RSS] 讀取失敗 ${feed.url}: ${err.message}`);
       }
+    }
+
+    const { chosen, skippedCount } = pickCategoryNewsItems(categoryCandidates, {
+      previousNewsLinks,
+      seenTitles,
+      seenLinks,
+      targetCount: cfg.targetCount,
+    });
+
+    if (skippedCount > 0) {
+      console.log(`  - [${cfg.category}] 已過濾 ${skippedCount} 則前次出現過的新聞`);
+    }
+
+    for (const item of chosen) {
+      const bodyExcerpt = await fetchArticleExcerpt(item.link);
+      collected.push({
+        category: cfg.category,
+        categoryKey: cfg.categoryKey,
+        source: item.source,
+        publishedAt: formatJstTimestamp(item.pubDate),
+        titleJa: item.title,
+        description: item.description,
+        bodyExcerpt,
+        sourceUrl: item.link,
+      });
     }
   }
 
@@ -262,46 +295,6 @@ async function fetchYouTubeVspoClips(apiKey, cutoffIso, cutoffMs) {
   return results;
 }
 
-/**
- * 挑選最多 8 部涵蓋不同成員的 24 小時切り抜き候選池，讓前端權重抽選有豐富多樣性。
- */
-function selectDiverseClipPool(clips, maxPool = 8) {
-  const byId = new Map();
-  for (const clip of clips) {
-    const prev = byId.get(clip.youtubeId);
-    if (!prev) {
-      byId.set(clip.youtubeId, clip);
-    } else if (clip.memberIds.length > prev.memberIds.length) {
-      byId.set(clip.youtubeId, { ...prev, memberIds: clip.memberIds });
-    }
-  }
-
-  const unique = [...byId.values()].filter((c) => c.memberIds.length > 0);
-  unique.sort((a, b) => b.publishedAtMs - a.publishedAtMs);
-
-  const chosen = [];
-  const coveredMembers = new Set();
-
-  // 第一輪：優先選入能覆蓋尚未出現成員的剪輯
-  for (const clip of unique) {
-    if (chosen.length >= maxPool) break;
-    if (clip.memberIds.some((id) => !coveredMembers.has(id))) {
-      chosen.push(clip);
-      clip.memberIds.forEach((id) => coveredMembers.add(id));
-    }
-  }
-
-  // 第二輪：若未滿 maxPool，依最新順序補齊
-  for (const clip of unique) {
-    if (chosen.length >= maxPool) break;
-    if (!chosen.some((c) => c.youtubeId === clip.youtubeId)) {
-      chosen.push(clip);
-    }
-  }
-
-  return chosen;
-}
-
 async function seedMockData() {
   await fs.mkdir(path.dirname(OUTPUT_PATH), { recursive: true });
   await fs.writeFile(OUTPUT_PATH, JSON.stringify(MOCK_DAILY_DATA, null, 2), 'utf8');
@@ -332,8 +325,13 @@ async function main() {
   const cutoffMs = Date.now() - 24 * 60 * 60 * 1000;
   const cutoffIso = new Date(cutoffMs).toISOString();
 
+  const previousSeen = await loadPreviousSeenIds();
+  console.log(
+    `[去重檢查] 載入既有紀錄：新聞連結 ${previousSeen.newsLinks.size} 筆、YouTube 影片 ${previousSeen.videoIds.size} 部`
+  );
+
   console.log(`[1/4] 抓取 ${todayJst} 日本時事新聞 RSS...`);
-  const rawNews = await fetchDailyNewsItems();
+  const rawNews = await fetchDailyNewsItems(previousSeen.newsLinks);
   if (rawNews.length === 0) {
     throw new Error('無法從 RSS 取得任何日本新聞');
   }
@@ -374,7 +372,17 @@ async function main() {
     }),
   ]);
 
-  const clipPool = selectDiverseClipPool([...holodexClips, ...youtubeClips], 8);
+  const {
+    pool: clipPool,
+    filteredOutCount,
+    usedFallback,
+  } = selectDiverseClipPool([...holodexClips, ...youtubeClips], 8, previousSeen.videoIds);
+  if (filteredOutCount > 0) {
+    console.log(`  - [VSPO 剪輯] 已過濾 ${filteredOutCount} 部前次出現過的影片`);
+  }
+  if (usedFallback) {
+    console.warn('  - [VSPO 剪輯] 過去 24 小時內暫無未出現過的新剪輯，保留既有候選作為備援');
+  }
   if (clipPool.length === 0) {
     throw new Error('過去 24 小時內找不到符合條件且已標記成員的 ぶいすぽっ！切り抜き影片');
   }

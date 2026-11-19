@@ -27,4 +27,4 @@ npm.cmd run build        # 建置靜態網站至 dist/
    - `GEMINI_API_KEY`（必填）：Google AI Studio 申請之免費 API Key。
    - `YOUTUBE_API_KEY`（必填）：Google Cloud Console 申請之 YouTube Data API v3 Key。
    - `HOLODEX_API_KEY`（選填）：若同時設定可合併強化 ぶいすぽっ！成員標記。
-4. 排程腳本（`.github/workflows/daily-update.yml`）將於每天台灣時間 `07:00`（`0 23 * * *` UTC）自動執行抓取並 Commit & Push `public/data/daily-content.json`，同時重新建置部署至 GitHub Pages；亦可隨時於 Actions 頁籤使用 `workflow_dispatch` 手動觸發。
+4. 排程腳本（`.github/workflows/daily-update.yml`）將於每天台灣時間 `08:30`（`30 0 * * *` UTC）自動執行抓取並 Commit & Push `public/data/daily-content.json`，同時重新建置部署至 GitHub Pages；亦可隨時於 Actions 頁籤使用 `workflow_dispatch` 手動觸發。
