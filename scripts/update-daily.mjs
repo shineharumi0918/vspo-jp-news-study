@@ -8,6 +8,7 @@ import { matchVspoMembers, parseIsoDuration, formatSecondsDuration } from './lib
 import { analyzeNewsBatch, analyzeVspoClipsBatch } from './lib/geminiClient.mjs';
 import {
   extractPreviousSeenIds,
+  isExcludedNewsTitle,
   pickCategoryNewsItems,
   selectDiverseClipPool,
 } from './lib/deduplicator.mjs';
@@ -135,7 +136,9 @@ async function fetchDailyNewsItems(previousNewsLinks = new Set()) {
     for (const feed of cfg.feeds) {
       try {
         const xml = await fetchTextWithTimeout(feed.url);
-        const items = parseRssFeed(xml).map((item) => ({ ...item, source: feed.source }));
+        const items = parseRssFeed(xml)
+          .filter((item) => !isExcludedNewsTitle(item.title))
+          .map((item) => ({ ...item, source: feed.source }));
         categoryCandidates.push(...items);
 
         // 若目前抓到的未重複新文章已達標，就不必再打備援 RSS

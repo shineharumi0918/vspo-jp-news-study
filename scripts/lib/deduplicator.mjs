@@ -26,6 +26,13 @@ export function extractPreviousSeenIds(existingData) {
   return { newsLinks, videoIds };
 }
 
+const EXCLUDED_NEWS_TITLE_PATTERNS = [/【動画】\s*Pickup\s*NEWS/i, /\bPickup\s*NEWS\b/i];
+
+export function isExcludedNewsTitle(title = '') {
+  const normalized = String(title).trim();
+  return EXCLUDED_NEWS_TITLE_PATTERNS.some((pattern) => pattern.test(normalized));
+}
+
 /**
  * 單一分類新聞去重挑選：優先挑未出現於 previousNewsLinks 的最新新聞，
  * 僅在該分類所有來源的全新新聞不足 targetCount 時，才以最新文章補齊缺口。
@@ -41,7 +48,7 @@ export function pickCategoryNewsItems(
     if (chosen.length >= targetCount) break;
     const link = (item.link || '').trim();
     const title = (item.title || '').trim();
-    if (!link || !title) continue;
+    if (!link || !title || isExcludedNewsTitle(title)) continue;
     if (seenTitles.has(title) || seenLinks.has(link)) continue;
 
     if (previousNewsLinks.has(link)) {

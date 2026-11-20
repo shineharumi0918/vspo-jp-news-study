@@ -4,6 +4,7 @@ import { parseRssFeed, decodeHtmlEntities } from '../scripts/lib/rssParser.mjs';
 import { matchVspoMembers, parseIsoDuration, formatSecondsDuration } from '../scripts/lib/vspoMatcher.mjs';
 import {
   extractPreviousSeenIds,
+  isExcludedNewsTitle,
   pickCategoryNewsItems,
   selectDiverseClipPool,
 } from '../scripts/lib/deduplicator.mjs';
@@ -68,10 +69,14 @@ test('extractPreviousSeenIds collects previous news links and YouTube video IDs'
 test('pickCategoryNewsItems prioritizes unseen news links and falls back only when needed', () => {
   const prev = new Set(['https://news.web.nhk/old1', 'https://news.web.nhk/old2']);
   const candidates = [
+    { title: '【動画】Pickup NEWS（11月20日）', link: 'https://news.web.nhk/pickup' },
     { title: 'Old 1', link: 'https://news.web.nhk/old1' },
     { title: 'New 1', link: 'https://news.web.nhk/new1' },
     { title: 'Old 2', link: 'https://news.web.nhk/old2' },
   ];
+
+  assert.equal(isExcludedNewsTitle('【動画】Pickup NEWS（11月20日）'), true);
+  assert.equal(isExcludedNewsTitle('カイロスロケット4号機 来年1月打ち上げへ'), false);
 
   const first = pickCategoryNewsItems(candidates, { previousNewsLinks: prev, targetCount: 1 });
   assert.equal(first.chosen.length, 1);
