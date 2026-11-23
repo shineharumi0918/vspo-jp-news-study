@@ -211,37 +211,39 @@ export function VspoClipSection({
                 return (
                   <div key={item.term} className="slang-item">
                     <div className="slang-top">
-                      <div className="slang-term-group">
-                        <span className="slang-term jp-text">{item.term}</span>
-                        <span className="slang-reading jp-text">({item.reading})</span>
-                        {ttsAvailable && (
-                          <button
-                            type="button"
-                            className={`btn-tts is-dark ${speakingId === termSpeakId ? 'is-speaking' : ''}`}
-                            onClick={() => handleSpeak(termSpeakId, item.reading || item.term)}
-                            aria-label={`朗讀口語 ${item.term}`}
-                            title="朗讀發音"
-                          >
-                            <Volume2 size={13} />
-                          </button>
-                        )}
+                      <div className="slang-head-main">
+                        <div className="slang-term-group">
+                          <span className="slang-term jp-text">{item.term}</span>
+                          <span className="slang-reading jp-text">({item.reading})</span>
+                        </div>
+                        <div className="slang-tags">
+                          <span className="slang-tag">{item.tag}</span>
+                          {canJump ? (
+                            <button
+                              type="button"
+                              className="timestamp-chip is-clickable mono-text"
+                              onClick={() => handleJumpTimestamp(item.timestamp)}
+                              title={`跳轉播放器至參考時間點 ${item.timestamp}`}
+                            >
+                              <Play size={10} />
+                              <span>{item.timestamp}</span>
+                            </button>
+                          ) : (
+                            <span className="timestamp-chip mono-text">{item.timestamp}</span>
+                          )}
+                        </div>
                       </div>
-                      <div className="slang-tags">
-                        <span className="slang-tag">{item.tag}</span>
-                        {canJump ? (
-                          <button
-                            type="button"
-                            className="timestamp-chip is-clickable mono-text"
-                            onClick={() => handleJumpTimestamp(item.timestamp)}
-                            title={`跳轉播放器至參考時間點 ${item.timestamp}`}
-                          >
-                            <Play size={10} />
-                            <span>{item.timestamp}</span>
-                          </button>
-                        ) : (
-                          <span className="timestamp-chip mono-text">{item.timestamp}</span>
-                        )}
-                      </div>
+                      {ttsAvailable && (
+                        <button
+                          type="button"
+                          className={`btn-tts is-dark ${speakingId === termSpeakId ? 'is-speaking' : ''}`}
+                          onClick={() => handleSpeak(termSpeakId, item.reading || item.term)}
+                          aria-label={`朗讀口語 ${item.term}`}
+                          title="朗讀發音"
+                        >
+                          <Volume2 size={13} />
+                        </button>
+                      )}
                     </div>
                     <p className="slang-meaning">{item.meaningZh}</p>
                     <div className="dark-example">

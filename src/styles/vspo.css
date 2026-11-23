@@ -255,17 +255,24 @@
 
 .slang-top {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-bottom: 4px;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.slang-head-main {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+  flex: 1;
 }
 
 .slang-term-group {
   display: flex;
-  align-items: center;
-  gap: 7px;
+  align-items: baseline;
+  gap: 6px;
   flex-wrap: wrap;
 }
 
@@ -273,6 +280,7 @@
   font-size: 1rem;
   font-weight: 700;
   color: #ffffff;
+  line-height: 1.3;
 }
 
 .slang-reading {
@@ -284,6 +292,7 @@
   display: flex;
   align-items: center;
   gap: 6px;
+  flex-wrap: wrap;
 }
 
 .slang-tag {

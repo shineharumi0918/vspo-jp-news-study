@@ -78,21 +78,21 @@ export function NewsCard({
     <article className="news-card">
       <div className="news-card-top">
         <div className="news-meta-row">
-          <div className="news-meta-left">
-            <span className={`cat-badge ${CATEGORY_CLASS[article.categoryKey] || 'cat-society'}`}>
-              {article.category}
-            </span>
-            <span className="source-badge">{article.source}</span>
+          <span className={`cat-badge ${CATEGORY_CLASS[article.categoryKey] || 'cat-society'}`}>
+            {article.category}
+          </span>
+          <div className="news-meta-byline">
+            <span className="source-name">{article.source}</span>
+            <span className="meta-dot" aria-hidden="true">·</span>
             <span className="time-label">{article.publishedAt}</span>
           </div>
-
           <a
             href={article.sourceUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="source-link"
           >
-            <span>查看原文來源</span>
+            <span>查看原文</span>
             <ExternalLink size={13} />
           </a>
         </div>
@@ -164,29 +164,31 @@ export function NewsCard({
                   className={`vocab-card ${isMastered ? 'mastered' : ''}`}
                 >
                   <div className="vocab-card-head">
-                    <div className="vocab-word-line">
-                      <span className="vocab-kanji jp-text">{vocab.word}</span>
-                      {showReadings && (
-                        <span className="vocab-reading jp-text">({vocab.reading})</span>
-                      )}
-                      {ttsAvailable && (
-                        <button
-                          type="button"
-                          className={`btn-tts ${speakingId === `word:${revealKey}` ? 'is-speaking' : ''}`}
-                          onClick={() =>
-                            handleSpeak(`word:${revealKey}`, vocab.reading || vocab.word)
-                          }
-                          aria-label={`朗讀單字 ${vocab.word}`}
-                          title="朗讀單字發音"
-                        >
-                          <Volume2 size={13} />
-                        </button>
-                      )}
+                    <div className="vocab-head-main">
+                      <div className="vocab-word-line">
+                        <span className="vocab-kanji jp-text">{vocab.word}</span>
+                        {showReadings && (
+                          <span className="vocab-reading jp-text">({vocab.reading})</span>
+                        )}
+                      </div>
+                      <div className="vocab-badges">
+                        <span className={`jlpt-badge jlpt-${vocab.jlpt}`}>{vocab.jlpt}</span>
+                        <span className="pos-badge">{vocab.pos}</span>
+                      </div>
                     </div>
-                    <div className="vocab-badges">
-                      <span className={`jlpt-badge jlpt-${vocab.jlpt}`}>{vocab.jlpt}</span>
-                      <span className="pos-badge">{vocab.pos}</span>
-                    </div>
+                    {ttsAvailable && (
+                      <button
+                        type="button"
+                        className={`btn-tts ${speakingId === `word:${revealKey}` ? 'is-speaking' : ''}`}
+                        onClick={() =>
+                          handleSpeak(`word:${revealKey}`, vocab.reading || vocab.word)
+                        }
+                        aria-label={`朗讀單字 ${vocab.word}`}
+                        title="朗讀單字發音"
+                      >
+                        <Volume2 size={13} />
+                      </button>
+                    )}
                   </div>
 
                   {isMasked ? (
