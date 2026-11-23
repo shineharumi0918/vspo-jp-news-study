@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
-import { Newspaper, EyeOff, Eye, Languages } from 'lucide-react';
+import { Newspaper, EyeOff, Eye, Languages, Volume2 } from 'lucide-react';
 import { NewsCard } from './NewsCard';
+import { isTtsSupported } from '../utils/tts';
 
 const CATEGORY_FILTERS = [
   { key: 'all', label: '全部領域' },
@@ -9,10 +10,18 @@ const CATEGORY_FILTERS = [
   { key: 'society', label: '民生・社會' },
 ];
 
-export function NewsSection({ articles, masteredIds, onToggleMastered }) {
+export function NewsSection({
+  articles,
+  currentDate,
+  masteredVocab,
+  onToggleMastered,
+  onTtsUnavailable,
+}) {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [showReadings, setShowReadings] = useState(true);
   const [hideMeanings, setHideMeanings] = useState(false);
+  const [slowSpeech, setSlowSpeech] = useState(false);
+  const ttsAvailable = isTtsSupported();
 
   const counts = useMemo(() => {
     const map = { all: articles.length, politics: 0, economy: 0, society: 0 };
@@ -79,6 +88,17 @@ export function NewsSection({ articles, masteredIds, onToggleMastered }) {
             {hideMeanings ? <EyeOff size={14} /> : <Eye size={14} />}
             <span>{hideMeanings ? '閃卡測驗模式：開啟' : '閃卡測驗模式'}</span>
           </button>
+          {ttsAvailable && (
+            <button
+              type="button"
+              className={`toggle-btn ${slowSpeech ? 'active' : ''}`}
+              onClick={() => setSlowSpeech((prev) => !prev)}
+              title="切換日語朗讀語速（正常 1.0x / 慢速 0.8x）"
+            >
+              <Volume2 size={14} />
+              <span>{slowSpeech ? '朗讀語速 0.8x' : '朗讀語速 1.0x'}</span>
+            </button>
+          )}
         </div>
       </div>
 
@@ -87,10 +107,13 @@ export function NewsSection({ articles, masteredIds, onToggleMastered }) {
           <NewsCard
             key={article.id}
             article={article}
+            currentDate={currentDate}
             showReadings={showReadings}
             hideMeanings={hideMeanings}
-            masteredIds={masteredIds}
+            ttsRate={slowSpeech ? 0.8 : 1.0}
+            masteredVocab={masteredVocab}
             onToggleMastered={onToggleMastered}
+            onTtsUnavailable={onTtsUnavailable}
           />
         ))}
       </div>

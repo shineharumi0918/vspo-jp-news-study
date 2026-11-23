@@ -1,0 +1,453 @@
+/* Controls Toolbar */
+.toolbar-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.filter-tabs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  border: 1px solid var(--border-light);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  font-weight: 500;
+  padding: 7px 14px;
+  border-radius: 999px;
+  transition: all 0.15s ease;
+}
+
+.filter-btn:hover {
+  border-color: var(--accent-indigo);
+  color: var(--accent-indigo);
+}
+
+.filter-btn.active {
+  background: var(--accent-indigo);
+  border-color: var(--accent-indigo);
+  color: #fff;
+  font-weight: 600;
+}
+
+.study-toggles {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--border-light);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  font-weight: 500;
+  padding: 7px 12px;
+  border-radius: 9px;
+  transition: all 0.15s ease;
+}
+
+.toggle-btn.active {
+  background: var(--accent-indigo-soft);
+  border-color: var(--accent-indigo);
+  color: var(--accent-indigo);
+  font-weight: 600;
+}
+
+/* News Cards */
+.news-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+.news-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  transition: border-color 0.2s ease;
+}
+
+.news-card:hover {
+  border-color: #cbc4b6;
+}
+
+.news-card-top {
+  padding: 20px 24px 18px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.news-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.news-meta-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.cat-badge {
+  font-size: 0.76rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 6px;
+}
+
+.cat-politics {
+  background: var(--accent-vermilion-soft);
+  color: var(--accent-vermilion);
+}
+
+.cat-economy {
+  background: var(--accent-amber-soft);
+  color: var(--accent-amber);
+}
+
+.cat-society {
+  background: var(--accent-indigo-soft);
+  color: var(--accent-indigo);
+}
+
+.source-badge {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: var(--bg-subtle);
+  padding: 3px 9px;
+  border-radius: 6px;
+}
+
+.time-label {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.source-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent-indigo);
+  text-decoration: none;
+  padding: 4px 10px;
+  border-radius: 7px;
+  background: var(--accent-indigo-soft);
+  transition: opacity 0.15s ease;
+}
+
+.source-link:hover {
+  opacity: 0.85;
+}
+
+.news-title-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.news-title-ja {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1.45;
+  color: var(--text-primary);
+  flex: 1;
+}
+
+.news-title-reading {
+  margin: 0 0 8px;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.news-title-zh {
+  margin: 0 0 14px;
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: var(--accent-indigo);
+}
+
+.summary-box {
+  background: var(--bg-page);
+  border-left: 3px solid var(--accent-indigo);
+  border-radius: 0 10px 10px 0;
+  padding: 12px 16px;
+}
+
+.summary-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--accent-indigo);
+  margin-bottom: 4px;
+}
+
+.summary-text {
+  margin: 0;
+  font-size: 0.92rem;
+  color: var(--text-primary);
+  line-height: 1.7;
+}
+
+/* Vocab Section inside News Card */
+.vocab-panel {
+  padding: 16px 24px 22px;
+}
+
+.vocab-panel-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.vocab-panel-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.btn-collapse {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid var(--border-light);
+  background: var(--bg-subtle);
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 7px;
+}
+
+.vocab-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 12px;
+}
+
+.vocab-card {
+  border: 1px solid var(--border-light);
+  border-radius: 11px;
+  padding: 13px 14px;
+  background: #fcfbf8;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.vocab-card.mastered {
+  background: #f3faf6;
+  border-color: rgba(28, 124, 84, 0.35);
+}
+
+.vocab-card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.vocab-word-line {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+
+.vocab-kanji {
+  font-size: 1.08rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.vocab-reading {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.vocab-badges {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
+.jlpt-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 5px;
+}
+
+.jlpt-N1 {
+  background: var(--accent-vermilion-soft);
+  color: var(--accent-vermilion);
+}
+
+.jlpt-N2 {
+  background: var(--accent-amber-soft);
+  color: var(--accent-amber);
+}
+
+.jlpt-N3 {
+  background: var(--accent-emerald-soft);
+  color: var(--accent-emerald);
+}
+
+.pos-badge {
+  font-size: 0.72rem;
+  font-weight: 500;
+  padding: 2px 7px;
+  border-radius: 5px;
+  background: var(--bg-subtle);
+  color: var(--text-secondary);
+}
+
+.vocab-meaning {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--accent-indigo);
+}
+
+.meaning-masked {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px dashed #b9c5d8;
+  background: var(--accent-indigo-soft);
+  color: var(--accent-indigo);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 6px;
+  width: fit-content;
+}
+
+.vocab-example {
+  background: #ffffff;
+  border: 1px solid #ebe7dc;
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 0.82rem;
+}
+
+.vocab-example-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.vocab-example-ja {
+  margin: 0 0 3px;
+  color: var(--text-primary);
+  line-height: 1.55;
+  flex: 1;
+}
+
+.vocab-highlight {
+  background: #fff1b8;
+  padding: 0 3px;
+  border-radius: 3px;
+  font-weight: 700;
+}
+
+.vocab-example-zh {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.79rem;
+}
+
+.vocab-usage {
+  margin: 0;
+  font-size: 0.79rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.vocab-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.prior-mastered-tag {
+  font-size: 0.72rem;
+  color: var(--accent-emerald);
+  font-weight: 600;
+}
+
+.btn-master {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid var(--border-light);
+  background: #fff;
+  color: var(--text-secondary);
+  font-size: 0.76rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 999px;
+  margin-left: auto;
+}
+
+.btn-master.active {
+  background: var(--accent-emerald);
+  border-color: var(--accent-emerald);
+  color: #fff;
+}
+
+@media (max-width: 640px) {
+  .news-card,
+  .vocab-card {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .news-title-ja {
+    overflow-wrap: anywhere;
+  }
+
+  .news-card-top,
+  .vocab-panel {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .vocab-grid {
+    grid-template-columns: 1fr;
+  }
+}

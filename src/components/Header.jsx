@@ -8,11 +8,14 @@ export function Header({
   onChangeView,
   masteredCount,
   totalVocabCount,
+  totalSavedVocabCount,
   activeMembersCount,
   totalMembersCount,
   onOpenWeights,
+  onOpenReview,
 }) {
   const isLive = dataMode === 'live';
+  const isLoading = dataMode === 'loading';
   const [controlsOpen, setControlsOpen] = useState(() => {
     if (typeof window === 'undefined') return true;
     return window.innerWidth >= 768;
@@ -26,7 +29,7 @@ export function Header({
             <h1 className="brand-title">
               <span>日語時事 × ぶいすぽっ！每日學習誌</span>
               <span className={`phase-badge ${isLive ? 'is-live' : ''}`}>
-                {isLive ? '每日自動更新 Live' : '示範資料模式'}
+                {isLoading ? '資料載入中...' : isLive ? '每日自動更新 Live' : '示範資料模式'}
               </span>
             </h1>
             <p className="brand-sub">
@@ -37,12 +40,20 @@ export function Header({
           </div>
 
           <div className="header-compact-bar">
-            <div className="progress-chip" title="儲存於本機 localStorage">
+            <button
+              type="button"
+              className="progress-chip"
+              onClick={onOpenReview}
+              title="開啟跨日生詞複習本與 Anki CSV 匯出"
+            >
               <CheckCircle2 size={15} />
               <span>
                 已熟記 {masteredCount}/{totalVocabCount} 詞
               </span>
-            </div>
+              {totalSavedVocabCount > masteredCount && (
+                <span className="progress-total-badge">共 {totalSavedVocabCount}</span>
+              )}
+            </button>
 
             <button
               type="button"

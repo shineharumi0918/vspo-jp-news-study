@@ -39,14 +39,14 @@ jobs:
       - name: Run daily RSS, YouTube & Gemini update script
         run: node scripts/update-daily.mjs
 
-      - name: Commit and push daily-content.json
+      - name: Commit and push daily-content.json and history.json
         run: |
-          if [ -n "$(git status --porcelain public/data/daily-content.json)" ]; then
+          if [ -n "$(git status --porcelain public/data/daily-content.json public/data/history.json)" ]; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add public/data/daily-content.json
+            git add public/data/daily-content.json public/data/history.json
             git commit -m "chore: update daily-content.json ($(TZ=Asia/Taipei date +%Y-%m-%d))"
             git push
           else
-            echo "public/data/daily-content.json 無變更，略過 commit。"
+            echo "public/data/daily-content.json 與 history.json 無變更，略過 commit。"
           fi

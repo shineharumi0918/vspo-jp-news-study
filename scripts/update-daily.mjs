@@ -7,7 +7,8 @@ import { parseRssFeed, decodeHtmlEntities, formatJstTimestamp } from './lib/rssP
 import { matchVspoMembers, parseIsoDuration, formatSecondsDuration } from './lib/vspoMatcher.mjs';
 import { analyzeNewsBatch, analyzeVspoClipsBatch } from './lib/geminiClient.mjs';
 import {
-  extractPreviousSeenIds,
+  buildUpdatedHistory,
+  extractHistorySeenIds,
   isExcludedNewsTitle,
   pickCategoryNewsItems,
   selectDiverseClipPool,
@@ -16,6 +17,7 @@ import {
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT_DIR = path.resolve(__dirname, '..');
 const OUTPUT_PATH = path.join(ROOT_DIR, 'public', 'data', 'daily-content.json');
+const HISTORY_PATH = path.join(ROOT_DIR, 'public', 'data', 'history.json');
 
 const NEWS_FEED_CONFIGS = [
   {
@@ -115,14 +117,22 @@ async function fetchArticleExcerpt(url) {
   }
 }
 
-async function loadPreviousSeenIds() {
+async function readJsonSafe(filePath) {
   try {
-    const raw = await fs.readFile(OUTPUT_PATH, 'utf8');
-    const parsed = JSON.parse(raw);
-    return extractPreviousSeenIds(parsed);
+    const raw = await fs.readFile(filePath, 'utf8');
+    return JSON.parse(raw);
   } catch {
-    return { newsLinks: new Set(), videoIds: new Set() };
+    return null;
   }
+}
+
+async function loadPreviousSeenState() {
+  const [historyData, dailyData] = await Promise.all([
+    readJsonSafe(HISTORY_PATH),
+    readJsonSafe(OUTPUT_PATH),
+  ]);
+  const seen = extractHistorySeenIds(historyData, dailyData);
+  return { historyData, seen };
 }
 
 async function fetchDailyNewsItems(previousNewsLinks = new Set()) {
@@ -328,9 +338,9 @@ async function main() {
   const cutoffMs = Date.now() - 24 * 60 * 60 * 1000;
   const cutoffIso = new Date(cutoffMs).toISOString();
 
-  const previousSeen = await loadPreviousSeenIds();
+  const { historyData, seen: previousSeen } = await loadPreviousSeenState();
   console.log(
-    `[去重檢查] 載入既有紀錄：新聞連結 ${previousSeen.newsLinks.size} 筆、YouTube 影片 ${previousSeen.videoIds.size} 部`
+    `[去重檢查] 載入近 7 日紀錄：新聞連結 ${previousSeen.newsLinks.size} 筆、YouTube 影片 ${previousSeen.videoIds.size} 部`
   );
 
   console.log(`[1/4] 抓取 ${todayJst} 日本時事新聞 RSS...`);
@@ -441,9 +451,18 @@ async function main() {
     clipCandidates: analyzedClips,
   };
 
+  const updatedHistory = buildUpdatedHistory(historyData, {
+    date: todayJst,
+    newsLinks: analyzedNews.map((n) => n.sourceUrl),
+    videoIds: analyzedClips.map((c) => c.youtubeId),
+  });
+
   await fs.mkdir(path.dirname(OUTPUT_PATH), { recursive: true });
   await fs.writeFile(OUTPUT_PATH, JSON.stringify(output, null, 2), 'utf8');
-  console.log(`完成！已更新 ${OUTPUT_PATH}（新聞 ${analyzedNews.length} 篇、切り抜き候選 ${analyzedClips.length} 部）`);
+  await fs.writeFile(HISTORY_PATH, JSON.stringify(updatedHistory, null, 2), 'utf8');
+  console.log(
+    `完成！已更新 ${OUTPUT_PATH} 與 ${HISTORY_PATH}（新聞 ${analyzedNews.length} 篇、切り抜き候選 ${analyzedClips.length} 部）`
+  );
 }
 
 main().catch((err) => {

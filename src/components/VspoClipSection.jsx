@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Tv,
   Shuffle,
@@ -11,8 +11,16 @@ import {
   ChevronUp,
   AlertTriangle,
   ExternalLink,
+  Volume2,
+  Play,
 } from 'lucide-react';
 import { VSPO_MEMBER_MAP } from '../data/vspoMembers';
+import {
+  isTtsSupported,
+  parseTimestampToSeconds,
+  speakJapanese,
+  stopSpeaking,
+} from '../utils/tts';
 
 export function VspoClipSection({
   selectedScored,
@@ -23,14 +31,52 @@ export function VspoClipSection({
   onReroll,
   onSelectPreview,
   onOpenWeights,
+  onTtsUnavailable,
 }) {
   const [poolExpanded, setPoolExpanded] = useState(false);
+  const [seekState, setSeekState] = useState(null);
+  const [speakingId, setSpeakingId] = useState(null);
+  const ttsAvailable = isTtsSupported();
+
+  const currentClipId = selectedScored?.clip?.id || null;
+
+  useEffect(() => {
+    setSeekState(null);
+  }, [currentClipId]);
+
+  useEffect(() => () => stopSpeaking(), []);
 
   if (!selectedScored) {
     return null;
   }
 
   const { clip, probability, rawScore } = selectedScored;
+
+  const handleSpeak = (id, text) => {
+    if (speakingId === id) {
+      stopSpeaking();
+      setSpeakingId(null);
+      return;
+    }
+    setSpeakingId(id);
+    speakJapanese(text, {
+      rate: 0.95,
+      onEnd: () => setSpeakingId((cur) => (cur === id ? null : cur)),
+      onNoVoice: onTtsUnavailable,
+    });
+  };
+
+  const handleJumpTimestamp = (timestamp) => {
+    const seconds = parseTimestampToSeconds(timestamp);
+    if (seconds === null) return;
+    setSeekState({ seconds, nonce: Date.now() });
+  };
+
+  const embedUrl =
+    seekState !== null
+      ? `https://www.youtube.com/embed/${clip.youtubeId}?rel=0&start=${seekState.seconds}&autoplay=1`
+      : `https://www.youtube.com/embed/${clip.youtubeId}?rel=0`;
+
   const youtubeActionUrl = isLiveMode
     ? `https://www.youtube.com/watch?v=${clip.youtubeId}`
     : `https://www.youtube.com/results?search_query=${encodeURIComponent(
@@ -82,7 +128,8 @@ export function VspoClipSection({
         <div className="player-card">
           <div className="video-frame-wrap">
             <iframe
-              src={`https://www.youtube.com/embed/${clip.youtubeId}?rel=0`}
+              key={`${clip.youtubeId}-${seekState?.nonce || 'init'}`}
+              src={embedUrl}
               title={clip.titleJa}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
@@ -155,25 +202,68 @@ export function VspoClipSection({
               <span>聽懂這段必備：口語單字 / VTuber 常用語（{clip.slangVocab.length}）</span>
             </h3>
             <div className="slang-list">
-              {clip.slangVocab.map((item) => (
-                <div key={item.term} className="slang-item">
-                  <div className="slang-top">
-                    <div className="slang-term-group">
-                      <span className="slang-term jp-text">{item.term}</span>
-                      <span className="slang-reading jp-text">({item.reading})</span>
+              {clip.slangVocab.map((item) => {
+                const seekSeconds = parseTimestampToSeconds(item.timestamp);
+                const canJump = seekSeconds !== null && seekSeconds > 0;
+                const termSpeakId = `slang:${clip.id}:${item.term}`;
+                const exSpeakId = `slang-ex:${clip.id}:${item.term}`;
+
+                return (
+                  <div key={item.term} className="slang-item">
+                    <div className="slang-top">
+                      <div className="slang-term-group">
+                        <span className="slang-term jp-text">{item.term}</span>
+                        <span className="slang-reading jp-text">({item.reading})</span>
+                        {ttsAvailable && (
+                          <button
+                            type="button"
+                            className={`btn-tts is-dark ${speakingId === termSpeakId ? 'is-speaking' : ''}`}
+                            onClick={() => handleSpeak(termSpeakId, item.reading || item.term)}
+                            aria-label={`朗讀口語 ${item.term}`}
+                            title="朗讀發音"
+                          >
+                            <Volume2 size={13} />
+                          </button>
+                        )}
+                      </div>
+                      <div className="slang-tags">
+                        <span className="slang-tag">{item.tag}</span>
+                        {canJump ? (
+                          <button
+                            type="button"
+                            className="timestamp-chip is-clickable mono-text"
+                            onClick={() => handleJumpTimestamp(item.timestamp)}
+                            title={`跳轉播放器至參考時間點 ${item.timestamp}`}
+                          >
+                            <Play size={10} />
+                            <span>{item.timestamp}</span>
+                          </button>
+                        ) : (
+                          <span className="timestamp-chip mono-text">{item.timestamp}</span>
+                        )}
+                      </div>
                     </div>
-                    <div className="slang-tags">
-                      <span className="slang-tag">{item.tag}</span>
-                      <span className="timestamp-chip mono-text">{item.timestamp}</span>
+                    <p className="slang-meaning">{item.meaningZh}</p>
+                    <div className="dark-example">
+                      <div className="dark-example-row">
+                        <p className="dark-example-ja jp-text">{item.exampleJa}</p>
+                        {ttsAvailable && (
+                          <button
+                            type="button"
+                            className={`btn-tts is-dark ${speakingId === exSpeakId ? 'is-speaking' : ''}`}
+                            onClick={() => handleSpeak(exSpeakId, item.exampleJa)}
+                            aria-label="朗讀口語例句"
+                            title="朗讀例句"
+                          >
+                            <Volume2 size={13} />
+                          </button>
+                        )}
+                      </div>
+                      <p className="dark-example-zh">{item.exampleZh}</p>
                     </div>
                   </div>
-                  <p className="slang-meaning">{item.meaningZh}</p>
-                  <div className="dark-example">
-                    <p className="dark-example-ja jp-text">{item.exampleJa}</p>
-                    <p className="dark-example-zh">{item.exampleZh}</p>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
 
@@ -183,20 +273,36 @@ export function VspoClipSection({
               <span>實用口語文法 / 語氣助詞解析（{clip.grammarPoints.length}）</span>
             </h3>
             <div className="grammar-list">
-              {clip.grammarPoints.map((gp) => (
-                <div key={gp.pattern} className="grammar-item">
-                  <div className="grammar-pattern jp-text">{gp.pattern}</div>
-                  <div className="grammar-meta">
-                    <span>接續：{gp.connection}</span>
-                    <span className="grammar-nuance">語氣：{gp.nuance}</span>
+              {clip.grammarPoints.map((gp) => {
+                const gpSpeakId = `grammar-ex:${clip.id}:${gp.pattern}`;
+                return (
+                  <div key={gp.pattern} className="grammar-item">
+                    <div className="grammar-pattern jp-text">{gp.pattern}</div>
+                    <div className="grammar-meta">
+                      <span>接續：{gp.connection}</span>
+                      <span className="grammar-nuance">語氣：{gp.nuance}</span>
+                    </div>
+                    <p className="grammar-explain">{gp.explanationZh}</p>
+                    <div className="dark-example">
+                      <div className="dark-example-row">
+                        <p className="dark-example-ja jp-text">{gp.exampleJa}</p>
+                        {ttsAvailable && (
+                          <button
+                            type="button"
+                            className={`btn-tts is-dark ${speakingId === gpSpeakId ? 'is-speaking' : ''}`}
+                            onClick={() => handleSpeak(gpSpeakId, gp.exampleJa)}
+                            aria-label="朗讀文法例句"
+                            title="朗讀例句"
+                          >
+                            <Volume2 size={13} />
+                          </button>
+                        )}
+                      </div>
+                      <p className="dark-example-zh">{gp.exampleZh}</p>
+                    </div>
                   </div>
-                  <p className="grammar-explain">{gp.explanationZh}</p>
-                  <div className="dark-example">
-                    <p className="dark-example-ja jp-text">{gp.exampleJa}</p>
-                    <p className="dark-example-zh">{gp.exampleZh}</p>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </div>

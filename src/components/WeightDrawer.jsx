@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from 'react';
-import { X, Search, RotateCcw, Shuffle } from 'lucide-react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { X, Search, RotateCcw, Shuffle, Minus, Plus } from 'lucide-react';
 import { VSPO_MEMBERS } from '../data/vspoMembers';
 
 const GENERATIONS = [
@@ -24,16 +24,28 @@ export function WeightDrawer({
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedGen, setSelectedGen] = useState('全部');
   const [onlyTodayPool, setOnlyTodayPool] = useState(false);
+  const closeBtnRef = useRef(null);
 
   useEffect(() => {
     if (!isOpen) return undefined;
+    const prevOverflow = document.body.style.overflow;
+    const prevFocus = document.activeElement;
+    document.body.style.overflow = 'hidden';
+    closeBtnRef.current?.focus();
+
     const handleKeyDown = (event) => {
       if (event.key === 'Escape') {
         onClose();
       }
     };
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      window.removeEventListener('keydown', handleKeyDown);
+      if (prevFocus && typeof prevFocus.focus === 'function') {
+        prevFocus.focus();
+      }
+    };
   }, [isOpen, onClose]);
 
   const filteredMembers = useMemo(() => {
@@ -80,6 +92,7 @@ export function WeightDrawer({
             </p>
           </div>
           <button
+            ref={closeBtnRef}
             type="button"
             className="btn-icon-close"
             onClick={onClose}
@@ -181,9 +194,15 @@ export function WeightDrawer({
                   </div>
 
                   <div className="slider-row">
-                    <span className="mono-text" style={{ fontSize: '0.72rem', color: '#8a92a2' }}>
-                      0
-                    </span>
+                    <button
+                      type="button"
+                      className="btn-step-weight"
+                      disabled={weight <= 0}
+                      aria-label={`減少 ${member.name} 權重`}
+                      onClick={() => onChangeWeight(member.id, weight - 1)}
+                    >
+                      <Minus size={13} />
+                    </button>
                     <input
                       type="range"
                       min={0}
@@ -195,9 +214,15 @@ export function WeightDrawer({
                       style={{ '--member-accent': member.color }}
                       onChange={(e) => onChangeWeight(member.id, Number(e.target.value))}
                     />
-                    <span className="mono-text" style={{ fontSize: '0.72rem', color: '#8a92a2' }}>
-                      10
-                    </span>
+                    <button
+                      type="button"
+                      className="btn-step-weight"
+                      disabled={weight >= 10}
+                      aria-label={`增加 ${member.name} 權重`}
+                      onClick={() => onChangeWeight(member.id, weight + 1)}
+                    >
+                      <Plus size={13} />
+                    </button>
                   </div>
                 </div>
               );

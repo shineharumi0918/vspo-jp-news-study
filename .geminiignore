@@ -24,6 +24,7 @@ yarn.lock
 
 # 每日產出之靜態 JSON 資料（避免大型資料集佔用上下文）
 public/data/daily-content.json
+public/data/history.json
 
 # 日誌與系統暫存檔
 *.log

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   ExternalLink,
   BookOpen,
@@ -6,7 +6,10 @@ import {
   ChevronUp,
   Eye,
   Check,
+  Volume2,
 } from 'lucide-react';
+import { getVocabKey, isVocabMastered } from '../utils/vocabStorage';
+import { isTtsSupported, speakJapanese, stopSpeaking } from '../utils/tts';
 
 const CATEGORY_CLASS = {
   politics: 'cat-politics',
@@ -29,20 +32,46 @@ function renderHighlightedExample(sentence, word) {
 
 export function NewsCard({
   article,
+  currentDate,
   showReadings,
   hideMeanings,
-  masteredIds,
+  ttsRate = 1.0,
+  masteredVocab,
   onToggleMastered,
+  onTtsUnavailable,
 }) {
   const [vocabExpanded, setVocabExpanded] = useState(true);
   const [revealedIds, setRevealedIds] = useState({});
+  const [speakingId, setSpeakingId] = useState(null);
+  const ttsAvailable = isTtsSupported();
+
+  // 切換閃卡測驗模式或更換文章時自動清空已掀開項目
+  useEffect(() => {
+    setRevealedIds({});
+  }, [hideMeanings, article.id]);
+
+  useEffect(() => () => stopSpeaking(), []);
 
   const toggleReveal = (vocabKey) => {
     setRevealedIds((prev) => ({ ...prev, [vocabKey]: !prev[vocabKey] }));
   };
 
-  const masteredInArticle = article.vocabulary.filter(
-    (v) => masteredIds[`${article.id}:${v.word}`]
+  const handleSpeak = (id, text) => {
+    if (speakingId === id) {
+      stopSpeaking();
+      setSpeakingId(null);
+      return;
+    }
+    setSpeakingId(id);
+    speakJapanese(text, {
+      rate: ttsRate,
+      onEnd: () => setSpeakingId((cur) => (cur === id ? null : cur)),
+      onNoVoice: onTtsUnavailable,
+    });
+  };
+
+  const masteredInArticle = article.vocabulary.filter((v) =>
+    isVocabMastered(masteredVocab, v)
   ).length;
 
   return (
@@ -68,7 +97,20 @@ export function NewsCard({
           </a>
         </div>
 
-        <h3 className="news-title-ja jp-text">{article.titleJa}</h3>
+        <div className="news-title-row">
+          <h3 className="news-title-ja jp-text">{article.titleJa}</h3>
+          {ttsAvailable && (
+            <button
+              type="button"
+              className={`btn-tts ${speakingId === `title:${article.id}` ? 'is-speaking' : ''}`}
+              onClick={() => handleSpeak(`title:${article.id}`, article.titleJa)}
+              aria-label="朗讀新聞日文標題"
+              title="朗讀新聞標題"
+            >
+              <Volume2 size={14} />
+            </button>
+          )}
+        </div>
         {showReadings && (
           <p className="news-title-reading jp-text">{article.titleReading}</p>
         )}
@@ -105,13 +147,20 @@ export function NewsCard({
         {vocabExpanded && (
           <div className="vocab-grid">
             {article.vocabulary.map((vocab) => {
-              const vocabKey = `${article.id}:${vocab.word}`;
-              const isMastered = Boolean(masteredIds[vocabKey]);
-              const isMasked = hideMeanings && !revealedIds[vocabKey];
+              const vocabKey = getVocabKey(vocab);
+              const revealKey = `${article.id}:${vocabKey}`;
+              const isMastered = isVocabMastered(masteredVocab, vocab);
+              const masteredRecord = masteredVocab?.[vocabKey] || masteredVocab?.[vocab.word];
+              const isFromPreviousDay =
+                isMastered &&
+                masteredRecord?.masteredAt &&
+                currentDate &&
+                masteredRecord.masteredAt !== currentDate;
+              const isMasked = hideMeanings && !revealedIds[revealKey];
 
               return (
                 <div
-                  key={vocab.word}
+                  key={vocabKey}
                   className={`vocab-card ${isMastered ? 'mastered' : ''}`}
                 >
                   <div className="vocab-card-head">
@@ -119,6 +168,19 @@ export function NewsCard({
                       <span className="vocab-kanji jp-text">{vocab.word}</span>
                       {showReadings && (
                         <span className="vocab-reading jp-text">({vocab.reading})</span>
+                      )}
+                      {ttsAvailable && (
+                        <button
+                          type="button"
+                          className={`btn-tts ${speakingId === `word:${revealKey}` ? 'is-speaking' : ''}`}
+                          onClick={() =>
+                            handleSpeak(`word:${revealKey}`, vocab.reading || vocab.word)
+                          }
+                          aria-label={`朗讀單字 ${vocab.word}`}
+                          title="朗讀單字發音"
+                        >
+                          <Volume2 size={13} />
+                        </button>
                       )}
                     </div>
                     <div className="vocab-badges">
@@ -131,7 +193,7 @@ export function NewsCard({
                     <button
                       type="button"
                       className="meaning-masked"
-                      onClick={() => toggleReveal(vocabKey)}
+                      onClick={() => toggleReveal(revealKey)}
                     >
                       <Eye size={13} />
                       <span>點擊顯示中文釋義</span>
@@ -141,19 +203,37 @@ export function NewsCard({
                   )}
 
                   <div className="vocab-example">
-                    <p className="vocab-example-ja jp-text">
-                      {renderHighlightedExample(vocab.exampleJa, vocab.word)}
-                    </p>
+                    <div className="vocab-example-row">
+                      <p className="vocab-example-ja jp-text">
+                        {renderHighlightedExample(vocab.exampleJa, vocab.word)}
+                      </p>
+                      {ttsAvailable && (
+                        <button
+                          type="button"
+                          className={`btn-tts ${speakingId === `ex:${revealKey}` ? 'is-speaking' : ''}`}
+                          onClick={() => handleSpeak(`ex:${revealKey}`, vocab.exampleJa)}
+                          aria-label="朗讀日文例句"
+                          title="朗讀日文例句"
+                        >
+                          <Volume2 size={13} />
+                        </button>
+                      )}
+                    </div>
                     {!isMasked && <p className="vocab-example-zh">{vocab.exampleZh}</p>}
                   </div>
 
                   <p className="vocab-usage">{vocab.usageNote}</p>
 
                   <div className="vocab-footer">
+                    {isFromPreviousDay && (
+                      <span className="prior-mastered-tag">
+                        已於 {masteredRecord.masteredAt} 學過
+                      </span>
+                    )}
                     <button
                       type="button"
                       className={`btn-master ${isMastered ? 'active' : ''}`}
-                      onClick={() => onToggleMastered(vocabKey)}
+                      onClick={() => onToggleMastered(vocab)}
                     >
                       <Check size={13} />
                       <span>{isMastered ? '已記住' : '標記熟記'}</span>

@@ -3,6 +3,8 @@ import assert from 'node:assert/strict';
 import { parseRssFeed, decodeHtmlEntities } from '../scripts/lib/rssParser.mjs';
 import { matchVspoMembers, parseIsoDuration, formatSecondsDuration } from '../scripts/lib/vspoMatcher.mjs';
 import {
+  buildUpdatedHistory,
+  extractHistorySeenIds,
   extractPreviousSeenIds,
   isExcludedNewsTitle,
   pickCategoryNewsItems,
@@ -33,15 +35,28 @@ test('decodeHtmlEntities decodes numeric character references cleanly', () => {
   assert.equal(decodeHtmlEntities('&#26085;&#26412; &quot;NHK&quot;'), '日本 "NHK"');
 });
 
-test('matchVspoMembers identifies full names, safe nicknames, and avoids substring false positives', () => {
+test('matchVspoMembers identifies full names, safe nicknames, and ignores boilerplate full-roster descriptions', () => {
   const matched = matchVspoMembers({
     title: '【切り抜き】花芽すみれとひなーのの爆笑VALORANT',
-    description: '一ノ瀬うるはさんも参戦',
+    description:
+      '▼ぶいすぽっ！メンバー一覧\n花芽すみれ 花芽なずな 小雀とと 一ノ瀬うるは 胡桃のあ 兎咲ミミ 空澄セナ 橘ひなの 英リサ 如月れん',
   });
-  assert.deepEqual(
-    matched.sort(),
-    ['ichinose-uruha', 'kaga-sumire', 'tachibana-hinano'].sort()
-  );
+  assert.deepEqual(matched.sort(), ['kaga-sumire', 'tachibana-hinano'].sort());
+
+  // 標題未寫出成員時，才退回比對簡潔說明欄
+  const descOnly = matchVspoMembers({
+    title: '【ぶいすぽ切り抜き】深夜の神プレイ集',
+    description: '元配信：一ノ瀬うるは さんのVALORANT配信より',
+  });
+  assert.deepEqual(descOnly, ['ichinose-uruha']);
+
+  // 標題未寫成員但說明欄貼滿全體成員名單時，避免誤標為全員同台
+  const boilerplateOnly = matchVspoMembers({
+    title: '【ぶいすぽ切り抜き】大会ハイライト',
+    description:
+      '花芽すみれ 花芽なずな 小雀とと 一ノ瀬うるは 胡桃のあ 兎咲ミミ 空澄セナ 橘ひなの',
+  });
+  assert.deepEqual(boilerplateOnly, []);
 
   // 確保日文常見字詞「つなぐ」「れんしゅう」不會誤判為 猫汰つな 或 如月れん
   const noFalseMatch = matchVspoMembers({
@@ -113,5 +128,36 @@ test('selectDiverseClipPool filters previously seen videoIds and falls back if n
   assert.deepEqual(
     fallbackRes.pool.map((c) => c.youtubeId),
     ['seen1']
+  );
+});
+
+test('extractHistorySeenIds and buildUpdatedHistory maintain a 7-day rolling deduplication window', () => {
+  const nowMs = Date.UTC(2026, 10, 23); // 2026-11-23
+  const history = {
+    entries: [
+      { date: '2026-11-22', newsLinks: ['https://nhk/recent'], videoIds: ['vidRecent'] },
+      { date: '2026-11-10', newsLinks: ['https://nhk/expired'], videoIds: ['vidExpired'] },
+    ],
+  };
+
+  const seen = extractHistorySeenIds(
+    history,
+    { news: [{ sourceUrl: 'https://nhk/today' }], clipCandidates: [{ youtubeId: 'vidToday' }] },
+    { nowMs, retentionDays: 7 }
+  );
+  assert.equal(seen.newsLinks.has('https://nhk/recent'), true);
+  assert.equal(seen.newsLinks.has('https://nhk/today'), true);
+  assert.equal(seen.newsLinks.has('https://nhk/expired'), false);
+  assert.equal(seen.videoIds.has('vidRecent'), true);
+  assert.equal(seen.videoIds.has('vidExpired'), false);
+
+  const updated = buildUpdatedHistory(
+    history,
+    { date: '2026-11-23', newsLinks: ['https://nhk/new'], videoIds: ['vidNew'] },
+    { nowMs, retentionDays: 7 }
+  );
+  assert.deepEqual(
+    updated.entries.map((e) => e.date),
+    ['2026-11-23', '2026-11-22']
   );
 });

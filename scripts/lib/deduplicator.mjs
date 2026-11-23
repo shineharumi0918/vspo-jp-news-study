@@ -1,3 +1,12 @@
+export const DEFAULT_HISTORY_RETENTION_DAYS = 7;
+
+function parseDateToUtcMs(dateStr) {
+  if (!dateStr || typeof dateStr !== 'string') return NaN;
+  const match = dateStr.trim().match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!match) return NaN;
+  return Date.UTC(Number(match[1]), Number(match[2]) - 1, Number(match[3]));
+}
+
 /**
  * 從既有 daily-content.json 擷取前次已出現過的新聞連結與 YouTube 影片 ID。
  */
@@ -24,6 +33,86 @@ export function extractPreviousSeenIds(existingData) {
   }
 
   return { newsLinks, videoIds };
+}
+
+/**
+ * 合併近 N 天（預設 7 天）history.json 與現有 daily-content.json 的去重集合。
+ */
+export function extractHistorySeenIds(
+  historyData,
+  existingDailyData,
+  { nowMs = Date.now(), retentionDays = DEFAULT_HISTORY_RETENTION_DAYS } = {}
+) {
+  const { newsLinks, videoIds } = extractPreviousSeenIds(existingDailyData);
+  const cutoffMs = nowMs - retentionDays * 24 * 60 * 60 * 1000;
+
+  for (const entry of historyData?.entries || []) {
+    const entryMs = parseDateToUtcMs(entry?.date);
+    if (!Number.isNaN(entryMs) && entryMs < cutoffMs) continue;
+
+    for (const link of entry?.newsLinks || []) {
+      const normalized = String(link || '').trim();
+      if (normalized) newsLinks.add(normalized);
+    }
+    for (const vid of entry?.videoIds || []) {
+      const normalized = String(vid || '').trim();
+      if (normalized) videoIds.add(normalized);
+    }
+  }
+
+  return { newsLinks, videoIds };
+}
+
+/**
+ * 寫入當日紀錄並修剪超過 retentionDays 天的歷史項目。
+ */
+export function buildUpdatedHistory(
+  historyData,
+  { date, newsLinks = [], videoIds = [] },
+  { nowMs = Date.now(), retentionDays = DEFAULT_HISTORY_RETENTION_DAYS } = {}
+) {
+  const cutoffMs = nowMs - retentionDays * 24 * 60 * 60 * 1000;
+  const byDate = new Map();
+
+  for (const entry of historyData?.entries || []) {
+    const entryDate = String(entry?.date || '').trim();
+    const entryMs = parseDateToUtcMs(entryDate);
+    if (!entryDate || Number.isNaN(entryMs) || entryMs < cutoffMs) continue;
+    byDate.set(entryDate, {
+      date: entryDate,
+      newsLinks: new Set((entry.newsLinks || []).map((x) => String(x).trim()).filter(Boolean)),
+      videoIds: new Set((entry.videoIds || []).map((x) => String(x).trim()).filter(Boolean)),
+    });
+  }
+
+  const current = byDate.get(date) || {
+    date,
+    newsLinks: new Set(),
+    videoIds: new Set(),
+  };
+  for (const link of newsLinks) {
+    const normalized = String(link || '').trim();
+    if (normalized) current.newsLinks.add(normalized);
+  }
+  for (const vid of videoIds) {
+    const normalized = String(vid || '').trim();
+    if (normalized) current.videoIds.add(normalized);
+  }
+  byDate.set(date, current);
+
+  const entries = [...byDate.values()]
+    .sort((a, b) => b.date.localeCompare(a.date))
+    .map((e) => ({
+      date: e.date,
+      newsLinks: [...e.newsLinks],
+      videoIds: [...e.videoIds],
+    }));
+
+  return {
+    updatedAt: new Date(nowMs).toISOString(),
+    retentionDays,
+    entries,
+  };
 }
 
 const EXCLUDED_NEWS_TITLE_PATTERNS = [/【動画】\s*Pickup\s*NEWS/i, /\bPickup\s*NEWS\b/i];

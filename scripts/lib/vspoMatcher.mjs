@@ -28,8 +28,12 @@ const MEMBER_ALIASES = {
   'tatsumaki-chise': ['龍巻ちせ', 'たつまき', 'ちせ'],
 };
 
+const MAX_DESCRIPTION_MEMBERS = 6;
+const BOILERPLATE_SECTION_PATTERN = /(?:ぶいすぽっ?！?\s*メンバー|所属メンバー|メンバー一覧|▼\s*メンバー)[\s\S]*$/i;
+
 /**
  * 依據影片標題、說明與 Holodex mentions 自動識別登場的ぶいすぽっ！成員 ID。
+ * 若標題與 mentions 已命中成員，不再掃描說明欄以免被頻道公版全員名單汙染。
  */
 export function matchVspoMembers({ title = '', description = '', mentions = [] } = {}) {
   const matched = new Set();
@@ -37,9 +41,7 @@ export function matchVspoMembers({ title = '', description = '', mentions = [] }
     .map((m) => `${m?.name || ''} ${m?.english_name || ''}`)
     .join(' ');
   const primaryText = `${title} ${mentionText}`;
-  const fullText = `${primaryText} ${description}`;
 
-  // 優先在標題與 Holodex mentions 比對所有本名與安全別稱
   for (const member of VSPO_MEMBERS) {
     const aliases = MEMBER_ALIASES[member.id] || [member.name];
     if (aliases.some((alias) => primaryText.includes(alias))) {
@@ -47,10 +49,16 @@ export function matchVspoMembers({ title = '', description = '', mentions = [] }
     }
   }
 
-  // 若標題與 mentions 仍未命中 2 人以上，再於說明欄比對完整成員本名（避免說明欄常見單字誤判）
-  for (const member of VSPO_MEMBERS) {
-    if (fullText.includes(member.name)) {
-      matched.add(member.id);
+  if (matched.size === 0 && description) {
+    const cleanedDescription = description.replace(BOILERPLATE_SECTION_PATTERN, '');
+    const descMatches = VSPO_MEMBERS.filter((member) =>
+      cleanedDescription.includes(member.name)
+    ).map((member) => member.id);
+
+    if (descMatches.length > 0 && descMatches.length <= MAX_DESCRIPTION_MEMBERS) {
+      for (const id of descMatches) {
+        matched.add(id);
+      }
     }
   }
 
