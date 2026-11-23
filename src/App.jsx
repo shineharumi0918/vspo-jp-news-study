@@ -261,7 +261,6 @@ export default function App() {
     <div className="app-shell">
       <Header
         date={dailyData?.meta?.date || '載入中...'}
-        dataMode={dailyData?.meta?.mode || 'loading'}
         activeView={activeView}
         onChangeView={setActiveView}
         masteredCount={masteredCount}

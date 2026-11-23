@@ -3,7 +3,6 @@ import { SlidersHorizontal, CheckCircle2, Sparkles, ChevronDown } from 'lucide-r
 
 export function Header({
   date,
-  dataMode,
   activeView,
   onChangeView,
   masteredCount,
@@ -14,8 +13,6 @@ export function Header({
   onOpenWeights,
   onOpenReview,
 }) {
-  const isLive = dataMode === 'live';
-  const isLoading = dataMode === 'loading';
   const [controlsOpen, setControlsOpen] = useState(() => {
     if (typeof window === 'undefined') return true;
     return window.innerWidth >= 768;
@@ -26,12 +23,7 @@ export function Header({
       <div className="container header-inner">
         <div className="header-top-row">
           <div className="brand-group">
-            <h1 className="brand-title">
-              <span>日語時事 × ぶいすぽっ！每日學習誌</span>
-              <span className={`phase-badge ${isLive ? 'is-live' : ''}`}>
-                {isLoading ? '資料載入中...' : isLive ? '每日自動更新 Live' : '示範資料模式'}
-              </span>
-            </h1>
+            <h1 className="brand-title">日語時事 × ぶいすぽっ！每日學習誌</h1>
             <p className="brand-sub">
               <span>{date} 更新</span>
               <span>•</span>

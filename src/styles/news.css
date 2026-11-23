@@ -450,6 +450,11 @@
 }
 
 @media (max-width: 640px) {
+  #news-section .section-header {
+    padding-left: 11px;
+    padding-right: 11px;
+  }
+
   .toolbar-row {
     flex-direction: column;
     align-items: stretch;
