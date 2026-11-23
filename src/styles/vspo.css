@@ -512,7 +512,15 @@
   }
 
   .vspo-section {
-    padding: 18px 16px;
+    padding: 16px 12px;
     border-radius: 16px;
+  }
+
+  .clip-info-body {
+    padding: 14px 14px 16px;
+  }
+
+  .aid-panel {
+    padding: 14px 12px;
   }
 }

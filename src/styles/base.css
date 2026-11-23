@@ -312,7 +312,7 @@ button {
 
 @media (max-width: 640px) {
   .container {
-    padding-left: 22px;
-    padding-right: 22px;
+    padding-left: 12px;
+    padding-right: 12px;
   }
 }
