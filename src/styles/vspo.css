@@ -334,6 +334,17 @@
   color: #9be7c4;
 }
 
+.meaning-masked.is-dark {
+  margin-bottom: 6px;
+  background: rgba(108, 99, 255, 0.16);
+  border-color: rgba(166, 175, 255, 0.45);
+  color: #cfd4ff;
+}
+
+.meaning-masked.is-dark:hover {
+  background: rgba(108, 99, 255, 0.28);
+}
+
 .dark-example {
   font-size: 0.8rem;
   padding-top: 6px;

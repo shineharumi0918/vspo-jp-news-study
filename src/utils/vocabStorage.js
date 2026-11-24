@@ -49,6 +49,7 @@ export function loadMasteredVocab(storage = typeof window !== 'undefined' ? wind
         meaningZh: '',
         exampleJa: '',
         exampleZh: '',
+        usageNote: '',
         masteredAt: new Date().toISOString().slice(0, 10),
       };
     }
@@ -76,6 +77,7 @@ export function toggleMasteredVocabEntry(masteredMap, vocab, currentDate) {
     meaningZh: vocab.meaningZh || '',
     exampleJa: vocab.exampleJa || '',
     exampleZh: vocab.exampleZh || '',
+    usageNote: vocab.usageNote || '',
     masteredAt: currentDate || new Date().toISOString().slice(0, 10),
   };
   return next;

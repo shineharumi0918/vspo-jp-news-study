@@ -241,6 +241,33 @@
   font-size: 0.9rem;
   font-weight: 700;
   color: var(--text-primary);
+  min-width: 0;
+}
+
+.vocab-panel-icon {
+  flex-shrink: 0;
+  color: var(--accent-indigo);
+}
+
+.vocab-title-mobile,
+.collapse-label-mobile {
+  display: none;
+}
+
+.vocab-progress-pill {
+  font-size: 0.74rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--bg-subtle);
+  color: var(--text-secondary);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.vocab-progress-pill.is-complete {
+  background: var(--accent-emerald-soft);
+  color: var(--accent-emerald);
 }
 
 .btn-collapse {
@@ -540,6 +567,21 @@
   .vocab-panel {
     padding-left: 10px;
     padding-right: 10px;
+  }
+
+  .vocab-panel-title {
+    gap: 6px;
+    font-size: 0.88rem;
+  }
+
+  .vocab-title-desktop,
+  .collapse-label-desktop {
+    display: none;
+  }
+
+  .vocab-title-mobile,
+  .collapse-label-mobile {
+    display: inline;
   }
 
   .vocab-grid {

@@ -1,39 +1,49 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { X, Search, Volume2, Download, Trash2 } from 'lucide-react';
+import { X, Search, Volume2, Download, Trash2, Eye } from 'lucide-react';
 import { buildAnkiCsv } from '../utils/vocabStorage';
-import { isTtsSupported, speakJapanese, stopSpeaking } from '../utils/tts';
+import { useTtsPlayer } from '../hooks/useTtsPlayer';
+import { useDrawerDialog } from '../hooks/useDrawerDialog';
+import { HighlightedText } from './HighlightedText';
 
 const JLPT_FILTERS = ['全部', 'N1', 'N2', 'N3'];
 
-export function VocabReviewModal({ isOpen, onClose, masteredMap, onRemoveVocab, onTtsUnavailable }) {
+export function VocabReviewModal({
+  isOpen,
+  onClose,
+  masteredMap,
+  showReadings = true,
+  hideMeanings = false,
+  slowSpeech = false,
+  onToggleSlowSpeech,
+  onRemoveVocab,
+  onTtsUnavailable,
+}) {
   const [searchTerm, setSearchTerm] = useState('');
   const [jlptFilter, setJlptFilter] = useState('全部');
-  const [speakingKey, setSpeakingKey] = useState(null);
+  const [revealedIds, setRevealedIds] = useState({});
   const closeBtnRef = useRef(null);
+  const panelRef = useRef(null);
 
   useEffect(() => {
-    if (!isOpen) return undefined;
-    const prevOverflow = document.body.style.overflow;
-    const prevFocus = document.activeElement;
-    document.body.style.overflow = 'hidden';
-    closeBtnRef.current?.focus();
+    setRevealedIds({});
+  }, [hideMeanings, isOpen]);
 
-    const handleKeyDown = (event) => {
-      if (event.key === 'Escape') {
-        onClose();
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => {
-      document.body.style.overflow = prevOverflow;
-      window.removeEventListener('keydown', handleKeyDown);
-      stopSpeaking();
-      setSpeakingKey(null);
-      if (prevFocus && typeof prevFocus.focus === 'function') {
-        prevFocus.focus();
-      }
-    };
-  }, [isOpen, onClose]);
+  const toggleReveal = (key) => {
+    setRevealedIds((prev) => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  const { speakingId, ttsAvailable, toggleSpeak, stopSpeaking } = useTtsPlayer({
+    rate: slowSpeech ? 0.8 : 1.0,
+    onNoVoice: onTtsUnavailable,
+  });
+
+  useDrawerDialog({
+    isOpen,
+    onClose,
+    panelRef,
+    initialFocusRef: closeBtnRef,
+    onCleanup: stopSpeaking,
+  });
 
   const allEntries = useMemo(() => {
     return Object.entries(masteredMap || {})
@@ -54,19 +64,7 @@ export function VocabReviewModal({ isOpen, onClose, masteredMap, onRemoveVocab, 
     });
   }, [allEntries, jlptFilter, searchTerm]);
 
-  const handleSpeak = (key, text) => {
-    if (speakingKey === key) {
-      stopSpeaking();
-      setSpeakingKey(null);
-      return;
-    }
-    setSpeakingKey(key);
-    speakJapanese(text, {
-      rate: 0.95,
-      onEnd: () => setSpeakingKey((cur) => (cur === key ? null : cur)),
-      onNoVoice: onTtsUnavailable,
-    });
-  };
+  const handleSpeak = (key, text) => toggleSpeak(key, text);
 
   const handleExportCsv = () => {
     if (allEntries.length === 0) return;
@@ -82,8 +80,6 @@ export function VocabReviewModal({ isOpen, onClose, masteredMap, onRemoveVocab, 
 
   if (!isOpen) return null;
 
-  const ttsAvailable = isTtsSupported();
-
   return (
     <div
       className="drawer-backdrop"
@@ -92,7 +88,7 @@ export function VocabReviewModal({ isOpen, onClose, masteredMap, onRemoveVocab, 
       aria-labelledby="review-drawer-title"
       onClick={onClose}
     >
-      <div className="drawer-panel" onClick={(e) => e.stopPropagation()}>
+      <div ref={panelRef} className="drawer-panel" onClick={(e) => e.stopPropagation()}>
         <div className="drawer-header">
           <div>
             <h2 id="review-drawer-title" className="drawer-title">
@@ -136,6 +132,18 @@ export function VocabReviewModal({ isOpen, onClose, masteredMap, onRemoveVocab, 
                 {level}
               </button>
             ))}
+            {ttsAvailable && (
+              <button
+                type="button"
+                aria-pressed={slowSpeech}
+                className={`preset-btn preset-speed-btn ${slowSpeech ? 'active' : ''}`}
+                onClick={onToggleSlowSpeech}
+                title="切換日語朗讀語速（正常 1.0x / 慢速 0.8x）"
+              >
+                <Volume2 size={13} />
+                <span>{slowSpeech ? '語速 0.8x' : '語速 1.0x'}</span>
+              </button>
+            )}
           </div>
         </div>
 
@@ -147,56 +155,96 @@ export function VocabReviewModal({ isOpen, onClose, masteredMap, onRemoveVocab, 
                 : '找不到符合條件的生詞。'}
             </p>
           ) : (
-            filteredEntries.map((entry) => (
-              <div key={entry.key} className="review-vocab-card">
-                <div className="review-vocab-top">
-                  <div className="vocab-word-line">
-                    <span className="vocab-kanji jp-text">{entry.word}</span>
-                    {entry.reading && (
-                      <span className="vocab-reading jp-text">({entry.reading})</span>
-                    )}
+            filteredEntries.map((entry) => {
+              const wordSpeakKey = `word:${entry.key}`;
+              const exSpeakKey = `ex:${entry.key}`;
+              const isMasked = hideMeanings && !revealedIds[entry.key];
+
+              return (
+                <div key={entry.key} className="vocab-card review-vocab-card">
+                  <div className="vocab-card-head">
+                    <div className="vocab-head-main">
+                      <div className="vocab-word-line">
+                        <span className="vocab-kanji jp-text">{entry.word}</span>
+                        {showReadings && entry.reading && (
+                          <span className="vocab-reading jp-text">({entry.reading})</span>
+                        )}
+                      </div>
+                      {(entry.jlpt || entry.pos) && (
+                        <div className="vocab-badges">
+                          {entry.jlpt && (
+                            <span className={`jlpt-badge jlpt-${entry.jlpt}`}>{entry.jlpt}</span>
+                          )}
+                          {entry.pos && <span className="pos-badge">{entry.pos}</span>}
+                        </div>
+                      )}
+                    </div>
                     {ttsAvailable && (
                       <button
                         type="button"
-                        className={`btn-tts ${speakingKey === entry.key ? 'is-speaking' : ''}`}
-                        onClick={() => handleSpeak(entry.key, entry.reading || entry.word)}
-                        aria-label={`朗讀 ${entry.word}`}
-                        title="日語發音"
+                        className={`btn-tts ${speakingId === wordSpeakKey ? 'is-speaking' : ''}`}
+                        onClick={() => handleSpeak(wordSpeakKey, entry.reading || entry.word)}
+                        aria-label={`朗讀單字 ${entry.word}`}
+                        title="朗讀單字發音"
                       >
                         <Volume2 size={13} />
                       </button>
                     )}
                   </div>
-                  <div className="vocab-badges">
-                    {entry.jlpt && (
-                      <span className={`jlpt-badge jlpt-${entry.jlpt}`}>{entry.jlpt}</span>
-                    )}
-                    {entry.pos && <span className="pos-badge">{entry.pos}</span>}
+
+                  {isMasked ? (
+                    <button
+                      type="button"
+                      className="meaning-masked"
+                      onClick={() => toggleReveal(entry.key)}
+                    >
+                      <Eye size={13} />
+                      <span>點擊顯示中文釋義</span>
+                    </button>
+                  ) : (
+                    entry.meaningZh && <div className="vocab-meaning">{entry.meaningZh}</div>
+                  )}
+
+                  {entry.exampleJa && (
+                    <div className="vocab-example">
+                      <div className="vocab-example-row">
+                        <p className="vocab-example-ja jp-text">
+                          <HighlightedText sentence={entry.exampleJa} word={entry.word} />
+                        </p>
+                        {ttsAvailable && (
+                          <button
+                            type="button"
+                            className={`btn-tts ${speakingId === exSpeakKey ? 'is-speaking' : ''}`}
+                            onClick={() => handleSpeak(exSpeakKey, entry.exampleJa)}
+                            aria-label="朗讀日文例句"
+                            title="朗讀日文例句"
+                          >
+                            <Volume2 size={13} />
+                          </button>
+                        )}
+                      </div>
+                      {!isMasked && entry.exampleZh && (
+                        <p className="vocab-example-zh">{entry.exampleZh}</p>
+                      )}
+                    </div>
+                  )}
+
+                  {!isMasked && entry.usageNote && <p className="vocab-usage">{entry.usageNote}</p>}
+
+                  <div className="review-vocab-meta">
+                    <span>收錄日期：{entry.masteredAt || '—'}</span>
+                    <button
+                      type="button"
+                      className="btn-remove-vocab"
+                      onClick={() => onRemoveVocab(entry.key)}
+                    >
+                      <Trash2 size={12} />
+                      <span>移除</span>
+                    </button>
                   </div>
                 </div>
-
-                {entry.meaningZh && <div className="vocab-meaning">{entry.meaningZh}</div>}
-
-                {entry.exampleJa && (
-                  <div className="vocab-example">
-                    <p className="vocab-example-ja jp-text">{entry.exampleJa}</p>
-                    {entry.exampleZh && <p className="vocab-example-zh">{entry.exampleZh}</p>}
-                  </div>
-                )}
-
-                <div className="review-vocab-meta">
-                  <span>收錄日期：{entry.masteredAt || '—'}</span>
-                  <button
-                    type="button"
-                    className="btn-remove-vocab"
-                    onClick={() => onRemoveVocab(entry.key)}
-                  >
-                    <Trash2 size={12} />
-                    <span>移除</span>
-                  </button>
-                </div>
-              </div>
-            ))
+              );
+            })
           )}
         </div>
 

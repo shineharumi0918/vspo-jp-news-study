@@ -9,26 +9,14 @@ import {
   Volume2,
 } from 'lucide-react';
 import { getVocabKey, isVocabMastered } from '../utils/vocabStorage';
-import { isTtsSupported, speakJapanese, stopSpeaking } from '../utils/tts';
+import { useTtsPlayer } from '../hooks/useTtsPlayer';
+import { HighlightedText } from './HighlightedText';
 
 const CATEGORY_CLASS = {
   politics: 'cat-politics',
   economy: 'cat-economy',
   society: 'cat-society',
 };
-
-function renderHighlightedExample(sentence, word) {
-  if (!word || !sentence.includes(word)) {
-    return sentence;
-  }
-  const parts = sentence.split(word);
-  return parts.map((part, idx) => (
-    <span key={idx}>
-      {part}
-      {idx < parts.length - 1 && <span className="vocab-highlight">{word}</span>}
-    </span>
-  ));
-}
 
 export function NewsCard({
   article,
@@ -42,33 +30,21 @@ export function NewsCard({
 }) {
   const [vocabExpanded, setVocabExpanded] = useState(true);
   const [revealedIds, setRevealedIds] = useState({});
-  const [speakingId, setSpeakingId] = useState(null);
-  const ttsAvailable = isTtsSupported();
+  const { speakingId, ttsAvailable, toggleSpeak } = useTtsPlayer({
+    rate: ttsRate,
+    onNoVoice: onTtsUnavailable,
+  });
 
   // 切換閃卡測驗模式或更換文章時自動清空已掀開項目
   useEffect(() => {
     setRevealedIds({});
   }, [hideMeanings, article.id]);
 
-  useEffect(() => () => stopSpeaking(), []);
-
   const toggleReveal = (vocabKey) => {
     setRevealedIds((prev) => ({ ...prev, [vocabKey]: !prev[vocabKey] }));
   };
 
-  const handleSpeak = (id, text) => {
-    if (speakingId === id) {
-      stopSpeaking();
-      setSpeakingId(null);
-      return;
-    }
-    setSpeakingId(id);
-    speakJapanese(text, {
-      rate: ttsRate,
-      onEnd: () => setSpeakingId((cur) => (cur === id ? null : cur)),
-      onNoVoice: onTtsUnavailable,
-    });
-  };
+  const handleSpeak = (id, text) => toggleSpeak(id, text);
 
   const masteredInArticle = article.vocabulary.filter((v) =>
     isVocabMastered(masteredVocab, v)
@@ -128,10 +104,17 @@ export function NewsCard({
       <div className="vocab-panel">
         <div className="vocab-panel-bar">
           <div className="vocab-panel-title">
-            <BookOpen size={16} />
-            <span>
-              N3–N1 核心生詞表（{article.vocabulary.length} 詞 · 已熟記 {masteredInArticle}/
-              {article.vocabulary.length}）
+            <BookOpen size={15} className="vocab-panel-icon" />
+            <span className="vocab-title-desktop">N3–N1 核心生詞表</span>
+            <span className="vocab-title-mobile">N3–N1 生詞</span>
+            <span
+              className={`vocab-progress-pill ${
+                article.vocabulary.length > 0 && masteredInArticle === article.vocabulary.length
+                  ? 'is-complete'
+                  : ''
+              }`}
+            >
+              已熟記 {masteredInArticle}/{article.vocabulary.length}
             </span>
           </div>
           <button
@@ -139,7 +122,12 @@ export function NewsCard({
             className="btn-collapse"
             onClick={() => setVocabExpanded((prev) => !prev)}
           >
-            <span>{vocabExpanded ? '收合單字表' : '展開單字表'}</span>
+            <span className="collapse-label-desktop">
+              {vocabExpanded ? '收合單字表' : '展開單字表'}
+            </span>
+            <span className="collapse-label-mobile">
+              {vocabExpanded ? '收合' : '展開'}
+            </span>
             {vocabExpanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
           </button>
         </div>
@@ -207,7 +195,7 @@ export function NewsCard({
                   <div className="vocab-example">
                     <div className="vocab-example-row">
                       <p className="vocab-example-ja jp-text">
-                        {renderHighlightedExample(vocab.exampleJa, vocab.word)}
+                        <HighlightedText sentence={vocab.exampleJa} word={vocab.word} />
                       </p>
                       {ttsAvailable && (
                         <button

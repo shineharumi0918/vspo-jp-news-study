@@ -1,7 +1,6 @@
 import { useMemo, useState } from 'react';
-import { Newspaper, EyeOff, Eye, Languages, Volume2 } from 'lucide-react';
+import { Newspaper } from 'lucide-react';
 import { NewsCard } from './NewsCard';
-import { isTtsSupported } from '../utils/tts';
 
 const CATEGORY_FILTERS = [
   { key: 'all', label: '全部' },
@@ -13,15 +12,14 @@ const CATEGORY_FILTERS = [
 export function NewsSection({
   articles,
   currentDate,
+  showReadings,
+  hideMeanings,
+  ttsRate = 1.0,
   masteredVocab,
   onToggleMastered,
   onTtsUnavailable,
 }) {
   const [selectedCategory, setSelectedCategory] = useState('all');
-  const [showReadings, setShowReadings] = useState(true);
-  const [hideMeanings, setHideMeanings] = useState(false);
-  const [slowSpeech, setSlowSpeech] = useState(false);
-  const ttsAvailable = isTtsSupported();
 
   const counts = useMemo(() => {
     const map = { all: articles.length, politics: 0, economy: 0, society: 0 };
@@ -70,52 +68,6 @@ export function NewsSection({
             </button>
           ))}
         </div>
-
-        <div className="study-toggles">
-          <button
-            type="button"
-            aria-pressed={showReadings}
-            className={`toggle-btn ${showReadings ? 'active' : ''}`}
-            onClick={() => setShowReadings((prev) => !prev)}
-            title={showReadings ? '點擊隱藏平假名讀音' : '點擊顯示平假名讀音'}
-          >
-            <Languages size={14} />
-            <span className="toggle-label-desktop">
-              {showReadings ? '顯示平假名讀音' : '已隱藏讀音'}
-            </span>
-            <span className="toggle-label-mobile">假名讀音</span>
-          </button>
-          <button
-            type="button"
-            aria-pressed={hideMeanings}
-            className={`toggle-btn ${hideMeanings ? 'active' : ''}`}
-            onClick={() => setHideMeanings((prev) => !prev)}
-            title="切換閃卡測驗模式（隱藏中文釋義）"
-          >
-            {hideMeanings ? <EyeOff size={14} /> : <Eye size={14} />}
-            <span className="toggle-label-desktop">
-              {hideMeanings ? '閃卡測驗模式：開啟' : '閃卡測驗模式'}
-            </span>
-            <span className="toggle-label-mobile">閃卡測驗</span>
-          </button>
-          {ttsAvailable && (
-            <button
-              type="button"
-              aria-pressed={slowSpeech}
-              className={`toggle-btn ${slowSpeech ? 'active' : ''}`}
-              onClick={() => setSlowSpeech((prev) => !prev)}
-              title="切換日語朗讀語速（正常 1.0x / 慢速 0.8x）"
-            >
-              <Volume2 size={14} />
-              <span className="toggle-label-desktop">
-                {slowSpeech ? '朗讀語速 0.8x' : '朗讀語速 1.0x'}
-              </span>
-              <span className="toggle-label-mobile">
-                {slowSpeech ? '語速 0.8x' : '語速 1.0x'}
-              </span>
-            </button>
-          )}
-        </div>
       </div>
 
       <div className="news-grid">
@@ -126,7 +78,7 @@ export function NewsSection({
             currentDate={currentDate}
             showReadings={showReadings}
             hideMeanings={hideMeanings}
-            ttsRate={slowSpeech ? 0.8 : 1.0}
+            ttsRate={ttsRate}
             masteredVocab={masteredVocab}
             onToggleMastered={onToggleMastered}
             onTtsUnavailable={onTtsUnavailable}

@@ -7,6 +7,7 @@ import {
   extractHistorySeenIds,
   extractPreviousSeenIds,
   isExcludedNewsTitle,
+  normalizeNewsUrl,
   pickCategoryNewsItems,
   selectDiverseClipPool,
 } from '../scripts/lib/deduplicator.mjs';
@@ -160,4 +161,49 @@ test('extractHistorySeenIds and buildUpdatedHistory maintain a 7-day rolling ded
     updated.entries.map((e) => e.date),
     ['2026-11-23', '2026-11-22']
   );
+});
+
+test('selectDiverseClipPool merges non-empty YouTube description with Holodex member tags', () => {
+  const clips = [
+    {
+      youtubeId: 'clipSame',
+      memberIds: ['kaga-sumire', 'tachibana-hinano'],
+      description: '',
+      publishedAtMs: 500,
+    },
+    {
+      youtubeId: 'clipSame',
+      memberIds: ['kaga-sumire'],
+      description: 'VALORANTの連携プレイ切り抜きです！',
+      publishedAtMs: 500,
+    },
+  ];
+
+  const res = selectDiverseClipPool(clips, 8, new Set());
+  assert.equal(res.pool.length, 1);
+  assert.deepEqual(res.pool[0].memberIds, ['kaga-sumire', 'tachibana-hinano']);
+  assert.equal(res.pool[0].description, 'VALORANTの連携プレイ切り抜きです！');
+});
+
+test('normalizeNewsUrl strips tracking params and pickCategoryNewsItems deduplicates by normalized link and title', () => {
+  assert.equal(
+    normalizeNewsUrl('https://news.web.nhk/item/123?utm_source=rss&id=5#top'),
+    'https://news.web.nhk/item/123?id=5'
+  );
+
+  const res = pickCategoryNewsItems(
+    [
+      { title: '既出ニュース', link: 'https://news.web.nhk/item/123?utm_source=rss&id=5' },
+      { title: '同標題別網域', link: 'https://news.google.com/articles/abc' },
+      { title: '全新ニュース', link: 'https://news.web.nhk/item/999' },
+    ],
+    {
+      previousNewsLinks: new Set(['https://news.web.nhk/item/123?id=5']),
+      previousNewsTitles: new Set(['同標題別網域']),
+      targetCount: 1,
+    }
+  );
+  assert.equal(res.chosen.length, 1);
+  assert.equal(res.chosen[0].title, '全新ニュース');
+  assert.equal(res.skippedCount, 2);
 });

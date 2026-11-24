@@ -1,14 +1,15 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { X, Search, RotateCcw, Shuffle, Minus, Plus } from 'lucide-react';
+import { useMemo, useRef, useState } from 'react';
+import { X, Search, RotateCcw, Shuffle, Minus, Plus, CircleOff } from 'lucide-react';
 import { VSPO_MEMBERS } from '../data/vspoMembers';
+import { useDrawerDialog } from '../hooks/useDrawerDialog';
 
 const GENERATIONS = [
-  '全部',
-  '初期成員',
-  '2020年加入',
-  '2021年加入',
-  '2022–2023年加入',
-  '2024–2026年加入',
+  { value: '全部', label: '全部' },
+  { value: '初期成員', label: '初期' },
+  { value: '2020年加入', label: '2020' },
+  { value: '2021年加入', label: '2021' },
+  { value: '2022–2023年加入', label: '22–23' },
+  { value: '2024–2026年加入', label: '24–26' },
 ];
 
 export function WeightDrawer({
@@ -25,28 +26,14 @@ export function WeightDrawer({
   const [selectedGen, setSelectedGen] = useState('全部');
   const [onlyTodayPool, setOnlyTodayPool] = useState(false);
   const closeBtnRef = useRef(null);
+  const panelRef = useRef(null);
 
-  useEffect(() => {
-    if (!isOpen) return undefined;
-    const prevOverflow = document.body.style.overflow;
-    const prevFocus = document.activeElement;
-    document.body.style.overflow = 'hidden';
-    closeBtnRef.current?.focus();
-
-    const handleKeyDown = (event) => {
-      if (event.key === 'Escape') {
-        onClose();
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => {
-      document.body.style.overflow = prevOverflow;
-      window.removeEventListener('keydown', handleKeyDown);
-      if (prevFocus && typeof prevFocus.focus === 'function') {
-        prevFocus.focus();
-      }
-    };
-  }, [isOpen, onClose]);
+  useDrawerDialog({
+    isOpen,
+    onClose,
+    panelRef,
+    initialFocusRef: closeBtnRef,
+  });
 
   const filteredMembers = useMemo(() => {
     const query = searchTerm.trim().toLowerCase();
@@ -81,7 +68,7 @@ export function WeightDrawer({
       aria-labelledby="drawer-title"
       onClick={onClose}
     >
-      <div className="drawer-panel" onClick={(e) => e.stopPropagation()}>
+      <div ref={panelRef} className="drawer-panel" onClick={(e) => e.stopPropagation()}>
         <div className="drawer-header">
           <div>
             <h2 id="drawer-title" className="drawer-title">
@@ -103,60 +90,68 @@ export function WeightDrawer({
         </div>
 
         <div className="drawer-controls">
-          <div className="search-input-wrap">
-            <Search size={15} className="search-input-icon" />
-            <input
-              type="text"
-              className="search-input"
-              placeholder="搜尋成員名稱、平假名讀音或常玩遊戲（如 VALORANT）"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
+          <div className="drawer-search-row">
+            <div className="search-input-wrap">
+              <Search size={15} className="search-input-icon" />
+              <input
+                type="text"
+                className="search-input"
+                placeholder="搜尋成員、讀音或遊戲"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+            <button
+              type="button"
+              aria-pressed={onlyTodayPool}
+              className={`preset-btn drawer-today-btn ${onlyTodayPool ? 'active' : ''}`}
+              onClick={() => setOnlyTodayPool((prev) => !prev)}
+              title="僅顯示今日 24 小時剪輯候選池中的成員"
+            >
+              今日候選 ({candidateMemberIds.size})
+            </button>
           </div>
 
-          <div className="drawer-presets">
+          <div className="drawer-gen-tabs" role="tablist" aria-label="加入年份篩選">
             {GENERATIONS.map((gen) => (
               <button
-                key={gen}
+                key={gen.value}
                 type="button"
-                className={`preset-btn ${selectedGen === gen ? 'active' : ''}`}
-                onClick={() => setSelectedGen(gen)}
+                role="tab"
+                aria-selected={selectedGen === gen.value}
+                className={`preset-btn ${selectedGen === gen.value ? 'active' : ''}`}
+                onClick={() => setSelectedGen(gen.value)}
               >
-                {gen}
+                {gen.label}
               </button>
             ))}
           </div>
 
-          <div className="drawer-presets">
+          <div className="drawer-batch-bar">
             <button
               type="button"
-              className={`preset-btn ${onlyTodayPool ? 'active' : ''}`}
-              onClick={() => setOnlyTodayPool((prev) => !prev)}
-            >
-              僅看今日 24h 候選成員 ({candidateMemberIds.size})
-            </button>
-            <button
-              type="button"
-              className="preset-btn"
+              className="preset-btn drawer-batch-btn"
               onClick={() => onSetAllWeights(5)}
             >
-              <RotateCcw size={12} style={{ display: 'inline', verticalAlign: '-2px', marginRight: 4 }} />
-              全部重設為 5
+              <RotateCcw size={12} />
+              <span>重設為 5</span>
             </button>
             <button
               type="button"
-              className="preset-btn"
+              className="preset-btn drawer-batch-btn"
               onClick={() => onSetAllWeights(0)}
+              title="將全員權重歸零，方便只拉高單推成員"
             >
-              全部歸零（方便開單推）
+              <CircleOff size={12} />
+              <span>全部歸零</span>
             </button>
             <button
               type="button"
-              className="preset-btn"
+              className="preset-btn drawer-batch-btn"
               onClick={onRandomizeWeights}
             >
-              <Shuffle size={12} style={{ display: 'inline', verticalAlign: '-2px', marginRight: 4 }} />
-              隨機體驗權重
+              <Shuffle size={12} />
+              <span>隨機權重</span>
             </button>
           </div>
         </div>

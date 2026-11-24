@@ -13,14 +13,11 @@ import {
   ExternalLink,
   Volume2,
   Play,
+  Eye,
 } from 'lucide-react';
 import { VSPO_MEMBER_MAP } from '../data/vspoMembers';
-import {
-  isTtsSupported,
-  parseTimestampToSeconds,
-  speakJapanese,
-  stopSpeaking,
-} from '../utils/tts';
+import { parseTimestampToSeconds } from '../utils/tts';
+import { useTtsPlayer } from '../hooks/useTtsPlayer';
 
 export function VspoClipSection({
   selectedScored,
@@ -28,6 +25,9 @@ export function VspoClipSection({
   isZeroWeightFallback,
   isLiveMode,
   memberWeights,
+  showReadings = true,
+  hideMeanings = false,
+  ttsRate = 1.0,
   onReroll,
   onSelectPreview,
   onOpenWeights,
@@ -35,8 +35,11 @@ export function VspoClipSection({
 }) {
   const [poolExpanded, setPoolExpanded] = useState(false);
   const [seekState, setSeekState] = useState(null);
-  const [speakingId, setSpeakingId] = useState(null);
-  const ttsAvailable = isTtsSupported();
+  const [revealedIds, setRevealedIds] = useState({});
+  const { speakingId, ttsAvailable, toggleSpeak } = useTtsPlayer({
+    rate: ttsRate,
+    onNoVoice: onTtsUnavailable,
+  });
 
   const currentClipId = selectedScored?.clip?.id || null;
 
@@ -44,7 +47,9 @@ export function VspoClipSection({
     setSeekState(null);
   }, [currentClipId]);
 
-  useEffect(() => () => stopSpeaking(), []);
+  useEffect(() => {
+    setRevealedIds({});
+  }, [hideMeanings, currentClipId]);
 
   if (!selectedScored) {
     return null;
@@ -52,18 +57,9 @@ export function VspoClipSection({
 
   const { clip, probability, rawScore } = selectedScored;
 
-  const handleSpeak = (id, text) => {
-    if (speakingId === id) {
-      stopSpeaking();
-      setSpeakingId(null);
-      return;
-    }
-    setSpeakingId(id);
-    speakJapanese(text, {
-      rate: 0.95,
-      onEnd: () => setSpeakingId((cur) => (cur === id ? null : cur)),
-      onNoVoice: onTtsUnavailable,
-    });
+  const handleSpeak = (id, text) => toggleSpeak(id, text);
+  const toggleReveal = (key) => {
+    setRevealedIds((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
   const handleJumpTimestamp = (timestamp) => {
@@ -131,6 +127,7 @@ export function VspoClipSection({
               key={`${clip.youtubeId}-${seekState?.nonce || 'init'}`}
               src={embedUrl}
               title={clip.titleJa}
+              loading="lazy"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
             />
@@ -207,6 +204,8 @@ export function VspoClipSection({
                 const canJump = seekSeconds !== null && seekSeconds > 0;
                 const termSpeakId = `slang:${clip.id}:${item.term}`;
                 const exSpeakId = `slang-ex:${clip.id}:${item.term}`;
+                const revealKey = `slang:${clip.id}:${item.term}`;
+                const isMasked = hideMeanings && !revealedIds[revealKey];
 
                 return (
                   <div key={item.term} className="slang-item">
@@ -214,7 +213,9 @@ export function VspoClipSection({
                       <div className="slang-head-main">
                         <div className="slang-term-group">
                           <span className="slang-term jp-text">{item.term}</span>
-                          <span className="slang-reading jp-text">({item.reading})</span>
+                          {showReadings && item.reading && (
+                            <span className="slang-reading jp-text">({item.reading})</span>
+                          )}
                         </div>
                         <div className="slang-tags">
                           <span className="slang-tag">{item.tag}</span>
@@ -245,7 +246,18 @@ export function VspoClipSection({
                         </button>
                       )}
                     </div>
-                    <p className="slang-meaning">{item.meaningZh}</p>
+                    {isMasked ? (
+                      <button
+                        type="button"
+                        className="meaning-masked is-dark"
+                        onClick={() => toggleReveal(revealKey)}
+                      >
+                        <Eye size={13} />
+                        <span>點擊顯示中文釋義</span>
+                      </button>
+                    ) : (
+                      <p className="slang-meaning">{item.meaningZh}</p>
+                    )}
                     <div className="dark-example">
                       <div className="dark-example-row">
                         <p className="dark-example-ja jp-text">{item.exampleJa}</p>
@@ -261,7 +273,7 @@ export function VspoClipSection({
                           </button>
                         )}
                       </div>
-                      <p className="dark-example-zh">{item.exampleZh}</p>
+                      {!isMasked && <p className="dark-example-zh">{item.exampleZh}</p>}
                     </div>
                   </div>
                 );
@@ -277,14 +289,28 @@ export function VspoClipSection({
             <div className="grammar-list">
               {clip.grammarPoints.map((gp) => {
                 const gpSpeakId = `grammar-ex:${clip.id}:${gp.pattern}`;
+                const revealKey = `grammar:${clip.id}:${gp.pattern}`;
+                const isMasked = hideMeanings && !revealedIds[revealKey];
+
                 return (
                   <div key={gp.pattern} className="grammar-item">
                     <div className="grammar-pattern jp-text">{gp.pattern}</div>
                     <div className="grammar-meta">
                       <span>接續：{gp.connection}</span>
-                      <span className="grammar-nuance">語氣：{gp.nuance}</span>
+                      {!isMasked && <span className="grammar-nuance">語氣：{gp.nuance}</span>}
                     </div>
-                    <p className="grammar-explain">{gp.explanationZh}</p>
+                    {isMasked ? (
+                      <button
+                        type="button"
+                        className="meaning-masked is-dark"
+                        onClick={() => toggleReveal(revealKey)}
+                      >
+                        <Eye size={13} />
+                        <span>點擊顯示文法解析與中譯</span>
+                      </button>
+                    ) : (
+                      <p className="grammar-explain">{gp.explanationZh}</p>
+                    )}
                     <div className="dark-example">
                       <div className="dark-example-row">
                         <p className="dark-example-ja jp-text">{gp.exampleJa}</p>
@@ -300,7 +326,7 @@ export function VspoClipSection({
                           </button>
                         )}
                       </div>
-                      <p className="dark-example-zh">{gp.exampleZh}</p>
+                      {!isMasked && <p className="dark-example-zh">{gp.exampleZh}</p>}
                     </div>
                   </div>
                 );

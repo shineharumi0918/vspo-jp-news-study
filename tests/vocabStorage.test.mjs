@@ -10,9 +10,12 @@ import {
   toggleMasteredVocabEntry,
 } from '../src/utils/vocabStorage.js';
 import {
+  getActiveSpeakingId,
   isJapaneseVoice,
   parseTimestampToSeconds,
   selectJapaneseVoice,
+  stopSpeaking,
+  subscribeActiveSpeakingId,
 } from '../src/utils/tts.js';
 
 function createMemoryStorage(initial = {}) {
@@ -47,11 +50,13 @@ test('toggleMasteredVocabEntry stores full metadata and toggles cleanly across d
     meaningZh: '憂慮、擔憂',
     exampleJa: '景気後退が懸念されている。',
     exampleZh: '景氣衰退令人憂慮。',
+    usageNote: '新聞常見於經濟與政策風險報導。',
   };
 
   const added = toggleMasteredVocabEntry({}, vocab, '2026-11-23');
   assert.equal(isVocabMastered(added, vocab), true);
   assert.equal(added[getVocabKey(vocab)].masteredAt, '2026-11-23');
+  assert.equal(added[getVocabKey(vocab)].usageNote, '新聞常見於經濟與政策風險報導。');
 
   const removed = toggleMasteredVocabEntry(added, vocab, '2026-11-24');
   assert.equal(isVocabMastered(removed, vocab), false);
@@ -106,4 +111,14 @@ test('selectJapaneseVoice rejects Chinese/English voices and prioritizes Japanes
     { name: 'Microsoft Nanami Online (Natural) - Japanese (Japan)', lang: 'ja-JP' },
   ];
   assert.equal(selectJapaneseVoice(mixed)?.name, 'Microsoft Nanami Online (Natural) - Japanese (Japan)');
+});
+
+test('subscribeActiveSpeakingId and stopSpeaking maintain clean global playback state', () => {
+  const seen = [];
+  const unsubscribe = subscribeActiveSpeakingId((id) => seen.push(id));
+  assert.equal(getActiveSpeakingId(), null);
+  stopSpeaking();
+  assert.equal(getActiveSpeakingId(), null);
+  unsubscribe();
+  assert.deepEqual(seen, []);
 });

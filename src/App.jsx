@@ -19,6 +19,13 @@ import { LoadingSkeleton } from './components/LoadingSkeleton';
 const STORAGE_KEYS = {
   WEIGHTS: 'vspo_member_weights_v1',
   DAILY_PICK: 'vspo_daily_pick_v1',
+  STUDY_PREFS: 'jp_study_prefs_v1',
+};
+
+const DEFAULT_STUDY_PREFS = {
+  showReadings: true,
+  hideMeanings: false,
+  slowSpeech: false,
 };
 
 function loadJsonStorage(key, fallback) {
@@ -35,6 +42,19 @@ function loadJsonStorage(key, fallback) {
 function getInitialWeights() {
   const saved = loadJsonStorage(STORAGE_KEYS.WEIGHTS, null);
   return saved ? { ...DEFAULT_MEMBER_WEIGHTS, ...saved } : { ...DEFAULT_MEMBER_WEIGHTS };
+}
+
+function getInitialStudyPrefs() {
+  const saved = loadJsonStorage(STORAGE_KEYS.STUDY_PREFS, null);
+  if (!saved) return { ...DEFAULT_STUDY_PREFS };
+  return {
+    showReadings:
+      typeof saved.showReadings === 'boolean' ? saved.showReadings : DEFAULT_STUDY_PREFS.showReadings,
+    hideMeanings:
+      typeof saved.hideMeanings === 'boolean' ? saved.hideMeanings : DEFAULT_STUDY_PREFS.hideMeanings,
+    slowSpeech:
+      typeof saved.slowSpeech === 'boolean' ? saved.slowSpeech : DEFAULT_STUDY_PREFS.slowSpeech,
+  };
 }
 
 function resolveInitialPick(dailyData, weights) {
@@ -68,6 +88,7 @@ export default function App() {
   weightsRef.current = memberWeights;
 
   const [masteredVocab, setMasteredVocab] = useState(() => loadMasteredVocab());
+  const [studyPrefs, setStudyPrefs] = useState(getInitialStudyPrefs);
   const [pickState, setPickState] = useState(null);
 
   useEffect(() => {
@@ -121,6 +142,14 @@ export default function App() {
       // Ignore storage quota errors
     }
   }, [masteredVocab]);
+
+  useEffect(() => {
+    try {
+      window.localStorage.setItem(STORAGE_KEYS.STUDY_PREFS, JSON.stringify(studyPrefs));
+    } catch {
+      // Ignore storage quota errors
+    }
+  }, [studyPrefs]);
 
   useEffect(() => {
     if (!dailyData || !pickState?.clipId) return;
@@ -257,12 +286,24 @@ export default function App() {
     setDrawerOpen(false);
   };
 
+  const ttsRate = studyPrefs.slowSpeech ? 0.8 : 1.0;
+
+  const toggleStudyPref = (key) => {
+    setStudyPrefs((prev) => ({ ...prev, [key]: !prev[key] }));
+  };
+
   return (
     <div className="app-shell">
       <Header
         date={dailyData?.meta?.date || '載入中...'}
         activeView={activeView}
         onChangeView={setActiveView}
+        showReadings={studyPrefs.showReadings}
+        hideMeanings={studyPrefs.hideMeanings}
+        slowSpeech={studyPrefs.slowSpeech}
+        onToggleReadings={() => toggleStudyPref('showReadings')}
+        onToggleHideMeanings={() => toggleStudyPref('hideMeanings')}
+        onToggleSlowSpeech={() => toggleStudyPref('slowSpeech')}
         masteredCount={masteredCount}
         totalVocabCount={totalVocabCount}
         totalSavedVocabCount={totalSavedVocabCount}
@@ -281,6 +322,9 @@ export default function App() {
               <NewsSection
                 articles={dailyData.news}
                 currentDate={dailyData.meta.date}
+                showReadings={studyPrefs.showReadings}
+                hideMeanings={studyPrefs.hideMeanings}
+                ttsRate={ttsRate}
                 masteredVocab={masteredVocab}
                 onToggleMastered={handleToggleMastered}
                 onTtsUnavailable={setTtsNoticeText}
@@ -294,6 +338,9 @@ export default function App() {
                 isZeroWeightFallback={Boolean(pickState?.isZeroWeightFallback)}
                 isLiveMode={dailyData.meta.mode === 'live'}
                 memberWeights={memberWeights}
+                showReadings={studyPrefs.showReadings}
+                hideMeanings={studyPrefs.hideMeanings}
+                ttsRate={ttsRate}
                 onReroll={handleReroll}
                 onSelectPreview={handleSelectPreview}
                 onOpenWeights={() => setDrawerOpen(true)}
@@ -332,6 +379,10 @@ export default function App() {
         isOpen={reviewOpen}
         onClose={() => setReviewOpen(false)}
         masteredMap={masteredVocab}
+        showReadings={studyPrefs.showReadings}
+        hideMeanings={studyPrefs.hideMeanings}
+        slowSpeech={studyPrefs.slowSpeech}
+        onToggleSlowSpeech={() => toggleStudyPref('slowSpeech')}
         onRemoveVocab={handleRemoveVocab}
         onTtsUnavailable={setTtsNoticeText}
       />

@@ -10,6 +10,8 @@ import {
   buildUpdatedHistory,
   extractHistorySeenIds,
   isExcludedNewsTitle,
+  normalizeNewsTitle,
+  normalizeNewsUrl,
   pickCategoryNewsItems,
   selectDiverseClipPool,
 } from './lib/deduplicator.mjs';
@@ -135,7 +137,7 @@ async function loadPreviousSeenState() {
   return { historyData, seen };
 }
 
-async function fetchDailyNewsItems(previousNewsLinks = new Set()) {
+async function fetchDailyNewsItems(previousNewsLinks = new Set(), previousNewsTitles = new Set()) {
   const collected = [];
   const seenTitles = new Set();
   const seenLinks = new Set();
@@ -152,12 +154,16 @@ async function fetchDailyNewsItems(previousNewsLinks = new Set()) {
         categoryCandidates.push(...items);
 
         // 若目前抓到的未重複新文章已達標，就不必再打備援 RSS
-        const unseenSoFar = categoryCandidates.filter(
-          (item) =>
-            !previousNewsLinks.has(item.link) &&
-            !seenLinks.has(item.link) &&
-            !seenTitles.has(item.title)
-        );
+        const unseenSoFar = categoryCandidates.filter((item) => {
+          const normLink = normalizeNewsUrl(item.link);
+          const normTitle = normalizeNewsTitle(item.title);
+          return (
+            !previousNewsLinks.has(normLink) &&
+            !previousNewsTitles.has(normTitle) &&
+            !seenLinks.has(normLink) &&
+            !seenTitles.has(normTitle)
+          );
+        });
         if (unseenSoFar.length >= cfg.targetCount) {
           break;
         }
@@ -168,6 +174,7 @@ async function fetchDailyNewsItems(previousNewsLinks = new Set()) {
 
     const { chosen, skippedCount } = pickCategoryNewsItems(categoryCandidates, {
       previousNewsLinks,
+      previousNewsTitles,
       seenTitles,
       seenLinks,
       targetCount: cfg.targetCount,
@@ -177,19 +184,19 @@ async function fetchDailyNewsItems(previousNewsLinks = new Set()) {
       console.log(`  - [${cfg.category}] 已過濾 ${skippedCount} 則前次出現過的新聞`);
     }
 
-    for (const item of chosen) {
-      const bodyExcerpt = await fetchArticleExcerpt(item.link);
-      collected.push({
+    const enrichedItems = await Promise.all(
+      chosen.map(async (item) => ({
         category: cfg.category,
         categoryKey: cfg.categoryKey,
         source: item.source,
         publishedAt: formatJstTimestamp(item.pubDate),
         titleJa: item.title,
         description: item.description,
-        bodyExcerpt,
+        bodyExcerpt: await fetchArticleExcerpt(item.link),
         sourceUrl: item.link,
-      });
-    }
+      }))
+    );
+    collected.push(...enrichedItems);
   }
 
   return collected;
@@ -344,7 +351,7 @@ async function main() {
   );
 
   console.log(`[1/4] 抓取 ${todayJst} 日本時事新聞 RSS...`);
-  const rawNews = await fetchDailyNewsItems(previousSeen.newsLinks);
+  const rawNews = await fetchDailyNewsItems(previousSeen.newsLinks, previousSeen.newsTitles);
   if (rawNews.length === 0) {
     throw new Error('無法從 RSS 取得任何日本新聞');
   }
@@ -454,6 +461,7 @@ async function main() {
   const updatedHistory = buildUpdatedHistory(historyData, {
     date: todayJst,
     newsLinks: analyzedNews.map((n) => n.sourceUrl),
+    newsTitles: analyzedNews.map((n) => n.titleJa),
     videoIds: analyzedClips.map((c) => c.youtubeId),
   });
 

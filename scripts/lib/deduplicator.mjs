@@ -1,5 +1,28 @@
 export const DEFAULT_HISTORY_RETENTION_DAYS = 7;
 
+const TRACKING_PARAM_PATTERN = /^(?:utm_|fbclid$|gclid$|mc_cid$|mc_eid$)/i;
+
+export function normalizeNewsUrl(rawUrl = '') {
+  const trimmed = String(rawUrl || '').trim();
+  if (!trimmed) return '';
+  try {
+    const parsed = new URL(trimmed);
+    parsed.hash = '';
+    for (const key of [...parsed.searchParams.keys()]) {
+      if (TRACKING_PARAM_PATTERN.test(key)) {
+        parsed.searchParams.delete(key);
+      }
+    }
+    return parsed.toString();
+  } catch {
+    return trimmed;
+  }
+}
+
+export function normalizeNewsTitle(rawTitle = '') {
+  return String(rawTitle || '').replace(/\s+/g, ' ').trim();
+}
+
 function parseDateToUtcMs(dateStr) {
   if (!dateStr || typeof dateStr !== 'string') return NaN;
   const match = dateStr.trim().match(/^(\d{4})-(\d{2})-(\d{2})$/);
@@ -8,20 +31,25 @@ function parseDateToUtcMs(dateStr) {
 }
 
 /**
- * 從既有 daily-content.json 擷取前次已出現過的新聞連結與 YouTube 影片 ID。
+ * 從既有 daily-content.json 擷取前次已出現過的新聞連結、標題與 YouTube 影片 ID。
  */
 export function extractPreviousSeenIds(existingData) {
   const newsLinks = new Set();
+  const newsTitles = new Set();
   const videoIds = new Set();
 
   if (!existingData || typeof existingData !== 'object') {
-    return { newsLinks, videoIds };
+    return { newsLinks, newsTitles, videoIds };
   }
 
   for (const article of existingData.news || []) {
-    const link = (article?.sourceUrl || article?.link || '').trim();
+    const link = normalizeNewsUrl(article?.sourceUrl || article?.link || '');
     if (link) {
       newsLinks.add(link);
+    }
+    const title = normalizeNewsTitle(article?.titleJa || article?.title || '');
+    if (title) {
+      newsTitles.add(title);
     }
   }
 
@@ -32,7 +60,7 @@ export function extractPreviousSeenIds(existingData) {
     }
   }
 
-  return { newsLinks, videoIds };
+  return { newsLinks, newsTitles, videoIds };
 }
 
 /**
@@ -43,7 +71,7 @@ export function extractHistorySeenIds(
   existingDailyData,
   { nowMs = Date.now(), retentionDays = DEFAULT_HISTORY_RETENTION_DAYS } = {}
 ) {
-  const { newsLinks, videoIds } = extractPreviousSeenIds(existingDailyData);
+  const { newsLinks, newsTitles, videoIds } = extractPreviousSeenIds(existingDailyData);
   const cutoffMs = nowMs - retentionDays * 24 * 60 * 60 * 1000;
 
   for (const entry of historyData?.entries || []) {
@@ -51,8 +79,12 @@ export function extractHistorySeenIds(
     if (!Number.isNaN(entryMs) && entryMs < cutoffMs) continue;
 
     for (const link of entry?.newsLinks || []) {
-      const normalized = String(link || '').trim();
+      const normalized = normalizeNewsUrl(link);
       if (normalized) newsLinks.add(normalized);
+    }
+    for (const title of entry?.newsTitles || []) {
+      const normalized = normalizeNewsTitle(title);
+      if (normalized) newsTitles.add(normalized);
     }
     for (const vid of entry?.videoIds || []) {
       const normalized = String(vid || '').trim();
@@ -60,7 +92,7 @@ export function extractHistorySeenIds(
     }
   }
 
-  return { newsLinks, videoIds };
+  return { newsLinks, newsTitles, videoIds };
 }
 
 /**
@@ -68,7 +100,7 @@ export function extractHistorySeenIds(
  */
 export function buildUpdatedHistory(
   historyData,
-  { date, newsLinks = [], videoIds = [] },
+  { date, newsLinks = [], newsTitles = [], videoIds = [] },
   { nowMs = Date.now(), retentionDays = DEFAULT_HISTORY_RETENTION_DAYS } = {}
 ) {
   const cutoffMs = nowMs - retentionDays * 24 * 60 * 60 * 1000;
@@ -80,7 +112,8 @@ export function buildUpdatedHistory(
     if (!entryDate || Number.isNaN(entryMs) || entryMs < cutoffMs) continue;
     byDate.set(entryDate, {
       date: entryDate,
-      newsLinks: new Set((entry.newsLinks || []).map((x) => String(x).trim()).filter(Boolean)),
+      newsLinks: new Set((entry.newsLinks || []).map((x) => normalizeNewsUrl(x)).filter(Boolean)),
+      newsTitles: new Set((entry.newsTitles || []).map((x) => normalizeNewsTitle(x)).filter(Boolean)),
       videoIds: new Set((entry.videoIds || []).map((x) => String(x).trim()).filter(Boolean)),
     });
   }
@@ -88,11 +121,16 @@ export function buildUpdatedHistory(
   const current = byDate.get(date) || {
     date,
     newsLinks: new Set(),
+    newsTitles: new Set(),
     videoIds: new Set(),
   };
   for (const link of newsLinks) {
-    const normalized = String(link || '').trim();
+    const normalized = normalizeNewsUrl(link);
     if (normalized) current.newsLinks.add(normalized);
+  }
+  for (const title of newsTitles) {
+    const normalized = normalizeNewsTitle(title);
+    if (normalized) current.newsTitles.add(normalized);
   }
   for (const vid of videoIds) {
     const normalized = String(vid || '').trim();
@@ -105,6 +143,7 @@ export function buildUpdatedHistory(
     .map((e) => ({
       date: e.date,
       newsLinks: [...e.newsLinks],
+      newsTitles: [...e.newsTitles],
       videoIds: [...e.videoIds],
     }));
 
@@ -128,19 +167,31 @@ export function isExcludedNewsTitle(title = '') {
  */
 export function pickCategoryNewsItems(
   candidates,
-  { previousNewsLinks = new Set(), seenTitles = new Set(), seenLinks = new Set(), targetCount = 1 } = {}
+  {
+    previousNewsLinks = new Set(),
+    previousNewsTitles = new Set(),
+    seenTitles = new Set(),
+    seenLinks = new Set(),
+    targetCount = 1,
+  } = {}
 ) {
+  const normalizedPrevLinks = new Set(
+    [...previousNewsLinks].map((link) => normalizeNewsUrl(link)).filter(Boolean)
+  );
+  const normalizedPrevTitles = new Set(
+    [...previousNewsTitles].map((title) => normalizeNewsTitle(title)).filter(Boolean)
+  );
   const chosen = [];
   const fallbackPool = [];
 
   for (const item of candidates) {
     if (chosen.length >= targetCount) break;
-    const link = (item.link || '').trim();
-    const title = (item.title || '').trim();
+    const link = normalizeNewsUrl(item.link || '');
+    const title = normalizeNewsTitle(item.title || '');
     if (!link || !title || isExcludedNewsTitle(title)) continue;
     if (seenTitles.has(title) || seenLinks.has(link)) continue;
 
-    if (previousNewsLinks.has(link)) {
+    if (normalizedPrevLinks.has(link) || normalizedPrevTitles.has(title)) {
       fallbackPool.push(item);
       continue;
     }
@@ -152,8 +203,8 @@ export function pickCategoryNewsItems(
 
   for (const item of fallbackPool) {
     if (chosen.length >= targetCount) break;
-    const link = (item.link || '').trim();
-    const title = (item.title || '').trim();
+    const link = normalizeNewsUrl(item.link || '');
+    const title = normalizeNewsTitle(item.title || '');
     if (seenTitles.has(title) || seenLinks.has(link)) continue;
     seenTitles.add(title);
     seenLinks.add(link);
@@ -195,8 +246,18 @@ export function selectDiverseClipPool(clips, maxPool = 8, previousVideoIds = new
     const prev = byId.get(clip.youtubeId);
     if (!prev) {
       byId.set(clip.youtubeId, clip);
-    } else if (clip.memberIds.length > prev.memberIds.length) {
-      byId.set(clip.youtubeId, { ...prev, memberIds: clip.memberIds });
+    } else {
+      const mergedDescription =
+        String(clip.description || '').trim().length > String(prev.description || '').trim().length
+          ? clip.description
+          : prev.description;
+      const mergedMemberIds =
+        clip.memberIds.length > prev.memberIds.length ? clip.memberIds : prev.memberIds;
+      byId.set(clip.youtubeId, {
+        ...prev,
+        description: mergedDescription,
+        memberIds: mergedMemberIds,
+      });
     }
   }
 

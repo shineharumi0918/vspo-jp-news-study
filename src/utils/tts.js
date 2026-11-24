@@ -14,6 +14,28 @@ const PREFERRED_JA_VOICE_PATTERNS = [
 let cachedVoices = [];
 let listenerAttached = false;
 const statusSubscribers = new Set();
+let activeSpeakingId = null;
+let activeUtteranceSeq = 0;
+const speakingSubscribers = new Set();
+
+function setActiveSpeakingId(nextId) {
+  if (activeSpeakingId === nextId) return;
+  activeSpeakingId = nextId;
+  for (const cb of speakingSubscribers) {
+    cb(activeSpeakingId);
+  }
+}
+
+export function getActiveSpeakingId() {
+  return activeSpeakingId;
+}
+
+export function subscribeActiveSpeakingId(listener) {
+  speakingSubscribers.add(listener);
+  return () => {
+    speakingSubscribers.delete(listener);
+  };
+}
 
 export function isTtsSupported() {
   return (
@@ -138,6 +160,8 @@ export function ensureJapaneseVoice(timeoutMs = 700) {
 }
 
 export function stopSpeaking() {
+  activeUtteranceSeq += 1;
+  setActiveSpeakingId(null);
   if (!isTtsSupported()) return;
   try {
     window.speechSynthesis.cancel();
@@ -146,14 +170,24 @@ export function stopSpeaking() {
   }
 }
 
-export async function speakJapanese(text, { rate = 1.0, onStart, onEnd, onNoVoice } = {}) {
+export async function speakJapanese(text, { id = null, rate = 1.0, onStart, onEnd, onNoVoice } = {}) {
   if (!isTtsSupported() || !text) {
     if (onEnd) onEnd();
     return { ok: false, reason: 'unsupported' };
   }
 
+  const seq = ++activeUtteranceSeq;
+  if (id !== null) {
+    setActiveSpeakingId(id);
+  }
+
   const jaVoice = await ensureJapaneseVoice();
+  if (seq !== activeUtteranceSeq) {
+    return { ok: false, reason: 'superseded' };
+  }
+
   if (!jaVoice) {
+    setActiveSpeakingId(null);
     if (onEnd) onEnd();
     if (onNoVoice) onNoVoice(String(text));
     return { ok: false, reason: 'no-ja-voice' };
@@ -166,15 +200,23 @@ export async function speakJapanese(text, { rate = 1.0, onStart, onEnd, onNoVoic
     utterance.lang = jaVoice.lang || 'ja-JP';
     utterance.rate = rate;
 
+    const handleFinish = () => {
+      if (seq === activeUtteranceSeq) {
+        setActiveSpeakingId(null);
+      }
+      if (onEnd) onEnd();
+    };
+
     if (onStart) utterance.onstart = onStart;
-    if (onEnd) {
-      utterance.onend = onEnd;
-      utterance.onerror = onEnd;
-    }
+    utterance.onend = handleFinish;
+    utterance.onerror = handleFinish;
 
     window.speechSynthesis.speak(utterance);
     return { ok: true, voiceName: jaVoice.name };
   } catch {
+    if (seq === activeUtteranceSeq) {
+      setActiveSpeakingId(null);
+    }
     if (onEnd) onEnd();
     return { ok: false, reason: 'error' };
   }
