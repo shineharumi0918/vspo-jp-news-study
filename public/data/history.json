@@ -1,0 +1,25 @@
+{
+  "updatedAt": "2026-11-24T01:44:58.424Z",
+  "retentionDays": 7,
+  "entries": [
+    {
+      "date": "2026-11-24",
+      "newsLinks": [
+        "https://news.web.nhk/newsweb/na/nd-20261124de80363",
+        "https://news.web.nhk/newsweb/na/nd-20261124de80352",
+        "https://news.web.nhk/newsweb/na/nd-20261124de80365",
+        "https://news.web.nhk/newsweb/na/nd-20261124de80343"
+      ],
+      "videoIds": [
+        "ktWluahAdt0",
+        "xYrcpCnKmfA",
+        "QfwqFldsaVo",
+        "EXNGnK8OF5Y",
+        "TWyUV5mCvps",
+        "D6tkxx8XjLc",
+        "R2-OAHqm6Ow",
+        "OSABZs44t0I"
+      ]
+    }
+  ]
+}
