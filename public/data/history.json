@@ -1,7 +1,28 @@
 {
-  "updatedAt": "2026-11-24T01:44:58.424Z",
+  "updatedAt": "2026-11-25T01:49:13.726Z",
   "retentionDays": 7,
   "entries": [
+    {
+      "date": "2026-11-25",
+      "newsLinks": [
+        "https://news.web.nhk/newsweb/na/nd-20261125de80937",
+        "https://news.web.nhk/newsweb/na/nd-20261125de80958",
+        "https://news.web.nhk/newsweb/na/nd-20261124de80866",
+        "https://news.web.nhk/newsweb/na/nd-20261125de80916"
+      ],
+      "newsTitles": [
+        "高市首相動静 2026年11月24日",
+        "株価 一時1600円超の値下がり",
+        "前橋 親グマ行方分からず 地下水路の追加捜索を検討",
+        "広島 庄原 高齢女性殺害事件で55歳会社員を逮捕"
+      ],
+      "videoIds": [
+        "-VGBp9ztKWo",
+        "o7lCXsqOogI",
+        "3DagB8aaebg",
+        "4mtvdjNHGQE"
+      ]
+    },
     {
       "date": "2026-11-24",
       "newsLinks": [
@@ -10,6 +31,7 @@
         "https://news.web.nhk/newsweb/na/nd-20261124de80365",
         "https://news.web.nhk/newsweb/na/nd-20261124de80343"
       ],
+      "newsTitles": [],
       "videoIds": [
         "ktWluahAdt0",
         "xYrcpCnKmfA",
