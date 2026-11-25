@@ -7,6 +7,14 @@
   backdrop-filter: blur(4px);
   display: flex;
   justify-content: flex-end;
+  opacity: 1;
+  transition: opacity 220ms ease-out;
+}
+
+@starting-style {
+  .drawer-backdrop {
+    opacity: 0;
+  }
 }
 
 .drawer-panel {
@@ -17,6 +25,14 @@
   box-shadow: var(--shadow-drawer);
   display: flex;
   flex-direction: column;
+  transform: translateX(0);
+  transition: transform var(--dur-drawer) var(--ease-drawer);
+}
+
+@starting-style {
+  .drawer-panel {
+    transform: translateX(100%);
+  }
 }
 
 .drawer-header {
@@ -50,6 +66,14 @@
   display: grid;
   place-items: center;
   flex-shrink: 0;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    transform var(--dur-press) var(--ease-out);
+}
+
+.btn-icon-close:active {
+  transform: scale(0.95);
 }
 
 .drawer-controls {
@@ -157,6 +181,15 @@
   font-weight: 600;
   padding: 5px 10px;
   border-radius: 7px;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    color 150ms ease,
+    transform var(--dur-press) var(--ease-out);
+}
+
+.preset-btn:active {
+  transform: scale(0.97);
 }
 
 .preset-btn.active {
@@ -272,13 +305,23 @@
   place-items: center;
   flex-shrink: 0;
   padding: 0;
-  transition: background 0.14s ease, border-color 0.14s ease;
+  transition:
+    background-color 140ms ease,
+    border-color 140ms ease,
+    color 140ms ease,
+    transform var(--dur-press) var(--ease-out);
 }
 
-.btn-step-weight:hover:not(:disabled) {
-  background: var(--accent-indigo-soft);
-  border-color: var(--accent-indigo);
-  color: var(--accent-indigo);
+@media (hover: hover) and (pointer: fine) {
+  .btn-step-weight:hover:not(:disabled) {
+    background: var(--accent-indigo-soft);
+    border-color: var(--accent-indigo);
+    color: var(--accent-indigo);
+  }
+}
+
+.btn-step-weight:active:not(:disabled) {
+  transform: scale(0.95);
 }
 
 .btn-step-weight:disabled {
@@ -320,6 +363,11 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  transition: background-color 150ms ease, transform var(--dur-press) var(--ease-out);
+}
+
+.btn-apply-drawer:active:not(:disabled) {
+  transform: scale(0.97);
 }
 
 .btn-apply-drawer:disabled {
@@ -348,12 +396,23 @@
   display: inline-flex;
   align-items: center;
   gap: 4px;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    color 150ms ease,
+    transform var(--dur-press) var(--ease-out);
 }
 
-.btn-remove-vocab:hover {
-  border-color: var(--accent-vermilion);
-  color: var(--accent-vermilion);
-  background: var(--accent-vermilion-soft);
+@media (hover: hover) and (pointer: fine) {
+  .btn-remove-vocab:hover {
+    border-color: var(--accent-vermilion);
+    color: var(--accent-vermilion);
+    background: var(--accent-vermilion-soft);
+  }
+}
+
+.btn-remove-vocab:active {
+  transform: scale(0.97);
 }
 
 @media (max-width: 640px) {

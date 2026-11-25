@@ -389,7 +389,9 @@ export function VspoClipSection({
                     <div className="prob-bar-track">
                       <div
                         className="prob-bar-fill"
-                        style={{ width: `${Math.min(100, entry.probability)}%` }}
+                        style={{
+                          transform: `scaleX(${Math.max(0, Math.min(1, entry.probability / 100))})`,
+                        }}
                       />
                     </div>
                     <div className="prob-bar-label mono-text">

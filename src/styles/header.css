@@ -70,18 +70,33 @@
   font-weight: 600;
   padding: 7px 12px;
   border-radius: 10px;
-  transition: border-color 0.16s ease, background 0.16s ease, color 0.16s ease;
+  transition:
+    border-color 150ms ease,
+    background-color 150ms ease,
+    color 150ms ease,
+    transform var(--dur-press) var(--ease-out);
 }
 
-.btn-controls-toggle:hover,
 .btn-controls-toggle.is-open {
   border-color: var(--accent-indigo);
   color: var(--accent-indigo);
   background: var(--accent-indigo-soft);
 }
 
+@media (hover: hover) and (pointer: fine) {
+  .btn-controls-toggle:hover {
+    border-color: var(--accent-indigo);
+    color: var(--accent-indigo);
+    background: var(--accent-indigo-soft);
+  }
+}
+
+.btn-controls-toggle:active {
+  transform: scale(0.97);
+}
+
 .toggle-chevron {
-  transition: transform 0.22s ease;
+  transition: transform var(--dur-ui) var(--ease-out);
   flex-shrink: 0;
 }
 
@@ -94,14 +109,16 @@
   grid-template-rows: 0fr;
   opacity: 0;
   visibility: hidden;
-  transition: grid-template-rows 0.24s ease, opacity 0.2s ease, margin-top 0.24s ease, visibility 0.24s ease;
+  transition:
+    grid-template-rows 240ms var(--ease-out),
+    opacity 180ms ease,
+    visibility 240ms;
 }
 
 .header-collapsible.is-open {
   grid-template-rows: 1fr;
   opacity: 1;
   visibility: visible;
-  margin-top: 12px;
 }
 
 .header-collapsible-inner {
@@ -115,6 +132,7 @@
   justify-content: flex-start;
   gap: 12px 16px;
   flex-wrap: wrap;
+  margin-top: 12px;
   padding-top: 12px;
   border-top: 1px solid var(--border-light);
 }
@@ -161,11 +179,21 @@
   padding: 5px 11px;
   border-radius: 7px;
   white-space: nowrap;
-  transition: all 0.16s ease;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    color 150ms ease,
+    transform var(--dur-press) var(--ease-out);
 }
 
-.tray-toggle-btn:hover {
-  color: var(--accent-indigo);
+.toggle-label-mobile {
+  display: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .tray-toggle-btn:hover {
+    color: var(--accent-indigo);
+  }
 }
 
 .tray-toggle-btn.active {
@@ -195,7 +223,16 @@
   padding: 5px 12px;
   border-radius: 7px;
   white-space: nowrap;
-  transition: all 0.16s ease;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    color 150ms ease,
+    transform var(--dur-press) var(--ease-out);
+}
+
+.tray-toggle-btn:active,
+.nav-pill:active {
+  transform: scale(0.97);
 }
 
 .nav-pill.active {
@@ -216,12 +253,21 @@
   background: var(--bg-card);
   border: 1px solid var(--border-light);
   color: var(--accent-emerald);
-  transition: border-color 0.15s ease, background 0.15s ease;
+  transition:
+    border-color 150ms ease,
+    background-color 150ms ease,
+    transform var(--dur-press) var(--ease-out);
 }
 
-.progress-chip:hover {
-  border-color: var(--accent-emerald);
-  background: var(--accent-emerald-soft);
+@media (hover: hover) and (pointer: fine) {
+  .progress-chip:hover {
+    border-color: var(--accent-emerald);
+    background: var(--accent-emerald-soft);
+  }
+}
+
+.progress-chip:active {
+  transform: scale(0.97);
 }
 
 .progress-total-badge {
@@ -248,15 +294,21 @@
   padding: 6px 12px;
   font-size: 0.84rem;
   font-weight: 600;
-  transition: box-shadow 0.16s ease, background 0.16s ease, color 0.16s ease;
+  transition: color 150ms ease, transform var(--dur-press) var(--ease-out);
 }
 
-.btn-weight-trigger:hover {
-  background:
-    linear-gradient(#f8f7ff, #f2faff) padding-box,
-    linear-gradient(125deg, #6d50ff 0%, #0ea5e9 100%) border-box;
-  box-shadow: 0 4px 14px rgba(123, 97, 255, 0.22);
-  color: #4f38d6;
+@media (hover: hover) and (pointer: fine) {
+  .btn-weight-trigger:hover {
+    background:
+      linear-gradient(#f8f7ff, #f2faff) padding-box,
+      linear-gradient(125deg, #6d50ff 0%, #0ea5e9 100%) border-box;
+    box-shadow: 0 4px 14px rgba(123, 97, 255, 0.22);
+    color: #4f38d6;
+  }
+}
+
+.btn-weight-trigger:active {
+  transform: scale(0.98);
 }
 
 .weight-trigger-left,

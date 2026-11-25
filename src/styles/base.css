@@ -25,6 +25,12 @@
   --radius-lg: 16px;
   --shadow-card: 0 2px 10px rgba(20, 24, 34, 0.05);
   --shadow-drawer: -8px 0 32px rgba(10, 14, 24, 0.22);
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --dur-press: 140ms;
+  --dur-ui: 200ms;
+  --dur-drawer: 320ms;
 }
 
 * {
@@ -35,6 +41,7 @@ html {
   scroll-behavior: smooth;
   overflow-x: clip;
   max-width: 100%;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
@@ -50,11 +57,15 @@ body {
 
 a {
   color: inherit;
+  touch-action: manipulation;
 }
 
 button {
   font-family: inherit;
   cursor: pointer;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 button:focus:not(:focus-visible),
@@ -156,12 +167,11 @@ a:focus-visible {
   color: var(--accent-indigo);
   flex-shrink: 0;
   padding: 0;
-  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
-}
-
-.btn-tts:hover {
-  background: var(--accent-indigo-soft);
-  border-color: var(--accent-indigo);
+  transition:
+    background-color 150ms ease,
+    color 150ms ease,
+    border-color 150ms ease,
+    transform var(--dur-press) var(--ease-out);
 }
 
 .btn-tts.is-speaking {
@@ -176,23 +186,33 @@ a:focus-visible {
   color: #b7c2ff;
 }
 
-.btn-tts.is-dark:hover {
-  background: rgba(108, 99, 255, 0.25);
-  border-color: #8f88ff;
-  color: #ffffff;
-}
-
 .btn-tts.is-dark.is-speaking {
   background: #6c63ff;
   border-color: #6c63ff;
   color: #ffffff;
 }
 
+@media (hover: hover) and (pointer: fine) {
+  .btn-tts:hover {
+    background: var(--accent-indigo-soft);
+    border-color: var(--accent-indigo);
+  }
+
+  .btn-tts.is-dark:hover {
+    background: rgba(108, 99, 255, 0.25);
+    border-color: #8f88ff;
+    color: #ffffff;
+  }
+}
+
+.btn-tts:active {
+  transform: scale(0.95);
+}
+
 .tts-toast {
   position: fixed;
   left: 50%;
   bottom: 20px;
-  transform: translateX(-50%);
   z-index: 80;
   width: min(620px, calc(100vw - 32px));
   background: #1a2030;
@@ -206,6 +226,16 @@ a:focus-visible {
   justify-content: space-between;
   gap: 12px;
   font-size: 0.84rem;
+  opacity: 1;
+  transform: translate(-50%, 0) scale(1);
+  transition: transform 300ms var(--ease-out), opacity 220ms ease-out;
+}
+
+@starting-style {
+  .tts-toast {
+    opacity: 0;
+    transform: translate(-50%, 16px) scale(0.97);
+  }
 }
 
 .tts-toast-body {
@@ -240,10 +270,13 @@ a:focus-visible {
   font-size: 0.78rem;
   font-weight: 600;
   text-decoration: none;
+  transition: background-color 150ms ease;
 }
 
-.tts-toast-link:hover {
-  background: rgba(108, 99, 255, 0.4);
+@media (hover: hover) and (pointer: fine) {
+  .tts-toast-link:hover {
+    background: rgba(108, 99, 255, 0.4);
+  }
 }
 
 .tts-toast-close {
@@ -256,6 +289,11 @@ a:focus-visible {
   display: grid;
   place-items: center;
   flex-shrink: 0;
+  transition: background-color 150ms ease, transform var(--dur-press) var(--ease-out);
+}
+
+.tts-toast-close:active {
+  transform: scale(0.95);
 }
 
 /* Loading Skeleton */
@@ -325,5 +363,58 @@ a:focus-visible {
   .container {
     padding-left: 12px;
     padding-right: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .skeleton-line {
+    animation: none;
+    opacity: 0.72;
+  }
+
+  .toggle-chevron {
+    transition: none;
+  }
+
+  .header-collapsible {
+    transition: opacity 150ms ease;
+  }
+
+  .drawer-panel {
+    transition: opacity 180ms ease;
+  }
+
+  @starting-style {
+    .drawer-panel {
+      transform: translateX(0);
+      opacity: 0;
+    }
+  }
+
+  .tts-toast {
+    transition: opacity 180ms ease;
+  }
+
+  @starting-style {
+    .tts-toast {
+      opacity: 0;
+      transform: translate(-50%, 0) scale(1);
+    }
+  }
+
+  .prob-bar-fill {
+    transition: none;
+  }
+
+  button:active {
+    transform: none;
+  }
+
+  .btn-reroll:hover {
+    transform: none;
   }
 }
