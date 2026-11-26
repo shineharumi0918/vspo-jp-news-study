@@ -72,3 +72,7 @@ npm run preview      # 預覽 dist/ 建置結果
 2. 前往 Settings → Secrets and variables → Actions，在 Repository secrets 新增 `GEMINI_API_KEY`、`YOUTUBE_API_KEY` 與選填的 `HOLODEX_API_KEY`，若有需要自訂模型則在 Variables 新增 `GEMINI_MODEL`。
 3. 確認 Actions 頁籤已啟用工作流程，之後每天台灣時間 08:30 便會自動更新資料並發布新版網站，也能隨時點選「每日日本新聞與 VSPO 剪輯更新排程」手動觸發測試。
 4. 若希望同步部署至 Vercel，直接於 Vercel 匯入同一個 GitHub 儲存庫並選擇 Vite 框架（輸出目錄為 `dist`），每當排程將新資料推送至 `main` 分支時，Vercel 就會自動完成建置與上線。
+
+## 授權條款與免責聲明
+
+本專案的原始碼採用 [MIT License](LICENSE) 釋出，僅涵蓋此儲存庫中自行撰寫的程式、腳本與版面樣式。本站屬於個人日語學習用途的非官方工具，與ぶいすぽっ！（VSPO!）、NHK、Google News、YouTube 或 Holodex 並無官方關聯，頁面引用與整理的新聞來源、影片內嵌內容及相關商標、角色與影音著作權皆歸原權利人所有。
