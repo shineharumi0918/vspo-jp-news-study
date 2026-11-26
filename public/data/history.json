@@ -1,7 +1,32 @@
 {
-  "updatedAt": "2026-11-25T01:49:13.726Z",
+  "updatedAt": "2026-11-26T01:49:20.908Z",
   "retentionDays": 7,
   "entries": [
+    {
+      "date": "2026-11-26",
+      "newsLinks": [
+        "https://news.web.nhk/newsweb/na/nd-20261126de81579",
+        "https://news.web.nhk/newsweb/na/nd-20261126de81573",
+        "https://news.web.nhk/newsweb/na/nd-20261125de81527",
+        "https://news.web.nhk/newsweb/na/nd-20261126de81572"
+      ],
+      "newsTitles": [
+        "高市首相動静 2026年11月25日",
+        "アメリカ バンス副大統領「フアン氏は捜査対象ではない」",
+        "クマ対策で環境省がドローンなど技術活用の実証事業",
+        "鹿児島 姶良で住宅火災 住んでいるとみられる3人と連絡取れず"
+      ],
+      "videoIds": [
+        "CCvSmVqm_VE",
+        "gul77M-Whgg",
+        "GE8PCM_Irsc",
+        "J9W9DtV8Oj0",
+        "VTf6jDGYbQM",
+        "Bd0dj_p4FFA",
+        "3-YICcFIUzQ",
+        "xUXKOBOInxE"
+      ]
+    },
     {
       "date": "2026-11-25",
       "newsLinks": [
