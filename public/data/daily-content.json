@@ -1,32 +1,32 @@
 {
   "meta": {
-    "date": "2026-11-26",
-    "generatedAt": "2026-11-26T01:49:20.908Z",
+    "date": "2026-11-27",
+    "generatedAt": "2026-11-27T01:50:08.552Z",
     "mode": "live",
     "note": "由 GitHub Actions 自動抓取 NHK/Google News RSS 與 24h VSPO! 切り抜き，並經 Gemini API 解析生成。"
   },
   "news": [
     {
-      "id": "news-20261126-01",
+      "id": "news-20261127-01",
       "category": "政治",
       "categoryKey": "politics",
       "source": "NHK NEWS WEB",
-      "publishedAt": "2026-11-26 08:23 JST",
-      "titleJa": "高市首相動静 2026年11月25日",
-      "titleReading": "たかいち しゅしょう どうせい にせん にじゅうろくねん じゅういちがつ にじゅうごにち",
-      "titleZh": "高市首相動態：2026年11月25日",
-      "summaryZh": "本篇報導記錄了日本首相高市早苗於2026年11月25日的公務行程。上午10時32分，首相步行離開官邸公邸，隨後抵達官邸。下午行程緊湊，包括與自民黨政務調查會長小林鷹之進行會談，以及與內閣特別顧問秋葉剛男、國家安全保障局長市川惠一等人進行會議。此類「首相動態」欄目旨在向公眾透明化國家領導人的每日公務行程與會面人員，是了解日本政治決策核心與高層人際互動的重要資訊來源。",
-      "sourceUrl": "https://news.web.nhk/newsweb/na/nd-20261126de81579",
+      "publishedAt": "2026-11-27 08:25 JST",
+      "titleJa": "高市首相動静 2026年11月26日",
+      "titleReading": "たかいち しゅしょう どうせい 2026ねん 11がつ 26にち",
+      "titleZh": "高市首相行程 2026年11月26日",
+      "summaryZh": "這篇報導記錄了高市首相於2026年11月26日的公開行程。上午9時42分從公邸出發，9時44分抵達官邸。隨後在10時09分，接見了來自奈良縣的柿子宣傳大使浦西遙海與篠原萌音，並接受了柿子贈禮。出席人員還包括奈良縣知事山下真以及自民黨參議院議員佐藤啟等人，顯示了首相在處理國政之餘，也積極參與地方特產的推廣活動，與地方首長及議員維持密切的政治互動。",
+      "sourceUrl": "https://news.web.nhk/newsweb/na/nd-20261127de82199",
       "vocabulary": [
         {
-          "word": "動静",
-          "reading": "どうせい",
+          "word": "首相動静",
+          "reading": "しゅしょうどうせい",
           "jlpt": "N1",
           "pos": "名詞",
-          "meaningZh": "動態、行蹤",
-          "exampleJa": "首相の動静を毎日チェックする。",
-          "exampleZh": "每天確認首相的動態。",
-          "usageNote": "常用於新聞報導中，指政治人物或重要人士的公開行程與會面記錄。"
+          "meaningZh": "首相行程（記錄首相每日活動的專欄）",
+          "exampleJa": "首相動静を毎日チェックすることで、政権の動きを把握する。",
+          "exampleZh": "透過每天查看首相行程，可以掌握政權的動向。",
+          "usageNote": "新聞專有名詞，專指媒體報導首相每日公開行程的固定版面。"
         },
         {
           "word": "公邸",
@@ -34,974 +34,969 @@
           "jlpt": "N1",
           "pos": "名詞",
           "meaningZh": "官邸、公館",
-          "exampleJa": "首相は公邸から官邸へ向かった。",
-          "exampleZh": "首相從公邸前往官邸。",
-          "usageNote": "特指政府高官居住的官邸，與辦公用的「官邸」有所區別。"
+          "exampleJa": "首相は公邸から官邸へ徒歩で移動した。",
+          "exampleZh": "首相從公邸步行前往官邸。",
+          "usageNote": "指政府高官或大使等公職人員居住的官署住宅。"
         },
         {
-          "word": "政務調査会",
-          "reading": "せいむちょうさかい",
+          "word": "官邸",
+          "reading": "かんてい",
           "jlpt": "N1",
           "pos": "名詞",
-          "meaningZh": "政務調查會（政調會）",
-          "exampleJa": "政務調査会長が政策の方向性を語った。",
-          "exampleZh": "政務調查會長說明了政策方向。",
-          "usageNote": "日本政黨內負責制定政策的核心機構，簡稱「政調會」。"
+          "meaningZh": "官邸（指首相辦公處）",
+          "exampleJa": "官邸での記者会見で、首相は今後の政策を語った。",
+          "exampleZh": "在官邸的記者會上，首相說明了今後的政策。",
+          "usageNote": "在日本政治語境中，常指「總理大臣官邸」，即行政中樞。"
         },
         {
-          "word": "面会",
-          "reading": "めんかい",
+          "word": "贈呈",
+          "reading": "ぞうてい",
+          "jlpt": "N1",
+          "pos": "名詞・サ変",
+          "meaningZh": "贈送、頒贈",
+          "exampleJa": "地元の特産品が首相に贈呈された。",
+          "exampleZh": "當地的特產被贈送給了首相。",
+          "usageNote": "用於正式場合的贈送行為，比「あげる」更為莊重。"
+        },
+        {
+          "word": "参議院",
+          "reading": "さんぎいん",
+          "jlpt": "N2",
+          "pos": "名詞",
+          "meaningZh": "參議院",
+          "exampleJa": "参議院議員の選挙が来月行われる予定だ。",
+          "exampleZh": "參議院議員選舉預計將於下個月舉行。",
+          "usageNote": "日本國會的上議院，常與「衆議院」並列。"
+        },
+        {
+          "word": "把握",
+          "reading": "はあく",
           "jlpt": "N2",
           "pos": "名詞・サ変",
-          "meaningZh": "會面、接見",
-          "exampleJa": "重要な外交官と面会する予定がある。",
-          "exampleZh": "預定與重要的外交官會面。",
-          "usageNote": "指正式的會面，常用於政治或商業場合。"
-        },
-        {
-          "word": "内閣",
-          "reading": "ないかく",
-          "jlpt": "N2",
-          "pos": "名詞",
-          "meaningZh": "內閣",
-          "exampleJa": "内閣の支持率が低下している。",
-          "exampleZh": "內閣的支持率正在下滑。",
-          "usageNote": "指國家行政最高機關，常與「支持率」或「改組」搭配。"
-        },
-        {
-          "word": "顧問",
-          "reading": "こもん",
-          "jlpt": "N2",
-          "pos": "名詞",
-          "meaningZh": "顧問",
-          "exampleJa": "政府の特別顧問として意見を述べる。",
-          "exampleZh": "以政府特別顧問的身分發表意見。",
-          "usageNote": "指提供專業建議的資深職位，常與「特別」或「法律」搭配。"
+          "meaningZh": "掌握、理解",
+          "exampleJa": "現状を正確に把握することが重要である。",
+          "exampleZh": "準確掌握現狀是非常重要的。",
+          "usageNote": "常用於掌握情況、數據或資訊，帶有深入理解的含義。"
         }
       ]
     },
     {
-      "id": "news-20261126-02",
+      "id": "news-20261127-02",
       "category": "經濟",
       "categoryKey": "economy",
       "source": "NHK NEWS WEB",
-      "publishedAt": "2026-11-26 07:12 JST",
-      "titleJa": "アメリカ バンス副大統領「フアン氏は捜査対象ではない」",
-      "titleReading": "あめりか ばんす ふくだいとうりょう ふあんしは そうさたいしょうではない",
-      "titleZh": "美國副總統范斯：黃仁勳並非調查對象",
-      "summaryZh": "針對重返美國半導體巨頭輝達（NVIDIA）擔任執行長的黃仁勳（Jensen Huang），美國副總統范斯再次對外強調，黃仁勳目前並未列入司法部等相關單位的調查對象。此前，川普政府內閣成員曾對輝達的業務與相關議題表達關注，引發市場揣測。范斯的此番發言旨在澄清外界疑慮，穩定市場情緒，並明確界定政府對該企業領袖的立場，顯示出政府在處理大型科技企業監管議題時的謹慎態度。",
-      "sourceUrl": "https://news.web.nhk/newsweb/na/nd-20261126de81573",
+      "publishedAt": "2026-11-27 09:02 JST",
+      "titleJa": "東京23区の11月の消費者物価指数 前年同月比2.9%上昇",
+      "titleReading": "とうきょう 23くの 11がつの しょうひしゃ ぶっか しすう ぜんねん どうげつひ 2.9% じょうしょう",
+      "titleZh": "東京23區11月消費者物價指數 年增2.9%",
+      "summaryZh": "根據最新統計，東京23區11月份的消費者物價指數速報值顯示，扣除受天氣影響較大的生鮮食品後，綜合指數較去年同期上漲了2.9%。與10月份相比，漲幅擴大了0.3個百分點。這項數據反映了物價持續上漲的壓力，顯示日本都會區的通貨膨脹趨勢依然顯著，可能對民眾的日常生活開銷與家庭經濟造成進一步負擔，也成為政府與央行在制定貨幣政策時的重要參考指標。",
+      "sourceUrl": "https://news.web.nhk/newsweb/na/nd-20261127de82195",
       "vocabulary": [
         {
-          "word": "副大統領",
-          "reading": "ふくだいとうりょう",
-          "jlpt": "N2",
-          "pos": "名詞",
-          "meaningZh": "副總統",
-          "exampleJa": "副大統領が外交政策について演説した。",
-          "exampleZh": "副總統針對外交政策發表演說。",
-          "usageNote": "專指美國等國家的副元首職位。"
-        },
-        {
-          "word": "捜査",
-          "reading": "そうさ",
-          "jlpt": "N2",
-          "pos": "名詞・サ変",
-          "meaningZh": "偵查、調查",
-          "exampleJa": "警察が事件の捜査を開始した。",
-          "exampleZh": "警方開始了案件的偵查。",
-          "usageNote": "特指司法機關對犯罪行為進行的調查，與一般的「調査」不同。"
-        },
-        {
-          "word": "対象",
-          "reading": "たいしょう",
-          "jlpt": "N3",
-          "pos": "名詞",
-          "meaningZh": "對象",
-          "exampleJa": "今回の減税の対象は中小企業だ。",
-          "exampleZh": "此次減稅的對象是中小企業。",
-          "usageNote": "指行動或目標所針對的範圍或對象。"
-        },
-        {
-          "word": "強調",
-          "reading": "きょうちょう",
-          "jlpt": "N3",
-          "pos": "名詞・サ変",
-          "meaningZh": "強調",
-          "exampleJa": "平和の重要性を強調する。",
-          "exampleZh": "強調和平的重要性。",
-          "usageNote": "常用於表達立場或觀點時，加強語氣。"
-        },
-        {
-          "word": "閣僚",
-          "reading": "かくりょう",
+          "word": "消費者物価指数",
+          "reading": "しょうひしゃぶっかしすう",
           "jlpt": "N1",
           "pos": "名詞",
-          "meaningZh": "閣員、內閣成員",
-          "exampleJa": "閣僚たちが緊急会議を開いた。",
-          "exampleZh": "閣員們召開了緊急會議。",
-          "usageNote": "指內閣中的各部會首長。"
+          "meaningZh": "消費者物價指數（CPI）",
+          "exampleJa": "消費者物価指数の上昇は、家計に大きな影響を与える。",
+          "exampleZh": "消費者物價指數的上漲，對家庭收支有重大影響。",
+          "usageNote": "經濟新聞中的核心指標，常簡稱為「物価指数」。"
         },
         {
-          "word": "復帰",
-          "reading": "ふっき",
+          "word": "速報値",
+          "reading": "そくほうち",
+          "jlpt": "N2",
+          "pos": "名詞",
+          "meaningZh": "速報值、初步統計數據",
+          "exampleJa": "今回の速報値は、市場の予想を上回った。",
+          "exampleZh": "這次的初步統計數據高於市場預期。",
+          "usageNote": "指在正式統計結果出爐前發布的初步數據。"
+        },
+        {
+          "word": "生鮮食品",
+          "reading": "せいせんしょくひん",
+          "jlpt": "N2",
+          "pos": "名詞",
+          "meaningZh": "生鮮食品",
+          "exampleJa": "生鮮食品の価格は天候に左右されやすい。",
+          "exampleZh": "生鮮食品的價格容易受天氣影響。",
+          "usageNote": "經濟分析中常將其排除在外，以觀察核心物價趨勢。"
+        },
+        {
+          "word": "前年同月比",
+          "reading": "ぜんねんどうげつひ",
+          "jlpt": "N2",
+          "pos": "名詞",
+          "meaningZh": "與去年同月相比",
+          "exampleJa": "売上高は前年同月比で5％増加した。",
+          "exampleZh": "銷售額與去年同月相比增加了5%。",
+          "usageNote": "統計數據中常用的比較基準，用於排除季節性因素。"
+        },
+        {
+          "word": "上昇率",
+          "reading": "じょうしょうりつ",
+          "jlpt": "N2",
+          "pos": "名詞",
+          "meaningZh": "上升率、漲幅",
+          "exampleJa": "物価の上昇率が予想以上に高まっている。",
+          "exampleZh": "物價的漲幅比預期中還要高。",
+          "usageNote": "常用於描述價格、利率或統計數據的變動幅度。"
+        },
+        {
+          "word": "拡大",
+          "reading": "かくだい",
           "jlpt": "N2",
           "pos": "名詞・サ変",
-          "meaningZh": "復歸、回歸",
-          "exampleJa": "彼は社長として現場に復帰した。",
-          "exampleZh": "他以社長身分回歸第一線。",
-          "usageNote": "指回到原本的職位或狀態。"
+          "meaningZh": "擴大",
+          "exampleJa": "格差の拡大が社会問題となっている。",
+          "exampleZh": "貧富差距的擴大已成為社會問題。",
+          "usageNote": "不僅指物理上的變大，也常用於抽象概念如差距、漲幅等。"
         }
       ]
     },
     {
-      "id": "news-20261126-03",
+      "id": "news-20261127-03",
       "category": "民生・社會",
       "categoryKey": "society",
       "source": "NHK NEWS WEB",
-      "publishedAt": "2026-11-26 07:02 JST",
-      "titleJa": "クマ対策で環境省がドローンなど技術活用の実証事業",
-      "titleReading": "くま たいさくで かんきょうしょうが どろーんなど ぎじゅつ かつようの じっしょうじぎょう",
-      "titleZh": "環境省推動無人機等技術應用，實證熊出沒防治對策",
-      "summaryZh": "為防止熊隻頻繁出沒於市區並造成人身傷害，日本環境省自本月起啟動一項實證事業，積極引進並應用無人機（Drone）與機器人等先進技術。該計畫旨在透過科技手段監測熊的動向，並在必要時進行驅離或預警，以降低人熊衝突的風險。此舉反映了日本政府面對野生動物棲息地與人類生活圈重疊問題時，試圖運用數位轉型與自動化設備來提升公共安全與防治效率的策略轉變。",
-      "sourceUrl": "https://news.web.nhk/newsweb/na/nd-20261125de81527",
+      "publishedAt": "2026-11-27 07:29 JST",
+      "titleJa": "住宅購入の資金 贈与税の非課税措置を延長の方向で調整",
+      "titleReading": "じゅうたく こうにゅうの しきん ぞうよぜいの ひかぜい そちを えんちょうの ほうこうで ちょうせい",
+      "titleZh": "住宅購屋資金 贈與稅免稅措施擬延長",
+      "summaryZh": "日本政府與執政黨正針對一項稅務優惠措施進行調整，計畫延長針對住宅購屋資金的贈與稅免稅期限。該措施允許民眾在接受祖父母或父母資助購屋資金時，在一定金額範圍內免繳贈與稅，原定於2026年底到期。政府考量到房地產市場的穩定性及對家庭經濟的支援，傾向於將此優惠措施繼續延長，目前正就具體的延長年限與細節進行最後的協調與規劃。",
+      "sourceUrl": "https://news.web.nhk/newsweb/na/nd-20261127de82144",
       "vocabulary": [
         {
-          "word": "対策",
-          "reading": "たいさく",
-          "jlpt": "N3",
-          "pos": "名詞",
-          "meaningZh": "對策",
-          "exampleJa": "温暖化対策を急ぐ必要がある。",
-          "exampleZh": "有必要加速暖化對策。",
-          "usageNote": "指為了解決特定問題而採取的具體措施。"
-        },
-        {
-          "word": "出没",
-          "reading": "しゅつぼつ",
-          "jlpt": "N1",
-          "pos": "名詞・サ変",
-          "meaningZh": "出沒",
-          "exampleJa": "夜間に野生動物が出没する。",
-          "exampleZh": "夜間會有野生動物出沒。",
-          "usageNote": "常用於描述動物或可疑人物在特定區域頻繁出現。"
-        },
-        {
-          "word": "人身被害",
-          "reading": "じんしんひがい",
+          "word": "贈与税",
+          "reading": "ぞうよぜい",
           "jlpt": "N1",
           "pos": "名詞",
-          "meaningZh": "人身傷害",
-          "exampleJa": "台風による人身被害はなかった。",
-          "exampleZh": "颱風未造成人身傷害。",
-          "usageNote": "指對人體造成的傷害，常在災害或事故報導中使用。"
+          "meaningZh": "贈與稅",
+          "exampleJa": "高額な財産を譲り受ける際には、贈与税がかかる場合がある。",
+          "exampleZh": "在繼承高額財產時，有時會被課徵贈與稅。",
+          "usageNote": "稅務專業用語，指個人接受財產贈與時需繳納的稅金。"
         },
         {
-          "word": "活用",
-          "reading": "かつよう",
+          "word": "非課税",
+          "reading": "ひかぜい",
+          "jlpt": "N1",
+          "pos": "名詞",
+          "meaningZh": "免稅",
+          "exampleJa": "この投資信託は非課税枠が設けられている。",
+          "exampleZh": "這檔投資信託設有免稅額度。",
+          "usageNote": "指不被課稅的狀態，常與「措置」或「枠」搭配。"
+        },
+        {
+          "word": "措置",
+          "reading": "そち",
+          "jlpt": "N1",
+          "pos": "名詞",
+          "meaningZh": "措施、處置",
+          "exampleJa": "政府は経済対策として新たな措置を講じた。",
+          "exampleZh": "政府作為經濟對策，採取了新的措施。",
+          "usageNote": "用於政府或官方針對特定問題所採取的正式手段。"
+        },
+        {
+          "word": "延長",
+          "reading": "えんちょう",
           "jlpt": "N3",
           "pos": "名詞・サ変",
-          "meaningZh": "活用、運用",
-          "exampleJa": "最新の技術を活用する。",
-          "exampleZh": "活用最新技術。",
-          "usageNote": "指將現有的資源或技術發揮最大效用。"
+          "meaningZh": "延長",
+          "exampleJa": "契約期間の延長を交渉している。",
+          "exampleZh": "正在協商延長合約期限。",
+          "usageNote": "指將時間或長度拉長，常用於期限、合約、路線等。"
         },
         {
-          "word": "実証",
-          "reading": "じっしょう",
-          "jlpt": "N1",
+          "word": "調整",
+          "reading": "ちょうせい",
+          "jlpt": "N3",
           "pos": "名詞・サ変",
-          "meaningZh": "實證、驗證",
-          "exampleJa": "新しいシステムの有効性を実証する。",
-          "exampleZh": "驗證新系統的有效性。",
-          "usageNote": "指透過實驗或實際操作來證明理論或技術的可行性。"
+          "meaningZh": "調整、協調",
+          "exampleJa": "与党内で政策の調整が行われている。",
+          "exampleZh": "執政黨內部正在進行政策協調。",
+          "usageNote": "在政治新聞中，常指各方為了達成共識而進行的協調工作。"
         },
         {
-          "word": "事業",
-          "reading": "じぎょう",
+          "word": "与党",
+          "reading": "よとう",
           "jlpt": "N2",
           "pos": "名詞",
-          "meaningZh": "事業、計畫",
-          "exampleJa": "政府が環境保護事業を支援する。",
-          "exampleZh": "政府支援環境保護計畫。",
-          "usageNote": "指政府或企業推動的特定專案或業務。"
+          "meaningZh": "執政黨",
+          "exampleJa": "与党は次の選挙に向けて準備を進めている。",
+          "exampleZh": "執政黨正為下次選舉進行準備。",
+          "usageNote": "指目前掌握政權的政黨，常與「野党」相對。"
         }
       ]
     },
     {
-      "id": "news-20261126-04",
+      "id": "news-20261127-04",
       "category": "民生・社會",
       "categoryKey": "society",
       "source": "NHK NEWS WEB",
-      "publishedAt": "2026-11-26 06:54 JST",
-      "titleJa": "鹿児島 姶良で住宅火災 住んでいるとみられる3人と連絡取れず",
-      "titleReading": "かごしま あいらで じゅうたくかさい すんでいるとみられる さんにんと れんらくとれず",
-      "titleZh": "鹿兒島姶良市發生住宅火災，疑住戶3人失聯",
-      "summaryZh": "25日晚間10時過後，鹿兒島縣姶良市發生一起住宅火災。據警方表示，該處住宅發生火警後，目前有3名疑似居住於該處的民眾無法取得聯繫。警方與消防單位已緊急投入現場進行滅火與搜救工作，並全力確認失聯者的安危。目前火災發生的詳細原因以及失聯者的具體狀況仍待進一步調查釐清，當地警方正持續進行相關的安否確認作業，並呼籲周邊居民注意安全。",
-      "sourceUrl": "https://news.web.nhk/newsweb/na/nd-20261126de81572",
+      "publishedAt": "2026-11-27 05:08 JST",
+      "titleJa": "学校のいじめ79万件超で過去最多 「性的いじめ」初調査 文科省",
+      "titleReading": "がっこうの いじめ 79まんけん ごえで かこ さいた 「せいてき いじめ」 はつ ちょうさ もんかしょう",
+      "titleZh": "校園霸凌逾79萬件創新高 文科省首度調查「性霸凌」",
+      "summaryZh": "根據文部科學省的最新調查，2025年度日本全國學校所掌握的霸凌案件超過79萬件，連續5年刷新歷史最高紀錄。此外，本次調查首次納入了「性霸凌」項目，結果顯示確認了超過8000件相關案例。面對霸凌案件數量的持續攀升與型態的多元化，文部科學省表示將進一步強化校園輔導機制，並針對性霸凌等新興問題研擬更具體的防範與應對策略，以保障學生的校園安全。",
+      "sourceUrl": "https://news.web.nhk/newsweb/na/nd-20261127de82139",
       "vocabulary": [
         {
-          "word": "住宅",
-          "reading": "じゅうたく",
-          "jlpt": "N3",
-          "pos": "名詞",
-          "meaningZh": "住宅",
-          "exampleJa": "住宅街で火災が発生した。",
-          "exampleZh": "住宅區發生了火災。",
-          "usageNote": "指居住的房屋，較「家」正式。"
-        },
-        {
-          "word": "火災",
-          "reading": "かさい",
+          "word": "過去最多",
+          "reading": "かこさいた",
           "jlpt": "N2",
           "pos": "名詞",
-          "meaningZh": "火災",
-          "exampleJa": "火災の発生原因を調査する。",
-          "exampleZh": "調查火災發生的原因。",
-          "usageNote": "指發生火災的正式用語。"
+          "meaningZh": "史上最多、過去最高紀錄",
+          "exampleJa": "今年の猛暑日は過去最多を記録した。",
+          "exampleZh": "今年的酷熱天數創下了史上最高紀錄。",
+          "usageNote": "新聞常用詞，強調數據打破了以往的最高紀錄。"
         },
         {
-          "word": "連絡",
-          "reading": "れんらく",
-          "jlpt": "N3",
+          "word": "更新",
+          "reading": "こうしん",
+          "jlpt": "N2",
           "pos": "名詞・サ変",
-          "meaningZh": "聯繫",
-          "exampleJa": "家族と連絡が取れない。",
-          "exampleZh": "無法與家人取得聯繫。",
-          "usageNote": "指傳遞訊息或保持聯絡。"
+          "meaningZh": "更新（紀錄）",
+          "exampleJa": "選手は世界記録を更新した。",
+          "exampleZh": "選手刷新了世界紀錄。",
+          "usageNote": "除了指軟體更新，在新聞中常用於「紀錄更新」。"
         },
         {
-          "word": "安否",
-          "reading": "あんぴ",
+          "word": "文部科学省",
+          "reading": "もんぶかがくしょう",
           "jlpt": "N1",
           "pos": "名詞",
-          "meaningZh": "安危、平安與否",
-          "exampleJa": "地震の後、家族の安否を確認する。",
-          "exampleZh": "地震後確認家人的安危。",
-          "usageNote": "常用於災害發生後，確認人員是否平安。"
+          "meaningZh": "文部科學省（簡稱文科省）",
+          "exampleJa": "文部科学省は教育改革の方針を発表した。",
+          "exampleZh": "文部科學省發表了教育改革方針。",
+          "usageNote": "日本負責教育、科學、文化事務的中央行政機關。"
         },
         {
-          "word": "進める",
-          "reading": "すすめる",
-          "jlpt": "N3",
-          "pos": "他動詞",
-          "meaningZh": "進行、推進",
-          "exampleJa": "捜査を慎重に進める。",
-          "exampleZh": "謹慎地進行調查。",
-          "usageNote": "指讓事情向前發展或執行。"
+          "word": "把握",
+          "reading": "はあく",
+          "jlpt": "N2",
+          "pos": "名詞・サ変",
+          "meaningZh": "掌握、確認（情況）",
+          "exampleJa": "学校側が問題を把握していなかったことが問題視されている。",
+          "exampleZh": "校方未能掌握問題的情況受到質疑。",
+          "usageNote": "指對事實或情況的確認與了解。"
         },
         {
-          "word": "警察",
-          "reading": "けいさつ",
+          "word": "確認",
+          "reading": "かくにん",
           "jlpt": "N3",
-          "pos": "名詞",
-          "meaningZh": "警察",
-          "exampleJa": "警察が現場に駆けつけた。",
-          "exampleZh": "警察趕到了現場。",
-          "usageNote": "指執法機關。"
+          "pos": "名詞・サ変",
+          "meaningZh": "確認、證實",
+          "exampleJa": "現場で複数の被害が確認された。",
+          "exampleZh": "現場確認了多起受害事件。",
+          "usageNote": "指透過調查或觀察證實某事的存在。"
+        },
+        {
+          "word": "対応",
+          "reading": "たいおう",
+          "jlpt": "N3",
+          "pos": "名詞・サ変",
+          "meaningZh": "對應、處理",
+          "exampleJa": "いじめ問題への迅速な対応が求められている。",
+          "exampleZh": "社會要求對霸凌問題採取迅速的處理措施。",
+          "usageNote": "指針對特定情況所採取的行動或處理方式。"
         }
       ]
     }
   ],
   "clipCandidates": [
     {
-      "id": "clip-20261126-01",
-      "youtubeId": "CCvSmVqm_VE",
-      "titleJa": "急にかしこまって「伝えたいことがある」と言い出すハセシン【胡桃のあ/トナカイト/ハセシン/APEX/ぶいすぽ/切り抜き】",
-      "titleZh": "突然嚴肅起來說「我有話想說」的哈瑟新【胡桃乃亞/Tonakaito/哈瑟新/APEX/VSPO/精華】",
-      "channelName": "エペすぽっ【切り抜き動画】",
-      "publishedHoursAgo": 5,
-      "duration": "22:57",
+      "id": "clip-20261127-01",
+      "youtubeId": "6luoNbK5rWA",
+      "titleJa": "【スナの使い手】kamitoのカッコいい爆速キルシーンpart310【kamito/APEX/切り抜き】【橘ひなの/デューク】#かみとめクリップ",
+      "titleZh": "【狙擊手】Kamito帥氣爆速擊殺合集 Part 310",
+      "channelName": "【公認】Kamito / かみと切り抜きch",
+      "publishedHoursAgo": 3,
+      "duration": "08:01",
       "memberIds": [
-        "kurumi-noa"
+        "tachibana-hinano"
       ],
       "gameOrTopic": "Apex Legends",
-      "contextSummaryZh": "這段影片記錄了胡桃乃亞、Tonakaito 與哈瑟新在 Apex 實況中的互動。哈瑟新因為狀況極差，將「針孔」說成了「春天的洞」，引發乃亞與 Tonakaito 的瘋狂吐槽。影片中還包含了哈瑟新突然裝模作樣地說有話要告白，以及三人組隊挑戰冠軍的過程，整體氛圍充滿了好友間互相調侃的歡樂氣氛。",
+      "contextSummaryZh": "這段剪輯收錄了Kamito在Apex中展現神級槍法的精彩瞬間，包含與橘ひなの等人的互動。影片中Kamito展現了極高的專注力與操作技巧，即便在戰況混亂的局面下也能冷靜收割敵人，展現出作為FPS實況主頂尖的實力，讓觀眾看得熱血沸騰。",
       "slangVocab": [
+        {
+          "term": "キル集",
+          "reading": "きるしゅう",
+          "tag": "FPS術語",
+          "meaningZh": "擊殺合集",
+          "timestamp": "03:09",
+          "exampleJa": "今日のキル集、マジで神エイムだったね。",
+          "exampleZh": "今天的擊殺合集，操作真的神準。"
+        },
+        {
+          "term": "裏切者",
+          "reading": "うらぎりもの",
+          "tag": "日常口語",
+          "meaningZh": "背叛者",
+          "timestamp": "00:00",
+          "exampleJa": "え、今の動き裏切者じゃん！",
+          "exampleZh": "欸，剛剛那個動作根本是背叛者吧！"
+        },
+        {
+          "term": "爆速",
+          "reading": "ばくそく",
+          "tag": "網路略語",
+          "meaningZh": "極快、超高速",
+          "timestamp": "00:15",
+          "exampleJa": "爆速で敵を倒してて草。",
+          "exampleZh": "以超高速把敵人殺光，笑死。"
+        },
+        {
+          "term": "神エイム",
+          "reading": "かみえいむ",
+          "tag": "FPS術語",
+          "meaningZh": "神級瞄準",
+          "timestamp": "01:24",
+          "exampleJa": "今の神エイム、録画しとけばよかった。",
+          "exampleZh": "剛剛那波神級瞄準，真該錄下來的。"
+        },
         {
           "term": "フルパ",
           "reading": "ふるぱ",
-          "tag": "FPS術語",
-          "meaningZh": "全隊組滿（Full Party），指三人組隊遊玩。",
-          "timestamp": "00:18",
-          "exampleJa": "今日は珍しくフルパでランク回すわ。",
-          "exampleZh": "今天難得要組滿三人去爬積分。"
-        },
-        {
-          "term": "VC凸",
-          "reading": "ぶいしーとつ",
-          "tag": "FPS術語",
-          "meaningZh": "指擊殺對手後，開啟語音聊天（VC）去挑釁或搭話。",
-          "timestamp": "00:18",
-          "exampleJa": "キルした後にVC凸するのはやめなよｗ",
-          "exampleZh": "殺完人還去開語音挑釁也太壞了吧ｗ"
-        },
-        {
-          "term": "いじり倒す",
-          "reading": "いじりたおす",
-          "tag": "日常口語",
-          "meaningZh": "徹底地捉弄、吐槽某人。",
-          "timestamp": "01:44",
-          "exampleJa": "ヘンディーのこといじり倒してごめんね。",
-          "exampleZh": "抱歉把Hendie捉弄得太慘了。"
-        },
-        {
-          "term": "拡マガ",
-          "reading": "かくまが",
-          "tag": "FPS術語",
-          "meaningZh": "擴充彈匣（擴大彈夾）。",
-          "timestamp": "20:02",
-          "exampleJa": "誰か拡マガ持ってない？弾が足りない！",
-          "exampleZh": "有人有擴充彈匣嗎？子彈不夠了！"
-        },
-        {
-          "term": "チャンピオン",
-          "reading": "ちゃんぴおん",
           "tag": "遊戲用語",
-          "meaningZh": "冠軍，指在遊戲中獲得最後勝利。",
-          "timestamp": "14:47",
-          "exampleJa": "やっとチャンピオン取れた！最高！",
-          "exampleZh": "終於拿到冠軍了！太棒了！"
+          "meaningZh": "滿編隊伍",
+          "timestamp": "02:00",
+          "exampleJa": "フルパでランク回そうぜ。",
+          "exampleZh": "我們組滿編隊伍來爬分吧。"
         }
       ],
       "grammarPoints": [
         {
-          "pattern": "〜てば",
-          "connection": "動詞て形 + ば",
-          "nuance": "帶有責備或強調的語氣",
-          "explanationZh": "用於對方沒聽進去或重複同樣錯誤時的語氣，帶有親暱的責備感。",
-          "exampleJa": "もう、何回言わせるのってば！",
-          "exampleZh": "吼，是要我講幾次啦！"
+          "pattern": "〜じゃん",
+          "connection": "名詞/形容詞/動詞普通形 + じゃん",
+          "nuance": "表示「難道不是嗎？」或「這不是很明顯嗎？」的確認語氣。",
+          "explanationZh": "這是關西腔轉變而來的口語，在實況中極為常見，用來表達驚訝或反問。",
+          "exampleJa": "これ、罠じゃん！",
+          "exampleZh": "這不是陷阱嗎！"
         },
         {
+          "pattern": "〜てて",
+          "connection": "動詞て形 + て",
+          "nuance": "表示動作正在持續進行中。",
+          "explanationZh": "是「〜ている」的口語縮略，省略了「い」，聽起來更自然流暢。",
+          "exampleJa": "敵が走ってて見えない。",
+          "exampleZh": "敵人正在跑，我看不到。"
+        },
+        {
+          "pattern": "〜し",
+          "connection": "動詞普通形 + し",
+          "nuance": "列舉理由，語氣較為隨意。",
+          "explanationZh": "常用於解釋原因，後面通常會省略結論，讓聽者自行意會。",
+          "exampleJa": "敵も多いし、逃げよう。",
+          "exampleZh": "敵人也很多，我們逃吧。"
+        }
+      ]
+    },
+    {
+      "id": "clip-20261127-02",
+      "youtubeId": "aYPsBvvmGcY",
+      "titleJa": "子犬にメロつくけど優秀すぎてリスナーがどうでもよくなる銀城サイネ【Potato Please】【切り抜き】#銀城サイネ",
+      "titleZh": "對小狗毫無抵抗力，但工作能力太強導致粉絲都忘了這件事的銀城サイネ",
+      "channelName": "おしとやか切り抜き",
+      "publishedHoursAgo": 3,
+      "duration": "07:03",
+      "memberIds": [
+        "ginjou-saine"
+      ],
+      "gameOrTopic": "Potato Please",
+      "contextSummaryZh": "銀城サイネ在遊玩《Potato Please》時，展現了對小狗角色的極度寵溺，甚至到了「メロメロ（神魂顛倒）」的地步。然而，她在遊戲中的操作與決策卻異常優秀且冷靜，這種「反差萌」讓粉絲們在觀看時，不知不覺就忽略了她原本的可愛行為，專注於她高超的遊戲表現。",
+      "slangVocab": [
+        {
+          "term": "メロメロ",
+          "reading": "めろめろ",
+          "tag": "日常口語",
+          "meaningZh": "神魂顛倒、被迷住",
+          "timestamp": "02:31",
+          "exampleJa": "この子犬にメロメロになっちゃう。",
+          "exampleZh": "我被這隻小狗迷得神魂顛倒。"
+        },
+        {
+          "term": "有能",
+          "reading": "ゆうのう",
+          "tag": "日常口語",
+          "meaningZh": "有能力、能幹",
+          "timestamp": "02:40",
+          "exampleJa": "サイネちゃん、マジで有能すぎる。",
+          "exampleZh": "サイネ醬真的太能幹了。"
+        },
+        {
+          "term": "草",
+          "reading": "くさ",
+          "tag": "網路略語",
+          "meaningZh": "笑（源自w的形狀像草）",
+          "timestamp": "01:24",
+          "exampleJa": "今のミスは草。",
+          "exampleZh": "剛剛那個失誤笑死。"
+        },
+        {
+          "term": "サムネ",
+          "reading": "さむね",
+          "tag": "VTuber常用語",
+          "meaningZh": "縮圖（Thumbnail）",
+          "timestamp": "02:31",
+          "exampleJa": "今回のサムネ、可愛すぎない？",
+          "exampleZh": "這次的縮圖也太可愛了吧？"
+        },
+        {
+          "term": "リスナー",
+          "reading": "りすなー",
+          "tag": "VTuber常用語",
+          "meaningZh": "觀眾、聽眾",
+          "timestamp": "00:30",
+          "exampleJa": "リスナーのみんな、お疲れ様！",
+          "exampleZh": "各位觀眾們，辛苦了！"
+        }
+      ],
+      "grammarPoints": [
+        {
+          "pattern": "〜ちゃう",
+          "connection": "動詞て形 + ちゃう",
+          "nuance": "表示「不小心做了某事」或「徹底完成某事」。",
+          "explanationZh": "由「〜てしまう」縮略而來，在口語中非常頻繁，帶有強烈的情感色彩。",
+          "exampleJa": "忘れちゃった！",
+          "exampleZh": "我不小心忘記了！"
+        },
+        {
+          "pattern": "〜すぎる",
+          "connection": "動詞ます形去ます/形容詞去い + すぎる",
+          "nuance": "表示程度過度，超過了正常範圍。",
+          "explanationZh": "用來強調某種特質非常突出，是實況中用來誇獎或吐槽的常用語法。",
+          "exampleJa": "可愛すぎる！",
+          "exampleZh": "太可愛了！"
+        },
+        {
+          "pattern": "〜だし",
+          "connection": "普通形 + だし",
+          "nuance": "列舉多個理由，語氣較為隨意且帶有強調。",
+          "explanationZh": "在口語中常作為連接詞，用來補充說明情況，語感比「〜て」更具解釋性。",
+          "exampleJa": "忙しいし、また今度ね。",
+          "exampleZh": "我很忙，下次再說吧。"
+        }
+      ]
+    },
+    {
+      "id": "clip-20261127-03",
+      "youtubeId": "OVULeud9H2U",
+      "titleJa": "新しい配信画面で半角文字が使えなくなってしまう夜乃くろむｗ【夜乃くろむ/ぶいすぽ/雑談/切り抜き】#ぶいすぽ　＃夜乃くろむ　＃切り抜き　＃雑談　#shorts",
+      "titleZh": "新配信畫面導致半形文字無法使用，夜乃くろむ大崩潰ｗ",
+      "channelName": "ホエール【切り抜き】",
+      "publishedHoursAgo": 3,
+      "duration": "01:19",
+      "memberIds": [
+        "yano-kuromu"
+      ],
+      "gameOrTopic": "雑談",
+      "contextSummaryZh": "夜乃くろむ在慶祝出道三週年的雜談中，發現更新後的配信畫面竟然無法輸入半形文字，導致她無法正常設定標題或進行操作。看著她對著電腦設定手忙腳亂、不斷嘗試修正卻屢屢碰壁的樣子，這種充滿真實感的「事故」現場，讓粉絲們在心疼之餘也忍不住笑出來。",
+      "slangVocab": [
+        {
+          "term": "配信画面",
+          "reading": "はいしんがめん",
+          "tag": "VTuber常用語",
+          "meaningZh": "直播畫面",
+          "timestamp": "00:10",
+          "exampleJa": "配信画面がバグってるんだけど！",
+          "exampleZh": "直播畫面出Bug了啦！"
+        },
+        {
+          "term": "半角",
+          "reading": "はんかく",
+          "tag": "日常口語",
+          "meaningZh": "半形（字元）",
+          "timestamp": "00:05",
+          "exampleJa": "半角文字が打てないの、地味に辛い。",
+          "exampleZh": "不能打半形字，真的蠻痛苦的。"
+        },
+        {
+          "term": "初配信",
+          "reading": "はつはいしん",
+          "tag": "VTuber常用語",
+          "meaningZh": "初次直播",
+          "timestamp": "00:00",
+          "exampleJa": "もう初配信から3年か。",
+          "exampleZh": "從初次直播開始已經三年了啊。"
+        },
+        {
+          "term": "バグる",
+          "reading": "ばぐる",
+          "tag": "遊戲用語",
+          "meaningZh": "出Bug、故障",
+          "timestamp": "00:15",
+          "exampleJa": "PCがバグって動かない。",
+          "exampleZh": "電腦出Bug動不了了。"
+        },
+        {
+          "term": "雑談",
+          "reading": "ざつだん",
+          "tag": "VTuber常用語",
+          "meaningZh": "閒聊",
+          "timestamp": "00:00",
+          "exampleJa": "今日はまったり雑談しよう。",
+          "exampleZh": "今天來輕鬆地閒聊吧。"
+        }
+      ],
+      "grammarPoints": [
+        {
+          "pattern": "〜んだけど",
+          "connection": "普通形 + んだけど",
+          "nuance": "表示「雖然是這樣，但...」的鋪陳，或是尋求幫助。",
+          "explanationZh": "在句尾加上「〜んだけど」可以讓語氣變得委婉，常在實況中用來抱怨或提出問題。",
+          "exampleJa": "困ってるんだけど、誰か助けて。",
+          "exampleZh": "我很困擾，誰來救救我。"
+        },
+        {
+          "pattern": "〜ｗ",
+          "connection": "句尾加上 w",
+          "nuance": "表示笑聲，類似網路上的「哈哈」。",
+          "explanationZh": "在文字聊天室或字幕中極為常見，代表實況主或觀眾覺得好笑。",
+          "exampleJa": "それ面白いｗ",
+          "exampleZh": "那個好笑ｗ"
+        },
+        {
+          "pattern": "〜てば",
+          "connection": "名詞/動詞て形 + てば",
+          "nuance": "表示強烈要求或不耐煩的語氣。",
+          "explanationZh": "用來強調自己的主張，帶有一點撒嬌或責備的語氣，非常口語化。",
+          "exampleJa": "もう、やめてば！",
+          "exampleZh": "吼，就說不要了啦！"
+        }
+      ]
+    },
+    {
+      "id": "clip-20261127-04",
+      "youtubeId": "WpE_oAsibNQ",
+      "titleJa": "ぶいすぽGG感謝 #ぶいすぽ #切り抜き #胡桃のあ #はせしん #ヘンディー",
+      "titleZh": "ぶいすぽGG感謝祭 #胡桃のあ #はせしん #ヘンディー",
+      "channelName": "よよや【ぶいすぽ切り抜き】",
+      "publishedHoursAgo": 4,
+      "duration": "01:19",
+      "memberIds": [
+        "kurumi-noa"
+      ],
+      "gameOrTopic": "Apex Legends",
+      "contextSummaryZh": "這段影片記錄了胡桃のあ與はせしん、ヘンディー進行Apex三人組隊（Full Party）的過程。影片中展現了三人之間絕佳的默契與歡樂的對話氛圍，即便在激烈的戰鬥中，也能透過幽默的互動緩解緊張感，呈現出ぶいすぽ成員與合作夥伴之間深厚的友情與遊戲熱情。",
+      "slangVocab": [
+        {
+          "term": "GG",
+          "reading": "じーじー",
+          "tag": "遊戲用語",
+          "meaningZh": "Good Game（好遊戲）",
+          "timestamp": "00:00",
+          "exampleJa": "ナイスファイト、GG！",
+          "exampleZh": "打得好，GG！"
+        },
+        {
+          "term": "フルパ",
+          "reading": "ふるぱ",
+          "tag": "遊戲用語",
+          "meaningZh": "滿編隊伍",
+          "timestamp": "00:05",
+          "exampleJa": "今日はフルパで楽しもう。",
+          "exampleZh": "今天就用滿編隊伍來享受吧。"
+        },
+        {
+          "term": "ナイス",
+          "reading": "ないす",
+          "tag": "日常口語",
+          "meaningZh": "Nice（做得好）",
+          "timestamp": "01:10",
+          "exampleJa": "今のカバー、ナイス！",
+          "exampleZh": "剛剛的掩護，Nice！"
+        },
+        {
+          "term": "連携",
+          "reading": "れんけい",
+          "tag": "FPS術語",
+          "meaningZh": "配合、聯動",
+          "timestamp": "02:00",
+          "exampleJa": "連携が完璧だったね。",
+          "exampleZh": "配合得太完美了。"
+        },
+        {
+          "term": "凸る",
+          "reading": "とつる",
+          "tag": "FPS術語",
+          "meaningZh": "突擊、衝鋒",
+          "timestamp": "01:45",
+          "exampleJa": "今から敵陣に凸るよ！",
+          "exampleZh": "現在要衝進敵陣囉！"
+        }
+      ],
+      "grammarPoints": [
+        {
+          "pattern": "〜かなって",
+          "connection": "普通形 + かなって",
+          "nuance": "表示「我想大概是這樣吧」的推測。",
+          "explanationZh": "是「〜かなと思って」的縮略，用來表達自己的想法，語氣較為柔軟。",
+          "exampleJa": "勝てるかなって思ったんだけど。",
+          "exampleZh": "我本來想說應該會贏的說。"
+        },
+        {
+          "pattern": "〜てか",
+          "connection": "句首或句中 + てか",
+          "nuance": "表示「話說回來」、「其實」。",
+          "explanationZh": "用來轉換話題或補充說明，是實況中非常自然的轉折詞。",
+          "exampleJa": "てか、敵どこ？",
+          "exampleZh": "話說回來，敵人在哪？"
+        },
+        {
+          "pattern": "〜じゃんか",
+          "connection": "普通形 + じゃんか",
+          "nuance": "比「〜じゃん」語氣更強，帶有責備或強調感。",
+          "explanationZh": "在激動的對話中常出現，用來強調對方或情況的明顯事實。",
+          "exampleJa": "言ったじゃんか！",
+          "exampleZh": "我就說過了吧！"
+        }
+      ]
+    },
+    {
+      "id": "clip-20261127-05",
+      "youtubeId": "tYJllLimgt4",
+      "titleJa": "デカさに自信のあるシノ＆りんしゃん、ギャグ漫画みたいな効果音を出すめっさん、まんまと釣られるオタクシノ君【小森めと/麻倉シノ/りんしゃんつかい/ぶいすぽ切り抜き】",
+      "titleZh": "小森美兔、麻倉詩乃與りんしゃんつかい的爆笑互動：漫畫般的音效與被釣到的御宅族",
+      "channelName": "きりたぬき【切り抜き】",
+      "publishedHoursAgo": 6,
+      "duration": "16:22",
+      "memberIds": [
+        "komori-met"
+      ],
+      "gameOrTopic": "Apex Legends",
+      "contextSummaryZh": "這段剪輯記錄了小森美兔、麻倉詩乃與りんしゃんつかい在 Apex 實況中的混亂對話。りんしゃんつかい展現了獨特的個人風格，讓美兔與詩乃感到驚訝又好笑。從關於「大容量彈匣」的奇怪笑點，到美兔被りんしゃんつかい的發言逗到發出像漫畫般的誇張音效，整場對話充滿了吐槽與歡樂的氛圍，展現了三人之間極佳的默契與互動感。",
+      "slangVocab": [
+        {
+          "term": "捏造",
+          "reading": "ねつぞう",
+          "tag": "VTuber常用語",
+          "meaningZh": "指虛構事實、亂講話、無中生有。",
+          "timestamp": "00:00",
+          "exampleJa": "そんなこと言ってないよ！捏造しないで！",
+          "exampleZh": "我才沒說過那種話！不要亂捏造啦！"
+        },
+        {
+          "term": "釣られる",
+          "reading": "つられる",
+          "tag": "網路略語",
+          "meaningZh": "被釣魚、被誘導而上當。",
+          "timestamp": "05:53",
+          "exampleJa": "まんまと釣られちゃったよ。",
+          "exampleZh": "完全被釣到了啦。"
+        },
+        {
+          "term": "トキシック",
+          "reading": "ときしっく",
+          "tag": "遊戲用語",
+          "meaningZh": "Toxic，指態度惡劣、言行帶有攻擊性。",
+          "timestamp": "07:49",
+          "exampleJa": "今日のめとちゃん、ちょっとトキシックじゃない？",
+          "exampleZh": "今天的美兔醬，是不是有點毒舌（Toxic）啊？"
+        },
+        {
+          "term": "息ピッタリ",
+          "reading": "いきぴったり",
+          "tag": "日常口語",
+          "meaningZh": "默契十足、步調一致。",
+          "timestamp": "10:46",
+          "exampleJa": "二人とも息ピッタリだね。",
+          "exampleZh": "你們兩個默契真好呢。"
+        },
+        {
+          "term": "デカい",
+          "reading": "でかい",
+          "tag": "日常口語",
+          "meaningZh": "很大的（口語說法）。",
+          "timestamp": "11:54",
+          "exampleJa": "デカい拡張マガジン拾った！",
+          "exampleZh": "撿到大容量彈匣了！"
+        }
+      ],
+      "grammarPoints": [
+        {
           "pattern": "〜じゃん",
-          "connection": "動詞/形容詞/名詞普通形 + じゃん",
-          "nuance": "反問、確認或帶有「不是嗎」的語氣",
-          "explanationZh": "口語中極高頻的語尾，用來尋求對方同意或反問對方。",
+          "connection": "名詞/動詞/形容詞普通形 + じゃん",
+          "nuance": "表示反問、確認或帶有輕微責備的語氣。",
+          "explanationZh": "這是「〜ではないか」的口語簡化，常用於強調對方應該知道的事實。",
           "exampleJa": "それ、さっき言ったじゃん。",
           "exampleZh": "那個，你剛剛不是說過了嗎。"
         },
         {
           "pattern": "〜ちゃう",
           "connection": "動詞て形 + ちゃう",
-          "nuance": "表示遺憾、後悔或動作完成",
-          "explanationZh": "「〜てしまう」的口語縮略形，常表示不小心做了某事。",
-          "exampleJa": "言い間違えちゃった。",
-          "exampleZh": "不小心說錯了。"
+          "nuance": "表示動作完成、遺憾或無法控制的語氣。",
+          "explanationZh": "「〜てしまう」的口語縮寫，在實況中非常頻繁出現，帶有強烈的情緒感。",
+          "exampleJa": "笑っちゃうよ。",
+          "exampleZh": "（忍不住）笑出來了啦。"
+        },
+        {
+          "pattern": "〜ってば",
+          "connection": "名詞/動詞普通形 + ってば",
+          "nuance": "表示強調，帶有撒嬌或不耐煩的語氣。",
+          "explanationZh": "用於重複自己說過的話，強調「我不是說了嗎」的感覺。",
+          "exampleJa": "違うってば！",
+          "exampleZh": "我都說不是那樣了啦！"
         }
       ]
     },
     {
-      "id": "clip-20261126-02",
-      "youtubeId": "gul77M-Whgg",
-      "titleJa": "じゃがいもタワーを見たぶいすぽメンバーの反応w【ぶいすぽ/切り抜き/紡木こかげ/神成きゅぴ/千燈ゆうひ/一ノ瀬うるは/銀城サイネ/兎咲ミミ】",
-      "titleZh": "看到馬鈴薯塔的VSPO成員反應w【VSPO/精華/紡木Kokage/神成Qpi/千燈Yuhi/一之瀨Uruha/銀城Saine/兔咲Mimi】",
-      "channelName": "ぶいすぽクリップ",
-      "publishedHoursAgo": 8,
-      "duration": "01:05",
+      "id": "clip-20261127-06",
+      "youtubeId": "BaSJKCFs2Ug",
+      "titleJa": "天兄と颯馬くん、実はママ一緒の同属！？らむちもびっくり",
+      "titleZh": "天兄與颯馬君竟然是同個媽媽？白波らむね震驚不已",
+      "channelName": "星屑にじすぽクリップ",
+      "publishedHoursAgo": 7,
+      "duration": "01:42",
       "memberIds": [
-        "ichinose-uruha",
-        "tosaki-mimi",
-        "kaminari-qpi",
-        "tsumugi-kokage",
-        "sendo-yuuhi",
-        "ginjou-saine"
+        "shiranami-ramune"
       ],
       "gameOrTopic": "雑談・コラボ",
-      "contextSummaryZh": "這是一段集合了多位VSPO成員對「馬鈴薯塔」這一奇特景象的反應剪輯。成員們在實況中看到這個畫面時，紛紛表現出驚訝、困惑或大笑的反應。透過成員們各自不同的吐槽風格，展現了VSPO成員間輕鬆有趣的互動氛圍，是一段充滿歡笑的雜談精華。",
+      "contextSummaryZh": "這是一段充滿意外展開的雜談剪輯。當天月與酒寄颯馬在對話中揭露了彼此的「媽媽（繪師）」是同一位時，白波らむね表現出了極大的驚訝。對話氛圍輕鬆幽默，透過成員間的閒聊，揭開了 VTuber 圈內這種奇妙的「血緣關係」，讓觀眾也能感受到他們私下互動的趣味性。",
       "slangVocab": [
         {
-          "term": "草",
-          "reading": "くさ",
-          "tag": "網路略語",
-          "meaningZh": "笑死、好笑（源自w的形狀像草）。",
-          "timestamp": "00:10",
-          "exampleJa": "この馬鈴薯タワーは草生えるわ。",
-          "exampleZh": "這馬鈴薯塔真的會讓人笑死。"
-        },
-        {
-          "term": "w",
-          "reading": "わら",
-          "tag": "網路略語",
-          "meaningZh": "笑，用於句尾表示好笑。",
-          "timestamp": "00:15",
-          "exampleJa": "何これｗ意味わかんないｗ",
-          "exampleZh": "這是什麼啊ｗ完全看不懂ｗ"
-        },
-        {
-          "term": "神",
-          "reading": "かみ",
+          "term": "ママ",
+          "reading": "まま",
           "tag": "VTuber常用語",
-          "meaningZh": "神、太強了、太棒了。",
-          "timestamp": "00:45",
-          "exampleJa": "この配置は神すぎる。",
-          "exampleZh": "這個配置簡直神了。"
+          "meaningZh": "指 VTuber 的角色設計師（繪師）。",
+          "timestamp": "00:10",
+          "exampleJa": "この絵師さんが私のママだよ。",
+          "exampleZh": "這位繪師就是我的媽媽（繪師）。"
+        },
+        {
+          "term": "同属",
+          "reading": "どうぞく",
+          "tag": "VTuber常用語",
+          "meaningZh": "指同屬一個繪師設計的角色，即「同母異父」的兄弟姊妹。",
+          "timestamp": "00:15",
+          "exampleJa": "私たち、同属だったんだね！",
+          "exampleZh": "原來我們是同個繪師設計的啊！"
+        },
+        {
+          "term": "びっくり",
+          "reading": "びっくり",
+          "tag": "日常口語",
+          "meaningZh": "嚇一跳、驚訝。",
+          "timestamp": "00:20",
+          "exampleJa": "いきなりでびっくりしたよ。",
+          "exampleZh": "突然這樣嚇了我一跳。"
+        },
+        {
+          "term": "実は",
+          "reading": "じつは",
+          "tag": "日常口語",
+          "meaningZh": "其實、說真的。",
+          "timestamp": "00:05",
+          "exampleJa": "実はね、私も知らなかったの。",
+          "exampleZh": "其實啊，連我也不知道。"
+        },
+        {
+          "term": "元配信",
+          "reading": "もとはいしん",
+          "tag": "VTuber常用語",
+          "meaningZh": "原始直播、剪輯來源的直播。",
+          "timestamp": "00:00",
+          "exampleJa": "詳細は元配信を見てね。",
+          "exampleZh": "詳情請去看原始直播喔。"
+        }
+      ],
+      "grammarPoints": [
+        {
+          "pattern": "〜って",
+          "connection": "句尾或名詞後",
+          "nuance": "引用他人的話或強調主題。",
+          "explanationZh": "「〜というのは」的口語簡化，在實況中用於轉述或引出話題。",
+          "exampleJa": "天兄って、すごいよね。",
+          "exampleZh": "天兄（這個人）真的很厲害呢。"
+        },
+        {
+          "pattern": "〜だよね",
+          "connection": "普通形 + だよね",
+          "nuance": "尋求對方同意，語氣親切。",
+          "explanationZh": "「〜だよね」是實況中最常見的確認語氣，用來拉近與觀眾或來賓的距離。",
+          "exampleJa": "これ、面白いよね？",
+          "exampleZh": "這個很有趣對吧？"
+        },
+        {
+          "pattern": "〜かなって",
+          "connection": "動詞/形容詞普通形 + かなって",
+          "nuance": "表示推測或試探性的想法。",
+          "explanationZh": "「〜かなと思って」的縮寫，語氣較為委婉，常用於表達自己的猜測。",
+          "exampleJa": "そうかなって思っただけだよ。",
+          "exampleZh": "我只是想說會不會是那樣而已。"
+        }
+      ]
+    },
+    {
+      "id": "clip-20261127-07",
+      "youtubeId": "oIVYcBjLydc",
+      "titleJa": "ミミ這樣會有壓力嗎? 戀愛測驗表  (1)【VSPO剪輯/兎咲ミミ/ぶいすぽ切り抜き】",
+      "titleZh": "ミミ這樣會有壓力嗎？戀愛測驗表（1）",
+      "channelName": "MaoKai [切り抜き]",
+      "publishedHoursAgo": 9,
+      "duration": "09:49",
+      "memberIds": [
+        "tosaki-mimi"
+      ],
+      "gameOrTopic": "雑談・心理測驗",
+      "contextSummaryZh": "兎咲ミミ在直播中進行了一項戀愛心理測驗，並與觀眾分享測驗結果。整個過程非常溫馨且帶有互動性，ミミ會針對測驗中的問題進行自我剖析，並詢問觀眾的看法。觀眾可以透過這段剪輯，更深入了解ミミ對於戀愛觀的看法，以及她那可愛又認真的反應。",
+      "slangVocab": [
+        {
+          "term": "プレッシャー",
+          "reading": "ぷれっしゃー",
+          "tag": "日常口語",
+          "meaningZh": "壓力（Pressure）。",
+          "timestamp": "00:10",
+          "exampleJa": "そんなこと言われるとプレッシャーだよ。",
+          "exampleZh": "被那樣說的話會有壓力耶。"
+        },
+        {
+          "term": "恋愛",
+          "reading": "れんあい",
+          "tag": "日常口語",
+          "meaningZh": "戀愛。",
+          "timestamp": "00:00",
+          "exampleJa": "恋愛診断やってみるね。",
+          "exampleZh": "來做個戀愛診斷看看喔。"
+        },
+        {
+          "term": "診断",
+          "reading": "しんだん",
+          "tag": "日常口語",
+          "meaningZh": "診斷、測驗。",
+          "timestamp": "00:05",
+          "exampleJa": "この診断、当たってるかも。",
+          "exampleZh": "這個測驗說不定很準喔。"
+        },
+        {
+          "term": "マジで",
+          "reading": "まじで",
+          "tag": "網路略語",
+          "meaningZh": "真的、認真地。",
+          "timestamp": "00:30",
+          "exampleJa": "マジでそれはないわ。",
+          "exampleZh": "真的假的，那樣也太誇張。"
         },
         {
           "term": "無理",
           "reading": "むり",
           "tag": "日常口語",
-          "meaningZh": "不行、受不了（通常指太好笑或太可愛）。",
-          "timestamp": "01:20",
-          "exampleJa": "面白すぎて無理ｗ",
-          "exampleZh": "太好笑了，我受不了ｗ"
-        },
-        {
-          "term": "待って",
-          "reading": "まって",
-          "tag": "日常口語",
-          "meaningZh": "等等（表示驚訝或需要緩衝）。",
-          "timestamp": "02:00",
-          "exampleJa": "待って、今何が起きた？",
-          "exampleZh": "等等，剛剛發生了什麼？"
+          "meaningZh": "不行、受不了、做不到。",
+          "timestamp": "00:45",
+          "exampleJa": "それはちょっと無理かな。",
+          "exampleZh": "那樣的話稍微有點不行呢。"
         }
       ],
       "grammarPoints": [
         {
-          "pattern": "〜ってば",
-          "connection": "名詞/動詞普通形 + ってば",
-          "nuance": "強調自己的主張或情緒",
-          "explanationZh": "當成員看到荒謬事物時，用來強調自己無法理解或驚訝的心情。",
-          "exampleJa": "だから、変だってば！",
-          "exampleZh": "所以就說，這很奇怪啦！"
+          "pattern": "〜んだけど",
+          "connection": "普通形 + んだけど",
+          "nuance": "鋪陳背景資訊，引出話題。",
+          "explanationZh": "常用於句首或句中，用來解釋現狀或引出後續的疑問。",
+          "exampleJa": "これやってるんだけど、どう思う？",
+          "exampleZh": "我正在做這個，你覺得怎麼樣？"
         },
         {
-          "pattern": "〜かなって",
-          "connection": "動詞/形容詞普通形 + かな + って",
-          "nuance": "表示「我想說...」、「覺得...」",
-          "explanationZh": "常用於解釋自己的想法，語氣較為委婉或隨性。",
-          "exampleJa": "面白いかなって思って。",
-          "exampleZh": "我想說這樣應該很有趣。"
+          "pattern": "〜かな",
+          "connection": "普通形 + かな",
+          "nuance": "自言自語，表示思考或疑問。",
+          "explanationZh": "在實況中非常頻繁，用於表達「我不知道是不是這樣」的思考過程。",
+          "exampleJa": "これでいいのかな？",
+          "exampleZh": "這樣做可以嗎？"
         },
         {
           "pattern": "〜てか",
-          "connection": "句首連接詞",
-          "nuance": "「話說」、「而且」、「與其說」",
-          "explanationZh": "用於轉換話題或是補充說明，口語中非常頻繁。",
-          "exampleJa": "てか、これ何？",
-          "exampleZh": "話說，這到底是什麼？"
+          "connection": "句首",
+          "nuance": "「というか」的簡化，用於轉換話題或修正說法。",
+          "explanationZh": "在口語中非常實用，用於補充說明或突然想到另一個觀點。",
+          "exampleJa": "てか、これ難しくない？",
+          "exampleZh": "話說回來，這個不難嗎？"
         }
       ]
     },
     {
-      "id": "clip-20261126-03",
-      "youtubeId": "GE8PCM_Irsc",
-      "titleJa": "セナと叶のイチャイチャ疑惑に『俺触ってないです！』と全力否定するゆふぃ",
-      "titleZh": "對於Sena與叶的親密嫌疑，Yuhi全力否認說「我沒摸！」",
-      "channelName": "星屑にじすぽクリップ",
-      "publishedHoursAgo": 9,
-      "duration": "01:24",
+      "id": "clip-20261127-08",
+      "youtubeId": "uc6tYOkbRfA",
+      "titleJa": "りんしゃんつかいに誇張を超えて捏造されたことを言われる小森めとｗ【小森めと/麻倉シノ/りんしゃんつかい/ぶいすぽ/切り抜き】",
+      "titleZh": "小森美兔被りんしゃんつかい誇張到變成「捏造」的發言給震驚了",
+      "channelName": "ぶい玉手箱【にじさんじ・ぶいすぽ】",
+      "publishedHoursAgo": 7,
+      "duration": "10:44",
       "memberIds": [
-        "asumi-sena"
-      ],
-      "gameOrTopic": "LoL",
-      "contextSummaryZh": "在LoL的練習賽（Scrim）期間，空澄Sena與叶之間的互動引發了關於兩人關係的討論。Yuhi因為被捲入其中，急忙澄清自己並沒有做出任何親密舉動，全力否認的反應顯得既慌張又可愛。這段剪輯捕捉了成員們在遊戲之餘的八卦與吐槽，展現了成員間深厚的交情。",
-      "slangVocab": [
-        {
-          "term": "イチャイチャ",
-          "reading": "いちゃいちゃ",
-          "tag": "日常口語",
-          "meaningZh": "打情罵俏、親密互動。",
-          "timestamp": "00:30",
-          "exampleJa": "二人でイチャイチャしないでよ！",
-          "exampleZh": "你們兩個不要在那邊打情罵俏啦！"
-        },
-        {
-          "term": "スクリム",
-          "reading": "すくりむ",
-          "tag": "MOBA術語",
-          "meaningZh": "練習賽（Scrimmage）。",
-          "timestamp": "01:15",
-          "exampleJa": "今日のスクリム頑張ろうね。",
-          "exampleZh": "今天的練習賽一起加油吧。"
-        },
-        {
-          "term": "疑惑",
-          "reading": "ぎわく",
-          "tag": "日常口語",
-          "meaningZh": "嫌疑、懷疑。",
-          "timestamp": "00:45",
-          "exampleJa": "また変な疑惑かけられてる。",
-          "exampleZh": "又被冠上奇怪的嫌疑了。"
-        },
-        {
-          "term": "全力否定",
-          "reading": "ぜんりょくひてい",
-          "tag": "日常口語",
-          "meaningZh": "全力否認、極力澄清。",
-          "timestamp": "02:00",
-          "exampleJa": "全力否定するしかないでしょ。",
-          "exampleZh": "只能全力否認了吧。"
-        },
-        {
-          "term": "本編",
-          "reading": "ほんぺん",
-          "tag": "VTuber常用語",
-          "meaningZh": "原直播、完整版直播。",
-          "timestamp": "02:30",
-          "exampleJa": "詳しくは本編を見てね。",
-          "exampleZh": "詳情請看原直播喔。"
-        }
-      ],
-      "grammarPoints": [
-        {
-          "pattern": "〜ないです",
-          "connection": "動詞ない形 + です",
-          "nuance": "禮貌但堅定的否定",
-          "explanationZh": "雖然是禮貌體，但在急於辯解時使用，能展現出「我真的沒有」的堅定感。",
-          "exampleJa": "触ってないです！",
-          "exampleZh": "我沒摸！"
-        },
-        {
-          "pattern": "〜って",
-          "connection": "名詞/動詞普通形 + って",
-          "nuance": "引用、聽說、強調",
-          "explanationZh": "口語中用來引用別人的話或強調某個話題。",
-          "exampleJa": "Senaが言ってたってこと？",
-          "exampleZh": "你是說Sena說過這件事嗎？"
-        },
-        {
-          "pattern": "〜じゃん",
-          "connection": "動詞/形容詞普通形 + じゃん",
-          "nuance": "反問、確認",
-          "explanationZh": "在懷疑對方時使用，帶有「明明就是這樣」的語氣。",
-          "exampleJa": "やってるじゃん！",
-          "exampleZh": "你明明就有做！"
-        }
-      ]
-    },
-    {
-      "id": "clip-20261126-04",
-      "youtubeId": "J9W9DtV8Oj0",
-      "titleJa": "【LoL】めあたむに声マネされて自責風他責されるあかりん【夢野あかり/ぶいすぽ切り抜き】",
-      "titleZh": "【LoL】被Mea模仿聲音後，Akari陷入了「自責風他責」的境地【夢野Akari/VSPO精華】",
-      "channelName": "あかりん伝説永久保存版【ぶいすぽ切り抜き】",
-      "publishedHoursAgo": 9,
-      "duration": "23:47",
-      "memberIds": [
-        "yumeno-akari"
-      ],
-      "gameOrTopic": "LoL",
-      "contextSummaryZh": "在LoL實況中，夢野Akari被神樂Mea模仿聲音，隨後發生了一連串有趣的對話。Akari展現了獨特的「自責風他責」風格，即表面上在檢討自己，實則是在把責任推給別人。這種矛盾又好笑的說話方式，讓觀眾們紛紛表示這就是Akari的魅力所在。",
-      "slangVocab": [
-        {
-          "term": "声マネ",
-          "reading": "こえまね",
-          "tag": "VTuber常用語",
-          "meaningZh": "模仿聲音。",
-          "timestamp": "00:05",
-          "exampleJa": "めあたむの声マネ、似すぎてて草。",
-          "exampleZh": "Mea的模仿聲音太像了，笑死。"
-        },
-        {
-          "term": "自責風他責",
-          "reading": "じせきふうたせき",
-          "tag": "日常口語",
-          "meaningZh": "表面自責，實則推卸責任給他人。",
-          "timestamp": "15:50",
-          "exampleJa": "あかりんの自責風他責、最高だわ。",
-          "exampleZh": "Akari的自責風他責真的太棒了。"
-        },
-        {
-          "term": "キャリー",
-          "reading": "きゃりー",
-          "tag": "MOBA術語",
-          "meaningZh": "Carry，指帶領隊伍走向勝利。",
-          "timestamp": "04:44",
-          "exampleJa": "今日はジンがキャリーしてくれた。",
-          "exampleZh": "今天Jhin Carry了全場。"
-        },
-        {
-          "term": "ちくちく言葉",
-          "reading": "ちくちくことば",
-          "tag": "日常口語",
-          "meaningZh": "刺耳的話、傷人的言語。",
-          "timestamp": "16:00",
-          "exampleJa": "ちくちく言葉は控えようね。",
-          "exampleZh": "請克制使用傷人的話喔。"
-        },
-        {
-          "term": "チーム決め",
-          "reading": "ちーむぎめ",
-          "tag": "遊戲用語",
-          "meaningZh": "分組、決定隊伍。",
-          "timestamp": "01:08",
-          "exampleJa": "チーム決め、緊張するね。",
-          "exampleZh": "分組好緊張喔。"
-        }
-      ],
-      "grammarPoints": [
-        {
-          "pattern": "〜てば",
-          "connection": "動詞て形 + ば",
-          "nuance": "帶有情緒的強調",
-          "explanationZh": "Akari在辯解時，用來強調自己的立場，帶有一種撒嬌或無奈的語氣。",
-          "exampleJa": "違うってば！",
-          "exampleZh": "就說不是啦！"
-        },
-        {
-          "pattern": "〜ちゃう",
-          "connection": "動詞て形 + ちゃう",
-          "nuance": "不小心、無可奈何",
-          "explanationZh": "用來描述自己不小心犯錯，帶有「我也沒辦法」的語感。",
-          "exampleJa": "またやっちゃった。",
-          "exampleZh": "又不小心做錯了。"
-        },
-        {
-          "pattern": "〜んだけど",
-          "connection": "動詞/形容詞普通形 + んだけど",
-          "nuance": "鋪陳、抱怨、尋求共鳴",
-          "explanationZh": "在解釋情況時，用來作為開場白，引導對方聽自己的抱怨或解釋。",
-          "exampleJa": "今やってるんだけど、難しいね。",
-          "exampleZh": "我現在正在做，但這真的很難呢。"
-        }
-      ]
-    },
-    {
-      "id": "clip-20261126-05",
-      "youtubeId": "VTf6jDGYbQM",
-      "titleJa": "えっどい台本のボイスをやらされる八雲べにｗｗｗ #ぶいすぽ切り抜き",
-      "titleZh": "被迫朗讀超色台詞的八雲べにｗｗｗ",
-      "channelName": "Vすぽ切り抜きch",
-      "publishedHoursAgo": 11,
-      "duration": "01:08",
-      "memberIds": [
-        "yakumo-beni"
-      ],
-      "gameOrTopic": "PUBG",
-      "contextSummaryZh": "在PUBG遊戲途中，八雲べに聊起了自己被迫朗讀某個「超色」台詞腳本的經歷。同隊的橘ひなの與其他成員聽了之後忍不住爆笑，整個聊天室與語音氣氛瞬間變得非常歡樂又帶點尷尬，展現了ぶいすぽ成員間毫無保留的吐槽默契。",
-      "slangVocab": [
-        {
-          "term": "えっどい",
-          "reading": "えっどい",
-          "tag": "網路略語",
-          "meaningZh": "色情的、煽情的（エロい的強調版）",
-          "timestamp": "00:10",
-          "exampleJa": "この台本、マジでえっどいんだけど！",
-          "exampleZh": "這份台詞本真的超色情欸！"
-        },
-        {
-          "term": "台本",
-          "reading": "だいほん",
-          "tag": "遊戲用語",
-          "meaningZh": "腳本、劇本",
-          "timestamp": "00:15",
-          "exampleJa": "運営から渡された台本がヤバすぎる。",
-          "exampleZh": "營運給的腳本太誇張了。"
-        },
-        {
-          "term": "ｗ",
-          "reading": "わら",
-          "tag": "網路略語",
-          "meaningZh": "笑（同中文的哈哈）",
-          "timestamp": "00:20",
-          "exampleJa": "べにちゃんの反応が面白すぎてｗ",
-          "exampleZh": "べに醬的反應太好笑了ｗ"
-        },
-        {
-          "term": "レイド",
-          "reading": "れいど",
-          "tag": "VTuber常用語",
-          "meaningZh": "Raid（指實況主結束後將觀眾導流至另一頻道）",
-          "timestamp": "00:05",
-          "exampleJa": "今日はレイド先で何話そうかな。",
-          "exampleZh": "今天要去Raid的頻道聊什麼好呢。"
-        },
-        {
-          "term": "道中",
-          "reading": "どうちゅう",
-          "tag": "日常口語",
-          "meaningZh": "途中、過程中",
-          "timestamp": "00:12",
-          "exampleJa": "PUBGの道中で雑談するのが楽しい。",
-          "exampleZh": "在PUBG的過程中聊天很開心。"
-        }
-      ],
-      "grammarPoints": [
-        {
-          "pattern": "〜させられる",
-          "connection": "動詞使役態 + られる",
-          "nuance": "被迫、不得不做某事",
-          "explanationZh": "表示被強迫做某事，語氣中帶有無奈與被動感，常在抱怨時使用。",
-          "exampleJa": "変な台本を読まされる。",
-          "exampleZh": "被迫讀了奇怪的腳本。"
-        },
-        {
-          "pattern": "〜んだけど",
-          "connection": "句尾 + んだけど",
-          "nuance": "帶有情緒的鋪陳或抱怨",
-          "explanationZh": "在句尾加上んだけど，用來引起對方注意，或表達一種「雖然是這樣，但其實...」的語氣。",
-          "exampleJa": "これ恥ずかしいんだけど。",
-          "exampleZh": "這個真的很害羞欸。"
-        },
-        {
-          "pattern": "〜ってば",
-          "connection": "名詞/動詞 + ってば",
-          "nuance": "強調、不耐煩",
-          "explanationZh": "用於強調自己說過的話，帶有撒嬌或稍微不耐煩的語氣。",
-          "exampleJa": "だから違うってば！",
-          "exampleZh": "我就說不是那樣啦！"
-        }
-      ]
-    },
-    {
-      "id": "clip-20261126-06",
-      "youtubeId": "Bd0dj_p4FFA",
-      "titleJa": "イライラするわけない！と言っていたひなーのの挑戦と結末【橘ひなの／ぶいすぽっ！切り抜き】",
-      "titleZh": "說絕對不會生氣的ひなー的挑戰與結局",
-      "channelName": "ぶいすぽのすみっこ",
-      "publishedHoursAgo": 13,
-      "duration": "03:22",
-      "memberIds": [
-        "tachibana-hinano"
-      ],
-      "gameOrTopic": "雑談・規約確認ゲーム",
-      "contextSummaryZh": "橘ひなの挑戰一款「只要同意使用條款就能過關」的遊戲。起初她自信滿滿地說絕對不會生氣，結果隨著條款內容越來越長、越來越刁鑽，她的耐心逐漸被磨損，最後甚至出現了類似台パン（拍桌）的反應，過程充滿戲劇性。",
-      "slangVocab": [
-        {
-          "term": "台パン",
-          "reading": "だいぱん",
-          "tag": "遊戲用語",
-          "meaningZh": "拍桌子（因遊戲挫折而憤怒）",
-          "timestamp": "01:42",
-          "exampleJa": "今の音は台パンじゃないよ！",
-          "exampleZh": "剛剛那個聲音不是拍桌子喔！"
-        },
-        {
-          "term": "枠",
-          "reading": "わく",
-          "tag": "VTuber常用語",
-          "meaningZh": "直播場次、直播間",
-          "timestamp": "01:02",
-          "exampleJa": "1枠目でクリアしたかったな。",
-          "exampleZh": "本來想在第一場直播就破關的。"
-        },
-        {
-          "term": "イライラ",
-          "reading": "いらいら",
-          "tag": "擬態詞",
-          "meaningZh": "焦躁、煩躁",
-          "timestamp": "00:00",
-          "exampleJa": "全然進まなくてイライラする。",
-          "exampleZh": "完全沒進度，好煩躁啊。"
-        },
-        {
-          "term": "終盤",
-          "reading": "しゅうばん",
-          "tag": "日常口語",
-          "meaningZh": "尾聲、最後階段",
-          "timestamp": "01:02",
-          "exampleJa": "配信の終盤で奇跡が起きた。",
-          "exampleZh": "在直播的尾聲發生了奇蹟。"
-        },
-        {
-          "term": "ひなーの",
-          "reading": "ひなーの",
-          "tag": "VTuber常用語",
-          "meaningZh": "橘ひなの的暱稱",
-          "timestamp": "00:00",
-          "exampleJa": "ひなーの、頑張れ！",
-          "exampleZh": "ひなーの，加油！"
-        }
-      ],
-      "grammarPoints": [
-        {
-          "pattern": "〜わけない",
-          "connection": "動詞辭書形 + わけない",
-          "nuance": "強烈否定",
-          "explanationZh": "表示「不可能...」，語氣比否定句更強烈，常用於表達自信或反駁。",
-          "exampleJa": "イライラするわけないじゃん。",
-          "exampleZh": "我才不可能會生氣咧。"
-        },
-        {
-          "pattern": "〜はずが",
-          "connection": "名詞/動詞 + はずが",
-          "nuance": "與預期相反",
-          "explanationZh": "表示「本來應該...但卻...」，用於描述事情發展不如預期的遺憾感。",
-          "exampleJa": "同意するだけのはずが...",
-          "exampleZh": "本來應該只是同意一下而已的說..."
-        },
-        {
-          "pattern": "〜ちゃう",
-          "connection": "動詞て形 + ちゃう",
-          "nuance": "不小心、完成某事",
-          "explanationZh": "表示「不小心做了...」或「徹底完成...」，口語中非常高頻。",
-          "exampleJa": "怒っちゃった。",
-          "exampleZh": "不小心生氣了。"
-        }
-      ]
-    },
-    {
-      "id": "clip-20261126-07",
-      "youtubeId": "3-YICcFIUzQ",
-      "titleJa": "イマジナリー師匠の声を聞いたり、前飛び警戒からの即落ち2コマになったりする藍沢エマ【藍沢エマ/ぶいすぽ切り抜き】",
-      "titleZh": "聽見虛擬師傅聲音與即刻落敗的藍沢エマ",
-      "channelName": "ぶいすぽ切り抜き部",
-      "publishedHoursAgo": 17,
-      "duration": "10:57",
-      "memberIds": [
-        "aizawa-ema"
-      ],
-      "gameOrTopic": "Street Fighter 6",
-      "contextSummaryZh": "藍沢エマ在挑戰《快打旋風6》時，展現了各種搞笑的實況反應。從對戰強敵時的緊張感，到因為預判錯誤而瞬間被擊敗的「即刻落敗2コマ（兩格漫畫般的快速落敗）」，以及彷彿聽見虛擬師傅指導的幻聽，充滿了格鬥遊戲玩家的真實心路歷程。",
-      "slangVocab": [
-        {
-          "term": "即落ち",
-          "reading": "そくおち",
-          "tag": "格鬥遊戲術語",
-          "meaningZh": "瞬間落敗、秒殺",
-          "timestamp": "00:00",
-          "exampleJa": "開幕即落ち2コマはやめてｗ",
-          "exampleZh": "不要開場就兩格秒殺啦ｗ"
-        },
-        {
-          "term": "イマジナリー",
-          "reading": "いまじなりー",
-          "tag": "日常口語",
-          "meaningZh": "虛擬的、想像中的",
-          "timestamp": "00:00",
-          "exampleJa": "イマジナリー師匠の声が聞こえる。",
-          "exampleZh": "我聽見了虛擬師傅的聲音。"
-        },
-        {
-          "term": "警戒",
-          "reading": "けいかい",
-          "tag": "FPS術語",
-          "meaningZh": "警戒、防備",
-          "timestamp": "00:00",
-          "exampleJa": "前飛びを警戒しすぎて負けた。",
-          "exampleZh": "因為太警戒前跳反而輸了。"
-        },
-        {
-          "term": "スト6",
-          "reading": "すとしっくす",
-          "tag": "遊戲用語",
-          "meaningZh": "快打旋風6（Street Fighter 6）",
-          "timestamp": "00:00",
-          "exampleJa": "今日もスト6で修行するぞ。",
-          "exampleZh": "今天也要在SF6裡修行。"
-        },
-        {
-          "term": "緊急オペ",
-          "reading": "きんきゅうおぺ",
-          "tag": "遊戲用語",
-          "meaningZh": "緊急手術（指調整按鍵設定或設備）",
-          "timestamp": "00:00",
-          "exampleJa": "コントローラーの緊急オペを開始します。",
-          "exampleZh": "開始進行控制器的緊急手術。"
-        }
-      ],
-      "grammarPoints": [
-        {
-          "pattern": "〜たり〜たり",
-          "connection": "動詞過去式 + り",
-          "nuance": "列舉動作",
-          "explanationZh": "列舉幾個代表性的動作，暗示還有其他類似情況，常用於描述混亂的實況狀態。",
-          "exampleJa": "声を聞いたり、負けたりする。",
-          "exampleZh": "又聽聲音又輸掉比賽之類的。"
-        },
-        {
-          "pattern": "〜からの",
-          "connection": "名詞 + からの",
-          "nuance": "緊接著...",
-          "explanationZh": "表示「從...之後緊接著發生...」，常用於描述連鎖反應或戲劇性的轉折。",
-          "exampleJa": "警戒からの即落ち。",
-          "exampleZh": "警戒之後緊接著就是秒殺。"
-        },
-        {
-          "pattern": "〜かなって",
-          "connection": "動詞/形容詞 + かなって",
-          "nuance": "自我懷疑、試探",
-          "explanationZh": "表示「我在想是不是...」，用於表達不確定的猜測或自我反思。",
-          "exampleJa": "いけるかなって思ったんだけど。",
-          "exampleZh": "我本來想說應該可以的說。"
-        }
-      ]
-    },
-    {
-      "id": "clip-20261126-08",
-      "youtubeId": "xUXKOBOInxE",
-      "titleJa": "空澄セナに『大好き』と言われて逃走するゆふな",
-      "titleZh": "被空澄セナ說「最喜歡妳」後逃跑的ゆふな",
-      "channelName": "星屑にじすぽクリップ",
-      "publishedHoursAgo": 9,
-      "duration": "01:19",
-      "memberIds": [
-        "asumi-sena"
+        "komori-met"
       ],
       "gameOrTopic": "Apex Legends",
-      "contextSummaryZh": "在Apex Legends的練習賽中，空澄セナ突然對ゆふな說了「最喜歡妳」，這突如其來的直球告白讓ゆふな害羞到不知所措，最後選擇直接逃跑。這段互動讓其他隊友也跟著起鬨，展現了VTuber間可愛又充滿火花的互動氛圍。",
+      "contextSummaryZh": "這段影片延續了小森美兔與りんしゃんつかい的混亂互動。りんしゃんつかい的發言已經超越了單純的誇張，直接進入了「捏造」的領域，讓美兔感到無奈又好笑。兩人針對「輪胎裝載機」等話題進行了激烈的吐槽，展現了實況中那種隨性且充滿火花的對話風格。",
       "slangVocab": [
         {
-          "term": "スクリム",
-          "reading": "すくりむ",
-          "tag": "FPS術語",
-          "meaningZh": "練習賽（Scrim）",
-          "timestamp": "00:00",
-          "exampleJa": "今日のスクリムは調子がいいね。",
-          "exampleZh": "今天的練習賽狀況不錯呢。"
-        },
-        {
-          "term": "直球",
-          "reading": "ちょっきゅう",
+          "term": "誇張",
+          "reading": "こちょう",
           "tag": "日常口語",
-          "meaningZh": "直球（指直接的告白或發言）",
-          "timestamp": "00:05",
-          "exampleJa": "セナちゃんの直球は破壊力がすごい。",
-          "exampleZh": "セナ醬的直球破壞力太強了。"
+          "meaningZh": "誇張。",
+          "timestamp": "03:19",
+          "exampleJa": "それ、誇張しすぎじゃない？",
+          "exampleZh": "那樣也太誇張了吧？"
         },
         {
-          "term": "逃走",
-          "reading": "とうそう",
-          "tag": "日常口語",
-          "meaningZh": "逃走、落跑",
-          "timestamp": "00:00",
-          "exampleJa": "恥ずかしくて逃走しちゃった。",
-          "exampleZh": "太害羞了所以落跑了。"
-        },
-        {
-          "term": "大好き",
-          "reading": "だいすき",
-          "tag": "日常口語",
-          "meaningZh": "最喜歡",
-          "timestamp": "00:00",
-          "exampleJa": "大好きって言われて動揺した。",
-          "exampleZh": "被說最喜歡，結果動搖了。"
-        },
-        {
-          "term": "本編",
-          "reading": "ほんぺん",
+          "term": "配信外",
+          "reading": "はいしんがい",
           "tag": "VTuber常用語",
-          "meaningZh": "正片、原直播",
+          "meaningZh": "直播之外、私底下。",
+          "timestamp": "00:31",
+          "exampleJa": "配信外でよかったね。",
+          "exampleZh": "還好是在直播外（發生的事）。"
+        },
+        {
+          "term": "サムネ",
+          "reading": "さむね",
+          "tag": "VTuber常用語",
+          "meaningZh": "縮圖（Thumbnail）。",
+          "timestamp": "01:52",
+          "exampleJa": "サムネ詐欺って言われるかな。",
+          "exampleZh": "會不會被說是縮圖詐欺啊。"
+        },
+        {
+          "term": "付け足し",
+          "reading": "つけたし",
+          "tag": "日常口語",
+          "meaningZh": "補充、添加。",
+          "timestamp": "08:25",
+          "exampleJa": "最後に付け足しがあるよ。",
+          "exampleZh": "最後還有個補充喔。"
+        },
+        {
+          "term": "ハイライト",
+          "reading": "はいらいと",
+          "tag": "遊戲用語",
+          "meaningZh": "精彩片段、精華。",
           "timestamp": "00:00",
-          "exampleJa": "詳しくは本編を見てね。",
-          "exampleZh": "詳情請看原直播。"
+          "exampleJa": "今日のハイライトはここ！",
+          "exampleZh": "今天的精華片段就是這裡！"
         }
       ],
       "grammarPoints": [
         {
-          "pattern": "〜と言われて",
-          "connection": "動詞受身形 + て",
-          "nuance": "被動感受",
-          "explanationZh": "表示「被（某人）說了...」，用於描述因為他人的話語而產生的心理狀態。",
-          "exampleJa": "大好きと言われて逃げた。",
-          "exampleZh": "被說了最喜歡後逃跑了。"
+          "pattern": "〜とかじゃない",
+          "connection": "名詞 + とかじゃない",
+          "nuance": "否定某種分類或程度，強調「不是那種層次」。",
+          "explanationZh": "用於強烈否認對方的說法，帶有「這已經不是誇張，而是捏造了」的語氣。",
+          "exampleJa": "そんなの、好きとかじゃないよ。",
+          "exampleZh": "那種才不是喜歡呢。"
         },
         {
-          "pattern": "〜てか",
-          "connection": "句首/句中 + てか",
-          "nuance": "轉換話題、補充說明",
-          "explanationZh": "口語中常用的「話說」、「其實」，用來轉換話題或補充更重要的資訊。",
-          "exampleJa": "てか、今のは何？",
-          "exampleZh": "話說，剛剛那個是什麼？"
+          "pattern": "〜てば",
+          "connection": "名詞/動詞普通形 + てば",
+          "nuance": "重複強調，帶有情緒。",
+          "explanationZh": "在爭論中常用，用來強調自己的立場或反駁對方。",
+          "exampleJa": "だから違うってば！",
+          "exampleZh": "所以說不是那樣啦！"
         },
         {
-          "pattern": "〜じゃん",
-          "connection": "名詞/動詞 + じゃん",
-          "nuance": "反問、確認",
-          "explanationZh": "表示「不是嗎？」，用於尋求對方的認同，語氣非常親近且口語化。",
-          "exampleJa": "可愛いじゃん！",
-          "exampleZh": "很可愛不是嗎！"
+          "pattern": "〜んだい",
+          "connection": "普通形 + んだい",
+          "nuance": "帶有男性化或調皮的疑問語氣。",
+          "explanationZh": "常用於反問，帶有一種「你到底在幹嘛」的戲謔感。",
+          "exampleJa": "なぜ笑うんだい？",
+          "exampleZh": "你為什麼要笑呢？"
         }
       ]
     }

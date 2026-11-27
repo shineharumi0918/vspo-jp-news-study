@@ -1,7 +1,32 @@
 {
-  "updatedAt": "2026-11-26T01:49:20.908Z",
+  "updatedAt": "2026-11-27T01:50:08.552Z",
   "retentionDays": 7,
   "entries": [
+    {
+      "date": "2026-11-27",
+      "newsLinks": [
+        "https://news.web.nhk/newsweb/na/nd-20261127de82199",
+        "https://news.web.nhk/newsweb/na/nd-20261127de82195",
+        "https://news.web.nhk/newsweb/na/nd-20261127de82144",
+        "https://news.web.nhk/newsweb/na/nd-20261127de82139"
+      ],
+      "newsTitles": [
+        "高市首相動静 2026年11月26日",
+        "東京23区の11月の消費者物価指数 前年同月比2.9%上昇",
+        "住宅購入の資金 贈与税の非課税措置を延長の方向で調整",
+        "学校のいじめ79万件超で過去最多 「性的いじめ」初調査 文科省"
+      ],
+      "videoIds": [
+        "6luoNbK5rWA",
+        "aYPsBvvmGcY",
+        "OVULeud9H2U",
+        "WpE_oAsibNQ",
+        "tYJllLimgt4",
+        "BaSJKCFs2Ug",
+        "oIVYcBjLydc",
+        "uc6tYOkbRfA"
+      ]
+    },
     {
       "date": "2026-11-26",
       "newsLinks": [
