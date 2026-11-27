@@ -86,13 +86,19 @@ test('pickCategoryNewsItems prioritizes unseen news links and falls back only wh
   const prev = new Set(['https://news.web.nhk/old1', 'https://news.web.nhk/old2']);
   const candidates = [
     { title: '【動画】Pickup NEWS（11月20日）', link: 'https://news.web.nhk/pickup' },
+    { title: '高市首相動静 2026年11月25日', link: 'https://news.web.nhk/shusho-dosei' },
     { title: 'Old 1', link: 'https://news.web.nhk/old1' },
     { title: 'New 1', link: 'https://news.web.nhk/new1' },
     { title: 'Old 2', link: 'https://news.web.nhk/old2' },
   ];
 
   assert.equal(isExcludedNewsTitle('【動画】Pickup NEWS（11月20日）'), true);
+  assert.equal(isExcludedNewsTitle('高市首相動静 2026年11月25日'), true);
+  assert.equal(isExcludedNewsTitle('首相動静（11月26日）'), true);
+  assert.equal(isExcludedNewsTitle('首相動静―11月26日 - 朝日新聞'), true);
+  assert.equal(isExcludedNewsTitle('高市総理の動静'), true);
   assert.equal(isExcludedNewsTitle('カイロスロケット4号機 来年1月打ち上げへ'), false);
+  assert.equal(isExcludedNewsTitle('高市首相 補正予算案の早期成立を目指す'), false);
 
   const first = pickCategoryNewsItems(candidates, { previousNewsLinks: prev, targetCount: 1 });
   assert.equal(first.chosen.length, 1);

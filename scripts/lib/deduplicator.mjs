@@ -154,7 +154,11 @@ export function buildUpdatedHistory(
   };
 }
 
-const EXCLUDED_NEWS_TITLE_PATTERNS = [/【動画】\s*Pickup\s*NEWS/i, /\bPickup\s*NEWS\b/i];
+const EXCLUDED_NEWS_TITLE_PATTERNS = [
+  /【動画】\s*Pickup\s*NEWS/i,
+  /\bPickup\s*NEWS\b/i,
+  /(?:首相|総理)(?:の)?\s*動[静靜]/,
+];
 
 export function isExcludedNewsTitle(title = '') {
   const normalized = String(title).trim();
